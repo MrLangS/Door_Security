@@ -1,0 +1,56 @@
+{
+  "pages":[
+    "pages/company/company",
+    "pages/contentCMP/contentCMP",
+    "pages/addPEO/addPEO",
+    "pages/contentPEO/contentPEO",
+    "pages/addCMP/addCMP",
+    "pages/modify/modify",
+    "pages/test/test",
+    "pages/register/phone/phone",
+    "pages/register/userInfo/userInfo",
+    "pages/index/index",
+    "pages/record/record",
+    "pages/device/device",
+    "pages/map/map"
+  ],
+  "window":{
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#3281ff",
+    "navigationBarTitleText": "门禁",
+    "navigationBarTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#abb4bf",
+    "selectedColor": "#3281ff",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "主页",
+        "iconPath": "images/tab_home_normal.png",
+        "selectedIconPath": "images/tab_home.png"
+      },
+      {
+        "pagePath": "pages/device/device",
+        "text": "设备",
+        "iconPath": "images/device.png",
+        "selectedIconPath": "images/deviceBlue.png"
+      },
+      {
+        "pagePath": "pages/company/company",
+        "text": "公司",
+        "iconPath": "images/cmpany.png",
+        "selectedIconPath": "images/cmpanyBlue.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记录",
+        "iconPath": "images/tab_record_normal.png",
+        "selectedIconPath": "images/tab_record.png"
+      }
+
+    ]
+  }
+}

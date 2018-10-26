@@ -1,0 +1,11 @@
+@import "../phone/phone.wxss";
+.avator {
+  z-index: 34;
+  text-align: center;
+  padding: 40rpx 0;
+}
+.avator image {
+  border-radius: 50%;
+  width: 180rpx;
+  height: 180rpx;
+}

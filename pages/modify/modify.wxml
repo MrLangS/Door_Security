@@ -1,0 +1,6 @@
+<!--pages/modify/modify.wxml-->
+<view class='box'>
+  <view class='head'><input class='modify-content' bindinput='getValue' placeholder='完善信息' focus='true' value='{{value}}' ></input></view>
+  <view><button class='btn' catchtap='save'>保存</button></view>
+</view>
+

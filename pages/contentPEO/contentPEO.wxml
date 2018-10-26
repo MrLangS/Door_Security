@@ -1,0 +1,21 @@
+<view class='wrapper'>
+  <view class='card items'>
+    <view class='item' hover-class='hover-class'>
+      <view class='title'>
+        <view>人员头像</view>
+      </view>  
+    </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=姓名&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
+      <view class='title'>
+        <view>姓名</view>
+      </view>
+      <view class='count'>{{dataArr[1] || '未知'}}</view>
+    </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=手机号&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
+      <view class='title'>
+        <view>手机号</view>
+      </view>
+      <view class='count'>{{dataArr[2] || '未知'}}</view>
+    </view>
+  </view>
+</view>

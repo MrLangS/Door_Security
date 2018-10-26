@@ -1,0 +1,59 @@
+.wrapper {
+  padding-top: 20rpx;
+  padding-bottom: 100rpx;
+}
+.new{
+  background: #fff;
+  height: 90rpx;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background: #3281ff;
+}
+.content{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(70px);
+  transform: translateX(70px);
+  margin-left: -70px;
+}
+.items .item .more image{
+  width: 20rpx;
+  height: 40rpx;
+  margin-right: 0;
+}
+.more {
+  display: flex;
+  align-items: center;
+}
+.del {
+  background-color: orangered;
+  height: 90rpx;
+  width: 70px;
+  display: flex;
+  position: relative;
+  /* margin-left: 40rpx; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  left: 40rpx;
+  -webkit-transform: translateX(70px);
+  transform: translateX(70px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-active .content, .touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}

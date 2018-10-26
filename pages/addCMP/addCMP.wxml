@@ -1,0 +1,15 @@
+<view class='wrapper'>
+  <view class='top'>
+    <view class='logo'>
+      <image src='/images/empty_avatar_user.png'></image>
+    </view>
+    <form class='form' bindsubmit='commit'>
+      <view>
+        <input name='cmpname' placeholder='公司名称' focus></input>
+        <input name='address' placeholder='详细地址'></input>
+      </view>
+      <button class='login' formType='submit'>确认</button>
+    </form>
+  </view>
+  <view class='footer'>添加公司</view>
+</view>

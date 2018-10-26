@@ -1,0 +1,16 @@
+<view class='wrapper'>
+  <view class='card profile'  catchtap='navigatItem' data-url='/pages/personal/personal'>
+    <view class='info'>
+      <image class='avatar' src='{{userInfo.avatarLarge}}' wx:if='{{userInfo.avatarLarge}}'></image>
+      <image class='avatar' src='/images/device.png' wx:else></image>
+      <view class='text'>
+        <view class='name'>{{device.name || '设备名称'}}</view>
+        <view>{{userInfo.jobTitle || '添加权限'}} @ {{userInfo.company || '添加公司'}}</view>
+      </view>
+    </view>
+    <view class='more'>
+      <view class='reddot' wx:if='{{auth && !userInfo.company}}'></view>
+      <image src='/images/profile_arrow.png'></image>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,66 @@
+<view class='wrapper'>
+  <view class='card items'>
+    <view class='item' hover-class='hover-class'>
+      <view class='title'>
+        <view>公司logo</view>
+      </view>  
+    </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=公司名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
+      <view class='title'>
+        <view>公司名称</view>
+      </view>
+      <view class='count'>{{dataArr[1] || '未知'}}</view>
+    </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=详细地址&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
+      <view class='title'>
+        <view>详细地址</view>
+      </view>
+      <view class='count'>{{dataArr[2] || '未知'}}</view>
+    </view>
+  </view>
+  <!-- 管理人员部分 -->
+  <view class='card items'>
+    <view class='item'>
+      <view class='title'>
+        <view>管理人员</view>
+      </view> 
+      <view class='count'>{{admin.length || 0}}个</view> 
+    </view>
+    <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+      <view class='content'>
+        <view class='title'>
+          <image src='{{item.avatar}}'></image>
+          <view>{{item.name || '未知'}}</view>
+        </view>
+        <view class='more'>
+          <image src='/images/profile_arrow.png'></image>
+        </view>
+      </view>
+      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+    </view>
+  </view>
+  <!-- 普通员工部分 -->
+  <view class='card items'>
+    <view class='item'>
+      <view class='title'>
+        <view>普通员工</view>   
+      </view> 
+      <view class='count'>{{staff.length || 0}}个</view> 
+    </view>
+    <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{staff}}" wx:key bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-flag='1' data-index="{{index}}">
+      <view class='content'>
+        <view class='title'>
+          <image src='{{item.avatar}}'></image>
+          <view>{{item.name || '未知'}}</view>
+        </view>
+        <view class='more'>
+          <image src='/images/profile_arrow.png'></image>
+        </view>
+      </view>
+      <view class="del" catchtap="del" data-index="{{index}}" data-flag='1' >删除</view>
+    </view>
+  </view>
+  <view class='new' catchtap='newCMP'>
+    <view>+新增人员</view>
+  </view>
+</view>

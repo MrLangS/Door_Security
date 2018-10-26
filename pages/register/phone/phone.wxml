@@ -1,0 +1,19 @@
+<view class='wrapper'>
+  <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill'></image>
+  <view class='top'>
+    <view class='logo'>
+      <image src='/images/location.png'></image>
+    </view>
+    <form class='form' bindsubmit='commit'>
+      <view>
+        <input name='phoneNumber' bindinput='getPhoneValue' placeholder='手机号' focus></input>
+        <view class='code'>
+          <input name='code' bindinput='getCodeValue' placeholder='验证码' value='{{code}}'></input>
+          <button class='codeBtn' bindtap='getVerificationCode' disabled='{{disabled}}' >{{codename}}</button>
+        </view>
+      </view>
+      <button class='login' formType='submit'>下一步</button>
+    </form>
+  </view>
+  <view class='footer'>门禁管理</view>
+</view>

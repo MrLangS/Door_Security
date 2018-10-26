@@ -1,0 +1,19 @@
+<view class='wrapper'>
+  <view class='top'>
+    <view class='logo'>
+      <image src='/images/empty_avatar_user.png'></image>
+    </view>
+    <form class='form' bindsubmit='commit'>
+      <view>
+        <input name='name' placeholder='人员名称' focus></input>
+        <input name='phone' placeholder='手机号'></input>
+        <radio-group class='choose' name="role" bindchange="radioChange">
+          <view><radio value="staff" checked="true"/>普通员工</view>
+          <view><radio value="admin" />管理员工</view>
+        </radio-group>
+      </view>
+      <button class='login' formType='submit'>添加</button>
+    </form>
+  </view>
+  <view class='footer'>添加人员</view>
+</view>
