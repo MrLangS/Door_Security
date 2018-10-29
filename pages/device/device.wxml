@@ -1,16 +1,24 @@
 <view class='wrapper'>
-  <view class='card profile'  catchtap='navigatItem' data-url='/pages/personal/personal'>
-    <view class='info'>
-      <image class='avatar' src='{{userInfo.avatarLarge}}' wx:if='{{userInfo.avatarLarge}}'></image>
-      <image class='avatar' src='/images/device.png' wx:else></image>
-      <view class='text'>
-        <view class='name'>{{device.name || '设备名称'}}</view>
-        <view>{{userInfo.jobTitle || '添加权限'}} @ {{userInfo.company || '添加公司'}}</view>
-      </view>
-    </view>
-    <view class='more'>
-      <view class='reddot' wx:if='{{auth && !userInfo.company}}'></view>
-      <image src='/images/profile_arrow.png'></image>
-    </view>
+  <view class='new' catchtap='newDEV'>
+    <view>+新增</view>
   </view>
+  
+  <block wx:for="{{devices}}" wx:key>
+    <view class='card profile {{item.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+      <view class='item'>
+        <view class='info'>
+          <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
+          <image class='avatar' src='/images/device.png' wx:else></image>
+          <view class='text'>
+            <view class='name'>{{item.name || '设备名称'}}</view>
+            <view>{{item.address || '添加权限'}} @ {{item.company || '添加公司'}}</view>
+          </view>
+        </view>
+        <view class='more'>
+          <image src='/images/profile_arrow.png'></image>
+        </view>
+      </view>
+      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+    </view>
+  </block>
 </view>

@@ -1,17 +1,19 @@
 {
   "pages":[
+    "pages/device/device",
+    "pages/devForm/devForm",
+    "pages/register/phone/phone",
     "pages/company/company",
     "pages/contentCMP/contentCMP",
+    "pages/contentDEV/contentDEV",
     "pages/addPEO/addPEO",
     "pages/contentPEO/contentPEO",
     "pages/addCMP/addCMP",
     "pages/modify/modify",
     "pages/test/test",
-    "pages/register/phone/phone",
     "pages/register/userInfo/userInfo",
     "pages/index/index",
     "pages/record/record",
-    "pages/device/device",
     "pages/map/map"
   ],
   "window":{
