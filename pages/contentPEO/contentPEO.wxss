@@ -1,3 +1,56 @@
 .wrapper {
   padding-top: 20rpx;
 }
+.center{
+  text-align: center;
+}
+.setting {
+  font-size: 28rpx;
+  color: #666;
+}
+.t {
+  overflow: hidden;
+  padding: 0 40rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.toast .t {
+  font-size: 28rpx;
+  color: #40a7e7;
+  margin: 20rpx 0;
+  padding: 0;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+}
+.title {
+  font-size: 32rpx;
+  color: #333;
+  margin: 26rpx 0;
+}
+.subtitle {
+  font-size: 28rpx;
+  color: #40a7e7;
+}
+.sub.content .item {
+  padding-left: 20rpx;
+}
+.item .tip {
+  font-size: 22rpx;
+  color: #999;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* .setting .title:first-child{
+  border-bottom: 1rpx solid #efefef;
+} */
+.content{
+  border-top: 1rpx solid #efefef;
+}
+.setting .t .hover{
+  color: #40a7e7;
+}

@@ -1,6 +1,6 @@
 <view class='wrapper'>
   <view class='new' catchtap='newDEV'>
-    <view>+新增</view>
+    <view>扫码新增设备</view>
   </view>
   
   <block wx:for="{{devices}}" wx:key>

@@ -19,12 +19,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var arr = util.JsonToArray(JSON.parse(options.data))
-    arr.pop()
-    this.setData({
-      peo: JSON.parse(options.data),
-      dataArr: arr
-    })
+    console.log(options.data)
+    if (typeof (options.data)!="undefined"){
+      var arr = util.JsonToArray(JSON.parse(options.data))
+      arr.pop()
+      this.setData({
+        peo: JSON.parse(options.data),
+        dataArr: arr
+      })
+    }
   },
 
   /**

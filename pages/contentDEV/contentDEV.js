@@ -1,18 +1,51 @@
-// pages/contentDEV/contentDEV.js
+var util = require("../../utils/util.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    dataArr: [],
+    currentVolume: 50,
+    volumeTip: true,
+    netStatus: true,//网络状态
   },
 
+  //设备音量设置
+  volumeBindChanging: function(e){
+    console.log(e.detail.value)
+    this.setData({
+      currentVolume: e.detail.value
+    })
+  },
+  volumeBindChange: function(e){
+    console.log("一次拖动完成!")
+  },
+  //语音提示设置
+  switchChange: function(e){
+    console.log(e)
+    this.setData({
+      volumeTip: e.detail.value
+    })
+  },
+  //列表项操作
+  navigateItem: function (e) {
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this;
+    if (typeof (options.data) != "undefined") {
+      var arr = util.JsonToArray(JSON.parse(options.data))
+      arr.pop()
+      this.setData({
+        dataArr: arr
+      })
+    }
   },
 
   /**

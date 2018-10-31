@@ -1,3 +1,9 @@
+<view hidden='{{hideSearch}}' class='search' wx:if='{{!bcgImgAreaShow}}' catchtap='search' style='background:#3281ff'>
+  <view class='wrapper'>
+    <image src='/images/search.png'></image>
+    <view class='placeholderClass'>搜索人员</view>
+  </view>
+</view>
 <view class='wrapper'>
   <view class='card items'>
     <view class='item' hover-class='hover-class'>
@@ -22,9 +28,9 @@
   <view class='card items'>
     <view class='item'>
       <view class='title'>
-        <view>管理人员</view>
+        <view style='color:#40a7e7;'>管理人员</view>
       </view> 
-      <view class='count'>{{admin.length || 0}}个</view> 
+      <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}个</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='content'>
@@ -43,9 +49,9 @@
   <view class='card items'>
     <view class='item'>
       <view class='title'>
-        <view>普通员工</view>   
+        <view style='color:#40a7e7;'>普通员工</view>   
       </view> 
-      <view class='count'>{{staff.length || 0}}个</view> 
+      <view style='color:#40a7e7;' class='count'>{{staff.length || 0}}个</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{staff}}" wx:key bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-flag='1' data-index="{{index}}">
       <view class='content'>
@@ -61,6 +67,6 @@
     </view>
   </view>
   <view class='new' catchtap='newCMP'>
-    <view>+新增人员</view>
+    <view>新增人员</view>
   </view>
 </view>

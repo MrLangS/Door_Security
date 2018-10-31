@@ -1,2 +1,10 @@
-<!--pages/record/record.wxml-->
-<text>pages/record/record.wxml</text>
+<view hidden='{{hideSearch}}' class='search' catchtap='search' style='background:#3281ff'>
+  <view class='wrapper'>
+    <image src='/images/search.png'></image>
+    <view class='placeholderClass'>搜索记录</view>
+    <!-- <input placeholder-class='placeholderClass' bindblur='blur' disabled='true' confirm-type='search' placeholder='查询记录' maxlength='20' bindconfirm='commitSearch' value='{{searchText}}'></input> -->
+  </view>
+</view>
+<view class='lists'>
+  <recordItem list='{{recordList}}'></recordItem>
+</view>

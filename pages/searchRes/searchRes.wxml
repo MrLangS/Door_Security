@@ -1,0 +1,12 @@
+<view class='box'>
+  <view class='head'><input class='modify-content' bindinput='bindinput' placeholder='{{placeholder}}' focus='true' value='{{value}}' ></input></view>
+</view>
+<!-- 记录部分查询列表 -->
+<view class='lists'>
+  <recordItem list='{{recordList}}'></recordItem>
+</view>
+<!-- 人员部分查询结果 -->
+<view class='lists'>
+  <staffItem list='{{staffList}}'></staffItem>
+</view>
+

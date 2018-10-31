@@ -22,6 +22,11 @@
   /* background: #40a7e7; */
   /* background: linear-gradient(to bottom, #73C6F1, #50B5EC); */
 }
+.item{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #efefef;
+}
 .top{
   z-index: 34;
   margin-top: 100rpx;
@@ -40,8 +45,16 @@
   border-radius: 4rpx;
   background: #fff;
 }
+.form label {
+  width: 20%;
+  color: #8d8c8c;
+  padding-left: 30rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 4rpx;
+}
 .form input {
-  width: 100%;
+  width: 80%;
   padding-left: 30rpx;
   box-sizing: border-box;
   height: 100rpx;

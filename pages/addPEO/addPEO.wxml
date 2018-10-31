@@ -7,13 +7,18 @@
       <view>
         <input name='name' placeholder='人员名称' focus></input>
         <input name='phone' placeholder='手机号'></input>
+        <input name='device' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
         <radio-group class='choose' name="role" bindchange="radioChange">
           <view><radio value="staff" checked="true"/>普通员工</view>
           <view><radio value="admin" />管理员工</view>
         </radio-group>
       </view>
-      <button class='login' formType='submit'>添加</button>
+      <button class='login' formType='submit'>确认</button>
     </form>
   </view>
   <view class='footer'>添加人员</view>
 </view>
+<!-- 设备弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.name}}</view>
+</modal>

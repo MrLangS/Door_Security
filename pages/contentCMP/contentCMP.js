@@ -1,4 +1,5 @@
 var util = require("../../utils/util.js")
+var timeoutID
 Page({
 
   /**
@@ -17,7 +18,30 @@ Page({
       { avatar: '/images/empty_avatar_user.png', name: '4号', phone: '18401610488' }, 
       { avatar: '/images/empty_avatar_user.png', name: '5号', phone: '18401610488' }],
     startX: 0, //开始坐标
-    startY: 0
+    startY: 0,
+    hideSearch: true,
+  },
+
+  search: function () {
+    wx.navigateTo({
+      url: '/pages/searchRes/searchRes?tag='+0,
+    })
+  },
+  //页面滚动监听
+  onPageScroll: function (e) {
+    if (typeof (timeoutID) != "undefined") {
+      clearTimeout(timeoutID)
+    }
+    var that = this
+    // console.log(e);
+    that.setData({
+      hideSearch: false
+    })
+    timeoutID = setTimeout(function () {
+      that.setData({
+        hideSearch: true
+      })
+    }, 2000)
   },
   newCMP:function(){
     wx.navigateTo({

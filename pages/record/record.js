@@ -1,11 +1,21 @@
-// pages/record/record.js
+var timeoutID
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    recordList: [
+      { img:'', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00',role: '管理人员'},
+      { img: '', deviceName: '设备名称2', peopleName: '人员名称2', time: '2018-09-12 08:00', role: '普通人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '普通人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
+      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
+      { img: '', deviceName: '设备名称2', peopleName: '人员名称2', time: '2018-09-12 08:00', role: '普通人员' }],
+    hideSearch: true,
   },
 
   /**
@@ -13,6 +23,28 @@ Page({
    */
   onLoad: function (options) {
 
+  },
+
+  search: function(){
+    wx.navigateTo({
+      url: '/pages/searchRes/searchRes?tag=' + 1,
+    })
+  },
+  //页面滚动监听
+  onPageScroll: function (e) {
+    if (typeof (timeoutID)!="undefined"){
+      clearTimeout(timeoutID)
+    }
+    var that=this
+    // console.log(e);
+    that.setData({
+      hideSearch: false
+    })
+    timeoutID=setTimeout(function(){
+      that.setData({
+        hideSearch: true
+      })
+    },2000)
   },
 
   /**

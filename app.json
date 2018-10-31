@@ -1,19 +1,20 @@
 {
   "pages":[
+    "pages/record/record",
+    "pages/contentDEV/contentDEV",
+    "pages/searchRes/searchRes",
+    "pages/contentCMP/contentCMP",
+    "pages/test/test",
     "pages/device/device",
+    "pages/contentPEO/contentPEO",
+    "pages/addPEO/addPEO",
     "pages/devForm/devForm",
     "pages/register/phone/phone",
     "pages/company/company",
-    "pages/contentCMP/contentCMP",
-    "pages/contentDEV/contentDEV",
-    "pages/addPEO/addPEO",
-    "pages/contentPEO/contentPEO",
     "pages/addCMP/addCMP",
     "pages/modify/modify",
-    "pages/test/test",
     "pages/register/userInfo/userInfo",
     "pages/index/index",
-    "pages/record/record",
     "pages/map/map"
   ],
   "window":{

@@ -1,5 +1,5 @@
 <view class='card items'>
-  <view class='item' wx:for="{{staff}}" wx:key hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+  <view class='item' wx:for="{{list}}" wx:key hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
     <view class='content'>
       <view class='title'>
         <image src='{{item.avatar}}'></image>

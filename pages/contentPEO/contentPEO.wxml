@@ -18,4 +18,32 @@
       <view class='count'>{{dataArr[2] || '未知'}}</view>
     </view>
   </view>
+
+  <!-- 设备部分 -->
+  <view class='setting'>
+    <view class='s'>
+      <view class='t'>
+        <view hover-class='hover' class='title'>
+          <view class='center'>点此修改授权</view>
+        </view>
+        <view class='content sub'>
+          <view class='subtitle'>授权设备</view>
+          <view class='item'>
+            <view>
+              <view>设备名称</view>
+              <view class='tip'>设备所属区域</view>
+            </view>
+            <view>状态</view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>设备名称</view>
+              <view class='tip'>设备所属区域</view>
+            </view>
+            <view>状态</view>
+          </view> 
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

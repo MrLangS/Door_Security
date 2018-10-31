@@ -3,9 +3,18 @@
   <view class='top'>
     <form class='form' bindsubmit='commit'>
       <view>
-        <input name='serialnum' bindinput='getSerialnum' placeholder='设备编号' disabled='true' value='{{serialnum}}'></input>
-        <input name='name' bindinput='getName' placeholder='设备名称' focus></input>
-        <input name='address' bindinput='getAddress' placeholder='详细地址'></input>
+        <view class='item'>
+          <label>设备编号</label>
+          <input name='serialnum' placeholder='设备编号' disabled='true' value='{{serialnum}}'></input>
+        </view>
+        <view class='item'>
+          <label>设备名称</label>
+          <input name='name' focus></input>
+        </view>
+        <view class='item'>
+          <label>详细地址</label>
+          <input name='address'></input>
+        </view>
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>
