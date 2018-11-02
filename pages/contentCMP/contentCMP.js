@@ -20,6 +20,7 @@ Page({
     startX: 0, //开始坐标
     startY: 0,
     hideSearch: true,
+    isModify: false,
   },
 
   search: function () {
@@ -167,10 +168,13 @@ Page({
   onLoad: function (options) {
     var that = this;
     if (typeof(options.data)!="undefined"){
-      var arr = util.JsonToArray(JSON.parse(options.data))
-      arr.pop()
+      var json=JSON.parse(options.data)
+      // var arr = util.JsonToArray(JSON.parse(options.data))
+      var arr = [json.clientLogoURL, json.name, json.addr]
+      console.log(arr)
       this.setData({
-        dataArr: arr
+        dataArr: arr,
+        company: json
       })
     }
 
@@ -190,44 +194,35 @@ Page({
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
+  //生命周期函数--监听页面显示
   onShow: function () {
-
+    if(this.data.isModify){
+      console.log('保存修改信息')
+      wx.request({
+        url: getApp().globalData.server +'/ClientInfoAction!updateClient.do',
+        data: {
+          id: this.data.company.id,
+          clientLogoURL: this.data.dataArr[0],
+          name: this.data.dataArr[1],
+          addr: this.data.dataArr[2]
+        },
+        method: 'post',
+        success: function(res){
+          console.log(res)
+        }
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },

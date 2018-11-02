@@ -31,7 +31,7 @@ page {
   border-bottom: none;
 }
 .items .item .title {
-  flex: 1;
+  /* flex: 1; */
   font-size: 32rpx;
   color: #333;
   display: flex;

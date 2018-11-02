@@ -1,30 +1,17 @@
-// pages/company/company.js
+var app = getApp()
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     companys: [
-      { avatar: '/images/cmpany.png', name: '公司1', address: '地址1' }, 
-      { avatar: '/images/cmpany.png',name: '公司2', address: '地址2' }, 
-      { avatar: '/images/cmpany.png',name: '公司3', address: '地址3' },
-      { avatar: '/images/cmpany.png',name: '公司4', address: '地址4' }, 
-      { avatar: '/images/cmpany.png',name: '公司5', address: '地址5' }, 
-      { avatar: '/images/cmpany.png',name: '公司6', address: '地址6' }
+      // { avatar: '/images/cmpany.png', name: '公司1', address: '地址1' }
     ],
     startX: 0, //开始坐标
     startY: 0
   },
 
   newCMP:function(){
-    var company = { name: '公司x', address: '地址x',isTouchMove: false}
-    
-    var companys=this.data.companys
-    companys.push(company)
-    this.setData({
-      companys: companys
-    })
-    console.log(companys)
     wx.navigateTo({
       url: '../addCMP/addCMP',
     })
@@ -98,9 +85,41 @@ Page({
 
   //删除事件
   del: function (e) {
-    this.data.companys.splice(e.currentTarget.dataset.index, 1)
-    this.setData({
-      companys: this.data.companys
+    var that=this
+    var index = e.currentTarget.dataset.index
+    wx.showModal({
+      title: '提示',
+      content: '删除公司会一并删除该公司旗下员工，确定删除吗？',
+      success: function(res){
+        if(res.confirm){
+          console.log(that.data.companys[index].id)
+          wx.request({
+            url: app.globalData.server + '/ClientInfoAction!deleteClient.do?id=' + that.data.companys[index].id,
+            data: {},
+            method: 'post',
+            success: function (res) {
+              console.log(res)
+              if(res.data=="SUCCESS"){
+                that.data.companys.splice(index, 1)
+                that.setData({
+                  companys: that.data.companys
+                })
+                wx.showToast({
+                  title: '删除成功!',
+                  icon: 'success',
+                  duration: 1500
+                })
+              }else{
+                wx.showToast({
+                  title: '删除失败，请稍后再试!',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+            }
+          })
+        }
+      }
     })
   },
 
@@ -129,7 +148,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that=this
+    wx.request({
+      url: app.globalData.server + '/ClientInfoAction!getAllSubordinateClient.do?id=' + app.globalData.admin.clientId,
+      data: { id: app.globalData.admin.clientId},
+      method: 'post',
+      success: function(res){
+        console.log(res)
+        that.setData({
+          companys: res.data
+        })
+      }
+    })
+    
   },
 
   /**

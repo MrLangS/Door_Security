@@ -42,7 +42,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    //设置导航栏背景色
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: '#262022',
+      animation: {
+        duration: 200,
+        timingFunc: 'easeIn'
+      }
+    })
+    util.login()
   },
 
   /**

@@ -1,4 +1,4 @@
-// pages/device/device.js
+var app = getApp()
 Page({
 
   /**
@@ -11,7 +11,8 @@ Page({
     ],
     startX: 0, //开始坐标
     startY: 0,
-    data:{}
+    data:{},
+    isAdd: false,
   },
 
   newDEV: function(){
@@ -37,6 +38,7 @@ Page({
 
   navigatItem: function (e) {
     console.log(e.currentTarget.dataset.index)
+    // var json = this.data.devices[e.currentTarget.dataset.index]
     wx.navigateTo({
       url: '../contentDEV/contentDEV?data=' + JSON.stringify(this.data.devices[e.currentTarget.dataset.index]),
     })
@@ -103,9 +105,41 @@ Page({
 
   //删除事件
   del: function (e) {
-    this.data.devices.splice(e.currentTarget.dataset.index, 1)
-    this.setData({
-      devices: this.data.devices
+    var that = this
+    var index = e.currentTarget.dataset.index
+    wx.showModal({
+      title: '提示',
+      content: '确定删除该设备吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log(that.data.devices[index].id)
+          wx.request({
+            url: app.globalData.server + '/DoorDevice/deleteDevice.do?devId=' + that.data.devices[index].devId,
+            data: {},
+            method: 'post',
+            success: function (res) {
+              console.log(res)
+              if (res.data == "SUCCESS") {
+                that.data.devices.splice(index, 1)
+                that.setData({
+                  devices: that.data.devices
+                })
+                wx.showToast({
+                  title: '删除成功!',
+                  icon: 'success',
+                  duration: 1500
+                })
+              } else {
+                wx.showToast({
+                  title: '删除失败，请稍后再试!',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+            }
+          })
+        }
+      }
     })
   },
 
@@ -113,7 +147,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
+
+  onShow: function () {
     var that = this;
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
+      method: 'post',
+      success: (res) => {
+        console.log(res)
+        that.setData({
+          devices: res.data
+        })
+      }
+    })
     var items = that.data.devices
     for (var i = 0; i < items.length; i++) {
       items[i].isTouchMove = false //默认隐藏删除
@@ -121,34 +169,6 @@ Page({
     that.setData({
       devices: items
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
   },
 
   /**

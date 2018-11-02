@@ -1,14 +1,13 @@
-// pages/devForm/devForm.js
+var app = getApp()
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     bcgImg: '/images/bcgimg.jpg',
+    serialnum: '',
   },
 
   commit(e) {
+    var that=this
     let values = e.detail.value
     console.log(e.detail.value)
     let name=values.name||''
@@ -27,17 +26,50 @@ Page({
       })
       return
     }
-    var pages = getCurrentPages();
-    var currPage = pages[pages.length - 1];   //当前页面
-    var prevPage = pages[pages.length - 2];  //上一个页面
-    //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-    var index = this.data.index
-    prevPage.data.devices.unshift(values)
-    prevPage.setData({
-      devices: prevPage.data.devices
-    })
-    wx.navigateBack()
     
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/registerDevice.do',
+      data: {
+        devId: values.serialnum,
+        devName: values.name,
+        address: values.address,
+        clientId: app.globalData.admin.clientId,
+        regionId: app.globalData.admin.regionId
+      },
+      method: 'post',
+      success: function(res){
+        console.log(res)
+        if(res.data=="SUCCESS"){
+          var pages = getCurrentPages();
+          var currPage = pages[pages.length - 1];   //当前页面
+          var prevPage = pages[pages.length - 2];  //上一个页面
+          //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+          var index = that.data.index
+          prevPage.setData({
+            isAdd: true
+          })
+          wx.showToast({
+            title: '添加成功',
+            icon: 'success',
+            duration: 1500,
+          })
+        }else{
+          wx.showToast({
+            title: '添加失败，请稍后再试',
+            icon: 'none',
+            duration: 1500,
+          })
+        }
+        wx.navigateBack()
+      },
+      fail: function(res){
+        wx.showToast({
+          title: '网路开小差，请稍后再试',
+          icon: 'none',
+          duration: 1500,
+        })
+      }
+    }) 
   },
 
   /**

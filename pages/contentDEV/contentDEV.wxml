@@ -45,7 +45,7 @@
           <view class='subtitle'>语音提示</view>
           <view class='item'>
             <view>
-              <view>语音当前状态：{{volumeTip?'开':'关'}}</view>
+              <view>当前状态：{{volumeTip?'开':'关'}}</view>
               <view class='tip'>蓝色开关表示打开，白色开关表示关闭</view>
             </view>
             <switch color='#40a7e7' bindchange='switchChange' checked='{{volumeTip}}'></switch>
@@ -54,10 +54,34 @@
       </view>
     </view>
   </view>
+  <!-- 远程控制开关门 -->
+  <view class='t'>
+    <view class='title'>
+      <view>门控制</view>
+    </view>
+    <view class='content sub'>
+      <view class='subtitle'>自动处理</view>
+      <view class='item'>
+        <view>
+          <view>当前状态：{{autoStatus?'开':'关'}}</view>
+          <view class='tip'>开启时门由设备自动控制</view>
+        </view>
+        <switch color='#40a7e7' bindchange='switchAuto' checked='{{autoStatus}}'></switch>
+      </view>
+      <view class='subtitle' hidden='{{autoStatus}}'>强制处理</view>
+      <view class='item' hidden='{{autoStatus}}'>
+        <view>
+          <view>门是否开启：{{doorStatus?'开':'关'}}</view>
+          <view class='tip'>“开”表示强制开门，“关”表示强制关门</view>
+        </view>
+        <switch color='#40a7e7' bindchange='switchDoor' checked='{{doorStatus}}'></switch>
+      </view>
+    </view>
+  </view>
   <!-- 网络状态 -->
   <view class='t'>
     <view class='title'>
-      <view>网络状态</view>
+      <view>网络</view>
     </view>
     <view class='content'>
       <view class='item'>

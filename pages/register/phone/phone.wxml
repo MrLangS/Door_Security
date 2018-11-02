@@ -2,7 +2,7 @@
   <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill'></image>
   <view class='top'>
     <view class='logo'>
-      <image src='/images/location.png'></image>
+      <image src=''></image>
     </view>
     <form class='form' bindsubmit='commit'>
       <view>

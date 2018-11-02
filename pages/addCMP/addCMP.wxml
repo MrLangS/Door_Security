@@ -1,7 +1,7 @@
 <view class='wrapper'>
   <view class='top'>
-    <view class='logo'>
-      <image src='/images/empty_avatar_user.png'></image>
+    <view class='logo' bindtap='chooseImg'>
+      <image src='{{photo? photo:"/images/cmpany.png"}}'></image>
     </view>
     <form class='form' bindsubmit='commit'>
       <view>

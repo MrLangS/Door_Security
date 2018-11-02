@@ -6,10 +6,11 @@
 </view>
 <view class='wrapper'>
   <view class='card items'>
-    <view class='item' hover-class='hover-class'>
+    <view class='logo-height' hover-class='hover-class'>
       <view class='title'>
         <view>公司logo</view>
       </view>  
+      <image class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/cmpany.png"}}'></image>
     </view>
     <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=公司名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
       <view class='title'>

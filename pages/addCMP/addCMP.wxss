@@ -13,6 +13,7 @@
 .logo image {
   width: 94rpx;
   height: 94rpx;
+  box-shadow: 3px 4px 12px 0 rgba(0,0,0,.2);
 }
 .form view {
   border-radius: 4rpx;

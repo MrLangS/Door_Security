@@ -8,7 +8,7 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
-
+var app=getApp()
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -83,6 +83,18 @@ function checkUsername(that) {
     return true
   }
 }
+function checkCompname(that) {
+  if (that.data.company == "") {
+    wx.showToast({
+      title: '公司名称不能为空',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else {
+    return true
+  }
+}
 //表单验证
 function checkForm(that,tag) {
   if(tag==0){
@@ -92,7 +104,7 @@ function checkForm(that,tag) {
       return false
     }
   }else{
-    if (checkImage(that) && checkUsername(that)) {
+    if (checkImage(that) && checkUsername(that) && checkCompname(that)) {
       return true
     } else {
       return false
@@ -141,9 +153,62 @@ function getCode(that) {
     })
   }
 }
+
+function login() {
+  // 登录
+  wx.login({
+    success: res => {
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      var code = res.code
+      if (code) {
+        console.log('获取用户登录凭证：' + code);
+        var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do?code=' + code;
+        // --------- 发送凭证 ------------------
+        wx.request({
+          url: loginUrl,
+          data: { code: code },
+          success: function (res) {
+            var openid = res.data.openid //返回openid
+            console.log("openid is: " + openid);
+            app.globalData.openid = openid
+            wx.setStorageSync('openid', openid);
+            var registed = res.data.registed
+            wx.setStorageSync('registed', registed)
+            console.log("registed:" + registed)
+
+            //已注册用户的处理
+            if(registed==1){
+              wx.request({
+                url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
+                data: {
+                  openId: openid
+                },
+                method: 'post',
+                success: function(res){
+                  console.log(res)
+                  app.globalData.sysWXUser = res.data.sysWXUser
+                  app.globalData.admin = res.data.admin
+                }
+              })
+              wx.switchTab({
+                url: '../../index/index',
+              })
+            }
+          },
+          fail: function () {
+            console.log("fail")
+          }
+        })
+      } else {
+        console.log('获取用户登录态失败：' + res.errMsg);
+      }
+    }
+  })
+}
 module.exports = {
   formatTime: formatTime,
   getCode: getCode,
   checkForm: checkForm,
-  JsonToArray: JsonToArray
+  JsonToArray: JsonToArray,
+  login: login
 }

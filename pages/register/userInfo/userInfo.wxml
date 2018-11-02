@@ -2,11 +2,14 @@
   <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill' ></image>
   <view class='top'>
     <view class='avator'>
-      <image bindtap='chooseImg' src='{{avatar}}' background-size="cover"></image>
+      <image bindtap='chooseImg' src='{{avatar?avatar:"/images/empty_avatar_user.png"}}' background-size="cover"></image>
     </view>
     <form class='form' bindsubmit='commit'>
-      <view>
+      <view class='border'>
         <input name='username' bindinput='getUsername' placeholder='用户名' focus></input>
+      </view>
+      <view>
+        <input name='company' bindinput='getCompname' placeholder='公司名称' focus></input>
       </view>
       <button class='login' formType='submit'>下一步</button>
     </form>

@@ -10,8 +10,8 @@
           <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
           <image class='avatar' src='/images/device.png' wx:else></image>
           <view class='text'>
-            <view class='name'>{{item.name || '设备名称'}}</view>
-            <view>{{item.address || '添加权限'}} @ {{item.company || '添加公司'}}</view>
+            <view class='name'>{{item.devName || '设备名称'}}</view>
+            <view>{{item.devAddr || '添加权限'}} @ {{item.company || '添加公司'}}</view>
           </view>
         </view>
         <view class='more'>

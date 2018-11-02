@@ -6,7 +6,8 @@ Page({
    */
   data: {
     peo:{},
-    dataArr:[]
+    dataArr:[],
+    isModify: false,
   },
 
   //列表项操作

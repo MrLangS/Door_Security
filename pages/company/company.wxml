@@ -6,11 +6,11 @@
     <view class='card profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
         <view class='info'>
-          <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
+          <image class='avatar' src='{{company.clientLogoURL}}' wx:if='{{company.clientLogoURL}}'></image>
           <image class='avatar' src='/images/cmpany.png' wx:else></image>
           <view class='text'>
             <view class='name'>{{company.name || '公司名称'}}</view>
-            <view>{{company.address || '添加权限'}} @ {{userInfo.company || '添加人员'}}</view>
+            <view>{{company.addr || '暂无地址'}}</view>
           </view>
         </view>
         <view class='more'>

@@ -1,4 +1,5 @@
 var util = require("../../../utils/util.js")
+var app = getApp()
 Page({
 
   /**
@@ -7,9 +8,10 @@ Page({
   data: {
     values:'',
     bcgImg: '/images/bcgimg.jpg',
-    avatar: '/images/empty_avatar_user.png',
+    avatar: '',
     quality: 1,
     username: '',//姓名
+    company: '',
   },
   commit(e) {
     var that=this
@@ -20,20 +22,42 @@ Page({
         json=JSON.parse(this.data.values)
       }
       json.username = values.username
+      json.company = values.company
       json.avatar=this.data.avatar
-      
       wx.chooseLocation({
         success: function (res) {
           console.log(res)
+          json.siteName = res.name
+          json.address = res.address
+          json.longitude = res.longitude
+          json.latitude = res.latitude
+          console.log(json)
           wx.request({
-            url: '',
-            data: '',
+            url: getApp().globalData.server + '/ClientInfoAction!registerClient.do',
+            data: {
+              wxOpenId: wx.getStorageSync('openid'),
+              clientName: json.company,
+              siteName: json.siteName,
+              address: json.address,
+              longitude: json.longitude+'',
+              latitude: json.latitude+'',
+              username: json.username,
+              phoneNum: json.phoneNumber,
+              userPhotoURL: json.avatar,
+              clientLogoURL: ''
+            },
             header: {},
-            method: 'GET',
+            method: 'post',
             dataType: 'json',
-            success: function(res) {},
+            success: function(res) {
+              console.log(res)
+              app.sysWXUser = res.sysWXUser
+              app.admin = res.admin
+              wx.redirectTo({
+                url: '../result/result',
+              })
+            },
             fail: function(res) {},
-            complete: function(res) {},
           })
         },
       })
@@ -43,6 +67,11 @@ Page({
   getUsername: function (e) {
     this.setData({
       username: e.detail.value
+    })
+  },
+  getCompname: function (e) {
+    this.setData({
+      company: e.detail.value
     })
   },
   chooseImg: function(){
@@ -76,7 +105,7 @@ Page({
                 })
               } else {
                 wx.showToast({
-                  title: '图片不合格',
+                  title: '上传失败,图片须为本人清晰头像',
                   icon: 'loading',
                   duration: 1500
                 })
@@ -101,7 +130,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    //设置导航栏背景色
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: '#262022',
+      animation: {
+        duration: 50,
+        timingFunc: 'easeIn'
+      }
+    })
     this.setData({
       values: options.data||''
     })
