@@ -8,3 +8,8 @@
 <view class='lists'>
   <recordItem list='{{recordList}}'></recordItem>
 </view>
+<view class='wrapper' wx:if="{{!recordList.length}}">
+  <view class='info'>
+    暂无记录！
+  </view> 
+</view>

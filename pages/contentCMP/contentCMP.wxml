@@ -6,11 +6,11 @@
 </view>
 <view class='wrapper'>
   <view class='card items'>
-    <view class='logo-height' hover-class='hover-class'>
+    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
       <view class='title'>
         <view>公司logo</view>
       </view>  
-      <image class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/cmpany.png"}}'></image>
+      <image catchtap='preview' class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/cmpany.png"}}'></image>
     </view>
     <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=公司名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
       <view class='title'>
@@ -31,7 +31,7 @@
       <view class='title'>
         <view style='color:#40a7e7;'>管理人员</view>
       </view> 
-      <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}个</view> 
+      <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}人</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='content'>
@@ -52,13 +52,13 @@
       <view class='title'>
         <view style='color:#40a7e7;'>普通员工</view>   
       </view> 
-      <view style='color:#40a7e7;' class='count'>{{staff.length || 0}}个</view> 
+      <view style='color:#40a7e7;' class='count'>{{staff.length || 0}}人</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{staff}}" wx:key bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-flag='1' data-index="{{index}}">
       <view class='content'>
         <view class='title'>
-          <image src='{{item.avatar}}'></image>
-          <view>{{item.name || '未知'}}</view>
+          <image src='{{item.person.photoURL?item.person.photoURL:"/images/empty_avatar_user.png"}}'></image>
+          <view>{{item.person.personName || '未知'}}</view>
         </view>
         <view class='more'>
           <image src='/images/profile_arrow.png'></image>

@@ -96,3 +96,14 @@
   -webkit-transform: translateX(0);
   transform: translateX(0);
 }
+.no-box {
+  position: relative;
+  /* top: 20rpx; */
+  padding-top: 0rpx;
+  background: white;
+}
+.no-record{
+  height: 400rpx;
+  line-height: 400rpx;
+  text-align: center;
+}

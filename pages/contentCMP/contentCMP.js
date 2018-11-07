@@ -8,24 +8,96 @@ Page({
   data: {
     company: {},
     dataArr:[],
-    admin: [{ avatar: '/images/empty_avatar_user.png', name: '1号', phone: '18401610488' }, 
-      { avatar: '/images/empty_avatar_user.png', name: '2号', phone: '18401610488' },
-      { avatar: '/images/empty_avatar_user.png', name: '3号', phone: '18401610488' }],
-    staff: [
-      { avatar: '/images/empty_avatar_user.png', name: '1号', phone: '18401610488' }, 
-      { avatar: '/images/empty_avatar_user.png', name: '2号', phone: '18401610488' }, 
-      { avatar: '/images/empty_avatar_user.png', name: '3号', phone: '18401610488' }, 
-      { avatar: '/images/empty_avatar_user.png', name: '4号', phone: '18401610488' }, 
-      { avatar: '/images/empty_avatar_user.png', name: '5号', phone: '18401610488' }],
+    admin: [],
+    staff: [],
+    noResult: false,
+    pageNum: 1,
     startX: 0, //开始坐标
     startY: 0,
     hideSearch: true,
     isModify: false,
+    isAdd: false
   },
 
   search: function () {
     wx.navigateTo({
-      url: '/pages/searchRes/searchRes?tag='+0,
+      url: '/pages/searchRes/searchRes?tag='+0+'&id='+this.data.company.id,
+    })
+  },
+  chooseImg: function(){
+    var that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var uploadUserUrl = getApp().globalData.server + "/ClientInfoAction!uploadPhoto.do"
+        var tempFilePaths = res.tempFilePaths
+        if (tempFilePaths.length > 0) {
+          wx.uploadFile({
+            url: uploadUserUrl,
+            filePath: tempFilePaths[0],
+            name: 'logoPhoto',
+            header: { "Content-Type": "multipart/form-data" },
+            success: function (res) {
+              console.log('上传图片请求...')
+              var data = JSON.parse(res.data)
+              console.log(data)
+              var dataArr=that.data.dataArr
+              if (typeof (data.photoURL) != "undefined") {
+                dataArr[0] = data.photoURL
+                that.setData({
+                  dataArr: dataArr,
+                })
+                wx.request({
+                  url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
+                  data: {
+                    id: that.data.company.id,
+                    clientLogoURL: that.data.dataArr[0],
+                    name: that.data.dataArr[1],
+                    addr: that.data.dataArr[2]
+                  },
+                  method: 'post',
+                  success: function (res) {
+                    console.log(res)
+                  }
+                })
+                wx.showToast({
+                  title: '上传成功',
+                  icon: 'success',
+                  duration: 1500
+                })
+              } else {
+                wx.showToast({
+                  title: '上传失败,请重试!',
+                  icon: 'loading',
+                  duration: 1500
+                })
+              }
+            },
+            fail: function (res) {
+              console.log('上传失败...')
+              wx.showModal({
+                title: '提示',
+                content: '上传失败',
+                showCancel: false
+              })
+            },
+          })
+        }
+
+      },
+    })
+  },
+  preview: function(){
+    var that = this
+    var imgURL = this.data.dataArr[0]
+    wx.previewImage({
+      current: imgURL,
+      urls: [imgURL],
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (e) { }
     })
   },
   //页面滚动监听
@@ -46,7 +118,7 @@ Page({
   },
   newCMP:function(){
     wx.navigateTo({
-      url: '../addPEO/addPEO',
+      url: '../addPEO/addPEO?id=' + this.data.company.id + '&name=' + this.data.company.name,
     })
   },
   //列表项操作
@@ -149,17 +221,115 @@ Page({
 
   //删除事件
   del: function (e) {
+    var that=this
     if (typeof (e.currentTarget.dataset.flag)=="undefined"){
       this.data.admin.splice(e.currentTarget.dataset.index, 1)
       this.setData({
         admin: this.data.admin
       })
     }else{
-      this.data.staff.splice(e.currentTarget.dataset.index, 1)
-      this.setData({
-        staff: this.data.staff
+      var index = e.currentTarget.dataset.index
+      wx.showModal({
+        title: '提示',
+        content: '确定删除' + this.data.staff[index].person.personName+'吗？',
+        success: function (res) {
+          if (res.confirm) {
+            wx.request({
+              url: getApp().globalData.server + '/TransitPerson/deletePersonFromWx.do?personId=' + that.data.staff[index].person.id,
+              data: {},
+              method: 'post',
+              success: function (res) {
+                console.log(res)
+                if (res.data == "SUCCESS") {
+                  that.data.staff.splice(index, 1)
+                  that.setData({
+                    staff: that.data.staff
+                  })
+                  wx.showToast({
+                    title: '删除成功!',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '删除失败，请稍后再试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              }
+            })
+          }
+        }
       })
     }
+  },
+
+  //列表分页下拉
+  //下拉刷新触发
+  reload(reload) {
+    this.setData({
+      noResult: false,
+      pageNum: 1,
+    })
+    this.init(reload)
+  },
+  init(reload) {
+    this.getList(reload)
+  },
+  // 获取小册列表
+  getList(reload) {
+    var that = this
+    if (reload) {
+      this.setData({
+        pageNum: 1,
+      })
+    }
+    console.log(this.data.company.id)
+    wx.request({
+      url: getApp().globalData.server + '/TransitPerson/getPersonsFromWx.do',
+      data: {
+        pageIndex: that.data.pageNum - 1,
+        // pageIndex: 0,
+        clientId: this.data.company.id
+      },
+      method: 'post',
+      success: (res) => {
+        console.log("当前页码:" + that.data.pageNum)
+        console.log(res)
+        let list = res.data
+        if (!util.isEmptyObject(list)) {
+          let pageNum = this.data.pageNum + 1
+          this.setData({
+            pageNum,
+            staff: reload ? list : this.data.staff.concat(list),
+          })
+        } else {
+          this.setData({
+            noResult: true,
+          })
+          if (that.data.pageNum != 1) {
+            wx.showToast({
+              title: '已加载至最底!',
+              icon: 'none',
+            })
+          }else{
+            this.setData({
+              staff: [],
+            })
+          }
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '网路开小差，请稍后再试',
+          icon: 'none',
+        })
+      },
+      complete: () => {
+        wx.stopPullDownRefresh()
+      },
+    })
   },
 
   /**
@@ -177,6 +347,9 @@ Page({
         company: json
       })
     }
+
+    //加载人员列表
+    // this.reload(true)
 
     var items = that.data.admin
     for (var i = 0; i < items.length; i++) {
@@ -213,18 +386,19 @@ Page({
         }
       })
     }
+    // if (this.data.isAdd){
+    this.reload(true)
   },
 
-  onHide: function () {
-
-  },
 
   onPullDownRefresh: function () {
 
   },
 
   onReachBottom: function () {
-
+    if (!this.data.staff.length || !this.data.noResult) {
+      this.getList()
+    }
   },
 
   /**

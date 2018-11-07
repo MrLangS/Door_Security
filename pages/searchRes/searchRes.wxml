@@ -1,5 +1,5 @@
 <view class='box'>
-  <view class='head'><input class='modify-content' bindinput='bindinput' placeholder='{{placeholder}}' focus='true' value='{{value}}' ></input></view>
+  <view class='head'><input class='modify-content' bindinput='bindinput' bindtap='chooseDay' placeholder='{{placeholder}}' focus='true' value='{{tag==1?year+"年"+month+"月"+day+"日":""}}' ></input></view>
 </view>
 <!-- 记录部分查询列表 -->
 <view class='lists'>
@@ -9,4 +9,23 @@
 <view class='lists'>
   <staffItem list='{{staffList}}'></staffItem>
 </view>
+<view class='wrapper' wx:if="{{!recordList.length&&!staffList.length}}">
+  <view class='info'>
+    暂无记录！
+  </view> 
+</view>
+<!-- 日期弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="日期选择" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+  <picker-view class='pickGroup' indicator-style="height: 50px;" style="width: 100%; height: 300px;margin-right:50rpx;" value="{{value}}" bindchange="bindChange">
+    <picker-view-column>
+      <view wx:for="{{years}}" wx:key style="line-height: 50px">{{item}}年</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{months}}" wx:key style="line-height: 50px">{{item}}月</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{days}}" wx:key style="line-height: 50px">{{item}}日</view>
+    </picker-view-column>
+  </picker-view>
+</modal>
 

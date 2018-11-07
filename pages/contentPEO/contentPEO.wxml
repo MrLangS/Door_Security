@@ -1,10 +1,12 @@
 <view class='wrapper'>
   <view class='card items'>
-    <view class='item' hover-class='hover-class'>
+    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
       <view class='title'>
         <view>人员头像</view>
       </view>  
+      <image catchtap='preview' class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/empty_avatar_user.png"}}'></image>
     </view>
+    
     <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=姓名&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
       <view class='title'>
         <view>姓名</view>
@@ -23,27 +25,25 @@
   <view class='setting'>
     <view class='s'>
       <view class='t'>
-        <view hover-class='hover' class='title'>
+        <view bindtap='chooseDev' hover-class='hover' class='title'>
           <view class='center'>点此修改授权</view>
         </view>
         <view class='content sub'>
           <view class='subtitle'>授权设备</view>
-          <view class='item'>
+          <view class='item' wx:for='{{choosedDEV}}' wx:key>
             <view>
-              <view>设备名称</view>
-              <view class='tip'>设备所属区域</view>
+              <view>{{item.devName}}</view>
+              <view class='tip'>{{item.devAddr}}</view>
             </view>
-            <view>状态</view>
-          </view> 
-          <view class='item'>
-            <view>
-              <view>设备名称</view>
-              <view class='tip'>设备所属区域</view>
+            <view>{{item.devStatus=='01'?'在线':'离线'}}
             </view>
-            <view>状态</view>
-          </view> 
+          </view>  
         </view>
       </view>
     </view>
   </view>
 </view>
+<!-- 设备弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+</modal>

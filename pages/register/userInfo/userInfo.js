@@ -51,8 +51,8 @@ Page({
             dataType: 'json',
             success: function(res) {
               console.log(res)
-              app.sysWXUser = res.sysWXUser
-              app.admin = res.admin
+              app.globalData.sysWXUser = res.data.sysWXUser
+              app.globalData.admin = res.data.admin
               wx.redirectTo({
                 url: '../result/result',
               })

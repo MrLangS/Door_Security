@@ -1,6 +1,6 @@
 <view class='wrapper'>
   <view class='new' catchtap='newCMP'>
-    <view>+新增</view>
+    <view>新增公司</view>
   </view>
   <block wx:for="{{companys}}" wx:for-item="company" wx:key>
     <view class='card profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">

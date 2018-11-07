@@ -2,8 +2,8 @@
   <view class='item' wx:for="{{list}}" wx:key hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
     <view class='content'>
       <view class='title'>
-        <image src='{{item.avatar}}'></image>
-        <view>{{item.name || '未知'}}</view>
+        <image src='{{item.person.photoURL?item.person.photoURL:"/images/empty_avatar_user.png"}}'></image>
+        <view>{{item.person.personName || '未知'}}</view>
       </view>
       <view class='more'>
         <image src='/images/profile_arrow.png'></image>

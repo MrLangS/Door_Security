@@ -47,7 +47,7 @@
 }
 .form label {
   width: 20%;
-  color: #8d8c8c;
+  color: #000;
   padding-left: 30rpx;
   height: 100rpx;
   line-height: 100rpx;

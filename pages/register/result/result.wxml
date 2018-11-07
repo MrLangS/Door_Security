@@ -4,6 +4,6 @@
     <view class="text">注册成功</view>
     <label class='lab'>欢迎使用门禁管理</label> 
   </view>
-  <button type='primary' bindtap='intoIndex' class='btn' size='default'>进入首页</button>
-  <button bindtap='intoInfo' class='btn' size='default'>添加公司logo</button>
+  <button type='primary' bindtap='intoIndex' class='btn' size='default'>开始使用</button>
+  <!-- <button bindtap='intoInfo' class='btn' size='default'>添加公司logo</button> -->
 </view>

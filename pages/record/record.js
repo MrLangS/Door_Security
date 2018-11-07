@@ -1,20 +1,15 @@
 var timeoutID
+var util = require("../../utils/util.js")
+var app=getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    recordList: [
-      { img:'', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00',role: '管理人员'},
-      { img: '', deviceName: '设备名称2', peopleName: '人员名称2', time: '2018-09-12 08:00', role: '普通人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '普通人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
-      { img: '', deviceName: '设备名称1', peopleName: '人员名称1', time: '2018-09-12 08:00', role: '管理人员' },
-      { img: '', deviceName: '设备名称2', peopleName: '人员名称2', time: '2018-09-12 08:00', role: '普通人员' }],
+    recordList: [],
+    noResult: false,
+    pageNum: 1,
     hideSearch: true,
   },
 
@@ -22,7 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.init()
   },
 
   search: function(){
@@ -47,46 +42,80 @@ Page({
     },2000)
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
-
+    this.reload(true)
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
+  //下拉刷新触发
+  reload(reload) {
+    this.setData({
+      noResult: false,
+      pageNum: 1,
+    })
+    this.init(reload)
+  },
+  init(reload) {
+    this.getList(reload)
+  },
+  // 获取列表
+  getList(reload) {
+    var that = this
+    if (reload) {
+      this.setData({
+        pageNum: 1,
+      })
+    }
+    wx.request({
+      url: getApp().globalData.server + '/AccessRecords/getAccessRecordsFromWx.do',
+      data: {
+        pageIndex: that.data.pageNum-1 ,
+        // pageIndex: 0,
+        // regionId: app.globalData.admin.regionId,
+        clientId: app.globalData.admin.clientId
+      },
+      method: 'post',
+      success: (res) => {
+        console.log("当前页码:" + that.data.pageNum)
+        let data = res.data
+        console.log(data)
+        let list = data.recordList
+        if (!util.isEmptyObject(list)) {
+          let pageNum = this.data.pageNum + 1
+          this.setData({
+            pageNum,
+            recordList: reload ? list : this.data.recordList.concat(list),
+          })
+        } else {
+          this.setData({
+            noResult: true,
+          })
+          if (that.data.pageNum != 1) {
+            wx.showToast({
+              title: '已加载至最底!',
+              icon: 'none',
+            })
+          }else{
+            this.setData({
+              recordList: [],
+            })
+          }
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '网路开小差，请稍后再试',
+          icon: 'none',
+        })
+      },
+      complete: () => {
+        wx.stopPullDownRefresh()
+      },
+    })
+  },
   onReachBottom: function () {
-
+    if (!this.data.recordList.length || !this.data.noResult) {
+      this.getList()
+    }
   },
 
   /**

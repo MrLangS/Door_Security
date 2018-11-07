@@ -1,3 +1,12 @@
-/* .lists{
-  margin-top: 90rpx;
-} */
+.wrapper {
+  position: relative;
+  /* top: 20rpx; */
+  margin-top: 20rpx;
+  padding-top: 0rpx;
+  background: white;
+}
+.info{
+  height: 400rpx;
+  line-height: 400rpx;
+  text-align: center;
+}

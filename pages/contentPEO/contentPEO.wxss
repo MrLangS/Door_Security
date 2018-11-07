@@ -54,3 +54,29 @@
 .setting .t .hover{
   color: #40a7e7;
 }
+.rightImg{
+  position: absolute;
+  right: 40rpx;
+  width: 150rpx;
+  height: 150rpx;
+}
+.logo-height{
+  height: 150rpx;
+  padding: 0 40rpx;
+  border-bottom: 1rpx solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+.checkbox{
+  display:inline-block;
+  margin:10px;
+  padding:6px;
+  background:#eee;
+  border-radius: 4px;
+}
+.checkedActive{
+  background:#40a7e7;
+  color:#fff;
+}

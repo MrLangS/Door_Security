@@ -88,9 +88,19 @@ Page({
     this.setData({
       doorStatus: e.detail.value
     })
-    if (e.detail.value){
-
+    var status = '00'
+    if (this.data.doorStatus) {
+      status = '01'
+    } else {
+      status = '02'
     }
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/controlDevice.do?id=' + this.data.dataArr[6] + '&doorStatus=' + status,
+      method: 'post',
+      success: (res) => {
+        console.log(res)
+      }
+    })
   },
   //列表项操作
   navigateItem: function (e) {
@@ -112,12 +122,14 @@ Page({
         currentVolume: arr[3][0].keyValue,
         volumeTip: arr[3][1].keyValue == 0 ? true : false,
         autoStatus: arr[5]=='03'?true:false,
+        netStatus: arr[4]=='01'?true:false
       })
       if(!this.data.autoStatus){
         this.setData({
           doorStatus: arr[5] == '01' ? true : false,
         })
       }
+      
     }
   },
 

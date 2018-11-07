@@ -39,6 +39,51 @@ function checkCode(that) {
     return true
   }
 }
+//获取日期
+function getPicker(tag) {
+  const date = new Date()
+  if (tag == 'year') {
+    return date.getFullYear()
+  } else if (tag == 'month') {
+    return date.getMonth() + 1
+  } else if (tag == 'day') {
+    return date.getDate()
+  } else if (tag == 'arr') {
+    return [date.getFullYear() - 2017, date.getMonth(), date.getDate() - 1]
+  } else if (tag == 'hour') {
+    return date.getHours()
+  } else if (tag == 'minute') {
+    return date.getMinutes()
+  }
+}
+//获取日期列表
+function getPickerList(tag) {
+  const years = []
+  const months = []
+  const days = []
+  const nums = []
+  for (let i = 2017; i <= 2048; i++) {
+    years.push(i)
+  }
+  for (let i = 1; i <= 12; i++) {
+    months.push(i)
+  }
+  for (let i = 1; i <= 31; i++) {
+    days.push(i)
+  }
+  for (let i = 1; i <= 20; i++) {
+    nums.push(i)
+  }
+  if (tag == 'years') {
+    return years
+  } else if (tag == 'months') {
+    return months
+  } else if (tag == 'days') {
+    return days
+  } else if (tag == 'nums') {
+    return nums
+  }
+}
 function checkPhone(that) {
   var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
   if (that.data.phoneNumber == "") {
@@ -94,6 +139,72 @@ function checkCompname(that) {
   } else {
     return true
   }
+}
+function checkPhone01(phone) {
+  var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+  if (phone == "") {
+    wx.showToast({
+      title: '手机号不能为空',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else if (!myreg.test(phone)) {
+    wx.showToast({
+      title: '请输入正确的手机号',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else {
+    return true
+  }
+}
+function checkName(name) {
+  if (name == "") {
+    wx.showToast({
+      title: '人员名称不能为空',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else {
+    return true
+  }
+}
+function checkAvatar(that) {
+  if (that.data.avatar == "") {
+    wx.showToast({
+      title: '请添加人员头像',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else {
+    return true
+  }
+}
+function checkDevice(that) {
+  if (that.data.choosedDEV.length == 0) {
+    wx.showToast({
+      title: '请选择设备',
+      icon: 'none',
+      duration: 1000
+    })
+    return false;
+  } else {
+    return true
+  }
+}
+let isEmptyObject = (obj) => {
+  for (let i in obj) {
+    return false
+  }
+  return true
+}
+function checkStaffForm(that,name,phone){
+  return checkAvatar(that) && checkName(name) && checkPhone01(phone)&&checkDevice(that)
+  // return checkDevice(that)
 }
 //表单验证
 function checkForm(that,tag) {
@@ -162,7 +273,7 @@ function login() {
       var code = res.code
       if (code) {
         console.log('获取用户登录凭证：' + code);
-        var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do?code=' + code;
+        var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do?code=' + code + '&WxUserType=3';
         // --------- 发送凭证 ------------------
         wx.request({
           url: loginUrl,
@@ -191,7 +302,7 @@ function login() {
                 }
               })
               wx.switchTab({
-                url: '../../index/index',
+                url: '../../device/device',
               })
             }
           },
@@ -205,10 +316,19 @@ function login() {
     }
   })
 }
+function formatDay(that) {
+  var date = that.data
+  return [date.year, date.month, date.day].map(formatNumber).join('-')
+}
 module.exports = {
   formatTime: formatTime,
   getCode: getCode,
   checkForm: checkForm,
   JsonToArray: JsonToArray,
-  login: login
+  login: login,
+  checkStaffForm: checkStaffForm,
+  isEmptyObject: isEmptyObject,
+  getPicker: getPicker,
+  getPickerList: getPickerList,
+  formatDay: formatDay
 }

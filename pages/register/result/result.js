@@ -11,7 +11,7 @@ Page({
   intoIndex: function () {
     console.log("index")
     wx.reLaunch({
-      url: '../../index/index',
+      url: '../../device/device',
     })
   },
   // intoInfo: function () {

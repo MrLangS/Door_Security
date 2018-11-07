@@ -84,7 +84,7 @@ Page({
         name: values.cmpname,
         addr: values.address,
         clientLogoURL: that.data.photo,
-        superiorClientId: app.admin.clientId
+        superiorClientId: app.globalData.admin.clientId
       },
       method: 'post',
       success: function(res){

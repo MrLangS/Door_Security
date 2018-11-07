@@ -2,6 +2,11 @@
   <view class='new' catchtap='newDEV'>
     <view>扫码新增设备</view>
   </view>
+  <view class='no-box' wx:if="{{!devices.length}}">
+    <view class='no-record'>
+      暂无设备！
+    </view> 
+  </view>
   
   <block wx:for="{{devices}}" wx:key>
     <view class='card profile {{item.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
@@ -11,7 +16,7 @@
           <image class='avatar' src='/images/device.png' wx:else></image>
           <view class='text'>
             <view class='name'>{{item.devName || '设备名称'}}</view>
-            <view>{{item.devAddr || '添加权限'}} @ {{item.company || '添加公司'}}</view>
+            <view>{{item.devAddr || '设备地址'}}</view>
           </view>
         </view>
         <view class='more'>

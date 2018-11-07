@@ -5,10 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    devices: [
-      { name: '设备名称1', serialnum: '0001', address: '所属区域1', param: 50, voicetip: 0, status: '离线' },
-      { name: '设备名称2', serialnum: '0002', address: '所属区域2', param: 50, voicetip: 0, status: '在线' }
-    ],
+    devices: [],
     startX: 0, //开始坐标
     startY: 0,
     data:{},
@@ -29,7 +26,7 @@ Page({
         //   devices: that.data.devices
         // })
         wx.navigateTo({
-          url: '../devForm/devForm?data=' + device.serialnum,
+          url: '../devForm/devForm?data=' + device.deviceId,
         })
         
       },
@@ -152,6 +149,7 @@ Page({
 
   onShow: function () {
     var that = this;
+    console.log(app.globalData.admin.clientId)
     wx.request({
       url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',

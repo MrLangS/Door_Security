@@ -9,7 +9,7 @@
         </view>
         <view class='item'>
           <label>设备名称</label>
-          <input name='name' focus></input>
+          <input name='name' placeholder='最好与详细地址相关联' focus></input>
         </view>
         <view class='item'>
           <label>详细地址</label>

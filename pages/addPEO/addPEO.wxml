@@ -1,7 +1,7 @@
 <view class='wrapper'>
   <view class='top'>
     <view class='logo'>
-      <image src='/images/empty_avatar_user.png'></image>
+      <image bindtap='chooseImg' src='{{avatar?avatar: "/images/empty_avatar_user.png"}}'></image>
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
@@ -20,5 +20,5 @@
 </view>
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
-    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.name}}</view>
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
 </modal>
