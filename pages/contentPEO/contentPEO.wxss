@@ -80,3 +80,14 @@
   background:#40a7e7;
   color:#fff;
 }
+.no-box {
+  position: relative;
+  /* top: 20rpx; */
+  padding-top: 0rpx;
+  background: white;
+}
+.no-record{
+  height: 200rpx;
+  line-height: 200rpx;
+  text-align: center;
+}

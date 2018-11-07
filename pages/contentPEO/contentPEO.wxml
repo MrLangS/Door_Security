@@ -30,6 +30,11 @@
         </view>
         <view class='content sub'>
           <view class='subtitle'>授权设备</view>
+          <view class='no-box' wx:if="{{!choosedDEV.length}}">
+            <view class='no-record'>
+              暂无授权！
+            </view> 
+          </view>
           <view class='item' wx:for='{{choosedDEV}}' wx:key>
             <view>
               <view>{{item.devName}}</view>

@@ -153,12 +153,15 @@ Page({
   preview: function () {
     var that = this
     var imgURL = this.data.dataArr[0]
-    wx.previewImage({
-      current: imgURL,
-      urls: [imgURL],
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (e) { }
+    wx.getImageInfo({
+      src: imgURL,
+      success: (res) => {
+        console.log(res)
+        wx.previewImage({
+          current: res.path,
+          urls: [res.path],
+        })
+      }
     })
   },
 

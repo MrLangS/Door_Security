@@ -106,7 +106,7 @@ Page({
               } else {
                 wx.showToast({
                   title: '上传失败,图片须为本人清晰头像',
-                  icon: 'loading',
+                  icon: 'none',
                   duration: 1500
                 })
               }

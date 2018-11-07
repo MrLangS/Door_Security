@@ -92,13 +92,25 @@ Page({
   preview: function(){
     var that = this
     var imgURL = this.data.dataArr[0]
-    wx.previewImage({
-      current: imgURL,
-      urls: [imgURL],
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (e) { }
-    })
+    if (imgURL==""){
+      wx.showToast({
+        title: '尚未添加公司logo',
+        icon: 'none',
+        duration: 1500,
+      })
+    }else{
+      wx.getImageInfo({
+        src: imgURL,
+        success: (res)=>{
+          console.log(res)
+          wx.previewImage({
+            current: res.path,
+            urls: [res.path],
+          })
+        }
+      })
+      
+    } 
   },
   //页面滚动监听
   onPageScroll: function (e) {
