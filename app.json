@@ -1,10 +1,10 @@
 {
   "pages":[
     "pages/register/phone/phone",
+    "pages/register/result/result",
     "pages/device/device",
     "pages/contentCMP/contentCMP",
     "pages/contentDEV/contentDEV",
-    "pages/register/result/result",
     "pages/register/userInfo/userInfo",
     "pages/record/record",
     "pages/searchRes/searchRes",

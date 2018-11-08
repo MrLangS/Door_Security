@@ -30,6 +30,7 @@ Page({
     pageNum: 1,
     tag: 0,
     searchVal: '',
+    disabled: false,
     id: 0
   },
 
@@ -39,7 +40,11 @@ Page({
       searchVal: e.detail.value,
       staffList: []
     })
-    this.getList(true,this.data.searchVal)
+    if (e.detail.value==""){
+      staffList: []
+    }else{
+      this.getList(true,this.data.searchVal)
+    }
   },
   //弹出框
   chooseDay: function () {
@@ -202,7 +207,8 @@ Page({
     //tag=1代表查询通行记录；tag=0代表查询人员信息
     if(options.tag==1){
       this.setData({
-        tag: 1
+        tag: 1,
+        disabled: true
       })
       this.getList(true, util.formatDay(this))
     }

@@ -1,5 +1,5 @@
 <view class='box'>
-  <view class='head'><input class='modify-content' bindinput='bindinput' bindtap='chooseDay' placeholder='{{placeholder}}' focus='true' value='{{tag==1?year+"年"+month+"月"+day+"日":""}}' ></input></view>
+  <view class='head'><input class='modify-content' bindinput='bindinput' disabled='{{disabled}}' bindtap='chooseDay' placeholder='{{placeholder}}' focus='true' value='{{tag==1?year+"年"+month+"月"+day+"日":""}}' ></input></view>
 </view>
 <!-- 记录部分查询列表 -->
 <view class='lists'>

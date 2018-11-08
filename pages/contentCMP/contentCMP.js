@@ -99,6 +99,13 @@ Page({
         duration: 1500,
       })
     }else{
+      // wx.previewImage({
+      //   current: imgURL,
+      //   urls: [imgURL],
+      //   success: (res)=>{
+      //     console.log(res)
+      //   }
+      // })
       wx.getImageInfo({
         src: imgURL,
         success: (res)=>{

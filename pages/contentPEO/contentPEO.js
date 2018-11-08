@@ -49,6 +49,8 @@ Page({
       choosedDEV: this.data.checkedDev,
       choosedId: this.data.checkedId
     })
+    console.log(typeof(this.data.choosedId))
+    console.log(this.data.choosedId)
     wx.request({
       url: getApp().globalData.server + '/TransitPerson/updatePersonFromWx.do',
       data: {

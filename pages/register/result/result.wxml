@@ -3,6 +3,8 @@
     <icon type="success" size="100"/>
     <view class="text">注册成功</view>
     <label class='lab'>欢迎使用门禁管理</label> 
+    <label class='lab'>可使用注册的手机号登陆PC端</label>
+    <label class='lab'>初始密码为123456</label>
   </view>
   <button type='primary' bindtap='intoIndex' class='btn' size='default'>开始使用</button>
   <!-- <button bindtap='intoInfo' class='btn' size='default'>添加公司logo</button> -->

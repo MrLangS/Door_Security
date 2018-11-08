@@ -6,7 +6,7 @@
       </view>
       <view class='count'>{{dataArr[0] || '未知'}}</view>
     </view>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=设备编号&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
+    <view class='item' hover-class='hover-class'>
       <view class='title'>
         <view>设备编号</view>
       </view> 
@@ -91,8 +91,9 @@
             绿色表示状态良好，红色表示状态异常
           </view>
         </view>
-        <icon wx:if='{{netStatus}}' type="success" size="20"/>
-        <icon wx:if='{{!netStatus}}' type="cancel" size="20"/>
+        <image class='wifi' src='{{netStatus?"/images/good.png":"/images/bad.png"}}'></image>
+        <!-- <icon wx:if='{{netStatus}}' type="success" size="20"/>
+        <icon wx:if='{{!netStatus}}' type="cancel" size="20"/> -->
         <!-- <switch color='#40a7e7' checked='{{setting.forceUpdate}}' bindchange='switchChange' data-switchParam='forceUpdate'></switch> -->
       </view>
     </view>

@@ -39,3 +39,7 @@
   justify-content: flex-start;
   align-items: center;
 }
+.wifi{
+  width: 40rpx;
+  height: 40rpx;
+}

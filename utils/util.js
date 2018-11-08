@@ -299,10 +299,10 @@ function login() {
                   console.log(res)
                   app.globalData.sysWXUser = res.data.sysWXUser
                   app.globalData.admin = res.data.admin
+                  wx.switchTab({
+                    url: '../../device/device',
+                  })
                 }
-              })
-              wx.switchTab({
-                url: '../../device/device',
               })
             }
           },
