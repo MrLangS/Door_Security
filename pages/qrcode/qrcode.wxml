@@ -1,0 +1,18 @@
+<!--pages/main/index.wxml-->
+<view class="container-box">
+    <view class="img-box">
+        <image bindtap="previewImg" mode="scaleToFill" src="{{imagePath}}"></image>
+    </view>
+    <form bindsubmit="formSubmit">
+        <view class="input-row">
+            <label>请将生成的二维码对准设备扫描处</label>
+            <!-- <input name='url' value='' type="text" maxlength="255" placeholder="{{placeholder}}"/> -->
+        </view>
+        
+    </form>
+    <button bindtap='gotoDevice' class="mybtn" type="primary">返回首页</button>
+</view>
+<view hidden="{{maskHidden}}" class="mask"></view>
+<view class="canvas-box">
+  <canvas  hidden="{{canvasHidden}}" style="width: 686rpx;height: 686rpx;background:#f1f1f1;" canvas-id="mycanvas"/>
+</view>

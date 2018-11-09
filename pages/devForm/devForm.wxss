@@ -84,3 +84,27 @@
   color: #fff;
   /* background: rgba(0, 0, 0, 0.1); */
 }
+.choose{
+  /* width: 100%; */
+  flex: 1;
+  /* background: red; */
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.choose view{
+  padding: 0 20rpx;
+}
+.pick{
+  width: 80%;
+  padding-left: 30rpx;
+  box-sizing: border-box;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 4rpx;
+  border-bottom: 1rpx solid #efefef;
+}
+.picker{
+  background: red;
+}

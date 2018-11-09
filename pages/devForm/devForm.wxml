@@ -9,12 +9,41 @@
         </view>
         <view class='item'>
           <label>设备名称</label>
-          <input name='name' placeholder='最好与详细地址相关联' focus></input>
+          <input name='name' disabled='{{disabled}}' value='{{devName}}' placeholder='最好与详细地址相关联' focus></input>
         </view>
         <view class='item'>
           <label>详细地址</label>
-          <input name='address'></input>
+          <input disabled='{{disabled}}' value='{{address}}' name='address'></input>
         </view>
+        <view class='item'>
+          <label>网络类型</label>
+          <radio-group class='choose' name="netType" bindchange="radioChange">
+            <view><radio value="0" checked="true"/>有线网络</view>
+            <view><radio value="1" />无线网络</view>
+          </radio-group>
+        </view>
+        <block wx:if='{{!hidden}}'>
+          <view class='item'>
+            <label>wifi名称</label>
+            <input name='wfName'></input>
+          </view>
+          <view class='item'>
+            <label>wifi密码</label>
+            <input name='wfPassword' password='true'></input>
+          </view>
+          <view class='item'>
+            <label>确认密码</label>
+            <input name='checkPassword' password='true'></input>
+          </view>
+          <view class='item'>
+            <label>安全类型</label>
+            <picker class='pick' bindchange="bindPickerChange" name='netSecurity' value="{{index}}" range="{{array}}">
+              <view class="picker">
+                {{array[index]}}
+              </view>
+            </picker>
+          </view>
+        </block>
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>

@@ -23,6 +23,7 @@
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
+      <view class="code" catchtap="code" data-index="{{index}}">生成二维码</view>
       <view class="del" catchtap="del" data-index="{{index}}">删除</view>
     </view>
   </block>

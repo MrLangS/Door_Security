@@ -1,6 +1,8 @@
 {
   "pages":[
     "pages/register/phone/phone",
+    "pages/qrcode/qrcode",
+    "pages/devForm/devForm",
     "pages/register/result/result",
     "pages/device/device",
     "pages/contentCMP/contentCMP",
@@ -10,7 +12,6 @@
     "pages/searchRes/searchRes",
     "pages/contentPEO/contentPEO",
     "pages/addPEO/addPEO",
-    "pages/devForm/devForm",
     "pages/company/company",
     "pages/addCMP/addCMP",
     "pages/modify/modify",
