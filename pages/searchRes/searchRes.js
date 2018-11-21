@@ -29,26 +29,34 @@ Page({
     noResult: false,
     pageNum: 1,
     tag: 0,
+    valtag: 1,
+    dateTag: 0,
     searchVal: '',
     disabled: false,
+    codeval: true,
     id: 0
   },
 
+  inputname(e){
+    this.setData({
+      searchVal: e.detail.value
+    })
+  },
   bindinput: function(e){
     console.log(e.detail.value)
     this.setData({
       searchVal: e.detail.value,
       staffList: []
     })
-    if (e.detail.value==""){
+    if (e.detail.value == "") {
       staffList: []
-    }else{
-      this.getList(true,this.data.searchVal)
-    }
+    } else {
+      this.getList(true, this.data.searchVal)
+    } 
   },
   //弹出框
   chooseDay: function () {
-    if(this.data.tag==1){
+    if(this.data.tag==1&&this.data.codeval){
       buff(this)
       console.log("改变前日期为:" + year + "/" + month + "/" + day)
       this.setData({
@@ -65,14 +73,20 @@ Page({
     });
   },
   confirm: function () {
-    var date = util.formatDay(this)
-    console.log(date)
+    
     this.setData({
       hiddenmodal: true,
-      searchVal: date,
-      recordList: [],
+      dateTag: 1
+      // searchVal: date,
+      // recordList: [],
     })
-    this.getList(true, date)
+    // this.getList(true, date)
+  },
+  clearContent: function(){
+    this.setData({
+      dateTag: 0,
+      searchVal: '',
+    })
   },
   //日期选择器事件
   bindChange: function (e) {
@@ -106,10 +120,19 @@ Page({
     var requestUrl = ''
     if(this.data.tag==1){
       requestUrl = getApp().globalData.server + '/AccessRecords/getAccessRecordsFromWx.do'
+      var searchDay=''
+      if(this.data.dateTag!=0){
+        searchDay = util.formatDay(this)
+      }
+      
+      var personName=this.data.searchVal
+      console.log(personName)
+
       wx.request({
         url: requestUrl,
         data: {
-          searchDay: value,
+          searchDay: searchDay||'',
+          personName: personName||'',
           pageIndex: this.data.pageNum - 1,
           // regionId: app.globalData.admin.regionId,
           clientId: app.globalData.admin.clientId
@@ -139,6 +162,13 @@ Page({
               this.setData({
                 recordList: []
               })
+              // if (this.data.recordList.length == 0) {
+                wx.showToast({
+                  title: '无匹配结果!',
+                  icon: 'none',
+                  duration: 1500,
+                })
+              // }
             }
           }
         },
@@ -186,6 +216,11 @@ Page({
               this.setData({
                 staffList: []
               })
+              wx.showToast({
+                title: '无匹配结果!',
+                icon: 'none',
+                duration: 1500,
+              })
             }
           }
         },
@@ -202,15 +237,15 @@ Page({
     }
     
   },
-
+  switchCondition: function(){
+    this.getList(true)
+  },
   onLoad: function (options) {
     //tag=1代表查询通行记录；tag=0代表查询人员信息
     if(options.tag==1){
       this.setData({
         tag: 1,
-        disabled: true
       })
-      this.getList(true, util.formatDay(this))
     }
     if (options.tag == 0) {
       console.log(options.id)
@@ -233,8 +268,14 @@ Page({
   },
 
   onReachBottom: function () {
-    if (!this.data.recordList.length || !this.data.noResult) {
-      this.getList(false, this.data.searchVal)
+    if(this.data.tag==1){
+      if (!this.data.recordList.length || !this.data.noResult) {
+        this.getList(false, this.data.searchVal)
+      }
+    }else{
+      if (!this.data.staffList.length || !this.data.noResult) {
+        this.getList(false, this.data.searchVal)
+      }
     }
   },
 

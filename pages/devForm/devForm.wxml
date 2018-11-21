@@ -3,17 +3,21 @@
   <view class='top'>
     <form class='form' bindsubmit='commit'>
       <view>
-        <view class='item'>
-          <label>设备编号</label>
-          <input name='serialnum' placeholder='设备编号' disabled='true' value='{{serialnum}}'></input>
-        </view>
+        <!-- <view class='item'>
+          <label>服务器IP</label>
+          <input name='serverIp' placeholder='IP地址' disabled='true' value='{{serverIp}}'></input>
+        </view> -->
         <view class='item'>
           <label>设备名称</label>
-          <input name='name' disabled='{{disabled}}' value='{{devName}}' placeholder='最好与详细地址相关联' focus></input>
+          <input name='name' value='{{devName}}' placeholder='最好与详细地址相关联' focus></input>
         </view>
         <view class='item'>
           <label>详细地址</label>
-          <input disabled='{{disabled}}' value='{{address}}' name='address'></input>
+          <input value='{{address}}' name='address'></input>
+        </view>
+        <view class='item'>
+          <label>激活码</label>
+          <input value='{{activationCode}}' name='activationCode'></input>
         </view>
         <view class='item'>
           <label>网络类型</label>
@@ -28,14 +32,6 @@
             <input name='wfName'></input>
           </view>
           <view class='item'>
-            <label>wifi密码</label>
-            <input name='wfPassword' password='true'></input>
-          </view>
-          <view class='item'>
-            <label>确认密码</label>
-            <input name='checkPassword' password='true'></input>
-          </view>
-          <view class='item'>
             <label>安全类型</label>
             <picker class='pick' bindchange="bindPickerChange" name='netSecurity' value="{{index}}" range="{{array}}">
               <view class="picker">
@@ -43,6 +39,16 @@
               </view>
             </picker>
           </view>
+          <block wx:if='{{index!=3}}'>
+          <view class='item'>
+            <label>wifi密码</label>
+            <input name='wfPassword' password='true'></input>
+          </view>
+          <view class='item'>
+            <label>确认密码</label>
+            <input name='checkPassword' password='true'></input>
+          </view>
+          </block>
         </block>
       </view>
       <button class='login' formType='submit'>确认</button>

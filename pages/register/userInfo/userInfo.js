@@ -83,6 +83,7 @@ Page({
       success: function (res) {
         var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do"
         var tempFilePaths = res.tempFilePaths
+        console.log(tempFilePaths)
         if (tempFilePaths.length > 0) {
           wx.uploadFile({
             url: uploadUserUrl,

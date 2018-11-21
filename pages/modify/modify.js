@@ -21,12 +21,21 @@ Page({
     //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
     var index=this.data.index
     var dataArr = prevPage.data.dataArr
-    dataArr[index] = this.data.value
-    prevPage.setData({
-      dataArr: dataArr,
-      isModify: true,
-    })
-    wx.navigateBack()
+    if(this.data.value.trim()==''){
+      wx.showToast({
+        title: '信息不能为空',
+        icon: 'none',
+        duration: 1500,
+      })
+    }else{
+      dataArr[index] = this.data.value
+      prevPage.setData({
+        dataArr: dataArr,
+        isModify: true,
+      })
+      wx.navigateBack()
+    }
+    
   },
   /**
    * 生命周期函数--监听页面加载

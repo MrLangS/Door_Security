@@ -14,23 +14,25 @@ Page({
 
   newDEV: function(){
     var that=this
-    var show
-    wx.scanCode({
-      success: (res)=>{
-        show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
-        console.log("扫码结果类型"+typeof(res.result))
-        // var device = JSON.parse(res.result)
-        // that.data.devices.unshift(device)
-        // console.log(that.data.devices)
-        // that.setData({
-        //   devices: that.data.devices
-        // })
-        wx.navigateTo({
-          url: '../devForm/devForm?data=' + res.result,
-        })
-        
-      },
+    wx.navigateTo({
+      url: '../devForm/devForm',
     })
+    // var show
+    // wx.scanCode({
+    //   success: (res)=>{
+    //     show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
+    //     console.log("扫码结果类型"+typeof(res.result))
+    //     // var device = JSON.parse(res.result)
+    //     // that.data.devices.unshift(device)
+    //     // console.log(that.data.devices)
+    //     // that.setData({
+    //     //   devices: that.data.devices
+    //     // })
+    //     wx.navigateTo({
+    //       url: '../devForm/devForm?data=' + res.result,
+    //     })
+    //   },
+    // })
   },
 
   navigatItem: function (e) {

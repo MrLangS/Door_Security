@@ -1,6 +1,6 @@
 <view class='wrapper'>
   <view class='new' catchtap='newDEV'>
-    <view>扫码新增设备</view>
+    <view>新增设备</view>
   </view>
   <view class='no-box' wx:if="{{!devices.length}}">
     <view class='no-record'>
@@ -23,7 +23,7 @@
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
-      <view class="code" catchtap="code" data-index="{{index}}">生成二维码</view>
+      <!-- <view class="code" catchtap="code" data-index="{{index}}">生成二维码</view> -->
       <view class="del" catchtap="del" data-index="{{index}}">删除</view>
     </view>
   </block>

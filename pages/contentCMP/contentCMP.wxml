@@ -8,13 +8,13 @@
   <view class='card items'>
     <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
       <view class='title'>
-        <view>公司logo</view>
+        <view>单位logo</view>
       </view>  
       <image catchtap='preview' class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/cmpany.png"}}'></image>
     </view>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=公司名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=单位名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
       <view class='title'>
-        <view>公司名称</view>
+        <view>单位名称</view>
       </view>
       <view class='count'>{{dataArr[1] || '未知'}}</view>
     </view>

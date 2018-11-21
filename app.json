@@ -1,15 +1,15 @@
 {
   "pages":[
     "pages/register/phone/phone",
-    "pages/qrcode/qrcode",
+    "pages/register/userInfo/userInfo",
+    "pages/searchRes/searchRes",
     "pages/devForm/devForm",
+    "pages/qrcode/qrcode",
     "pages/register/result/result",
     "pages/device/device",
     "pages/contentCMP/contentCMP",
     "pages/contentDEV/contentDEV",
-    "pages/register/userInfo/userInfo",
     "pages/record/record",
-    "pages/searchRes/searchRes",
     "pages/contentPEO/contentPEO",
     "pages/addPEO/addPEO",
     "pages/company/company",
@@ -37,7 +37,7 @@
       },
       {
         "pagePath": "pages/company/company",
-        "text": "公司",
+        "text": "单位",
         "iconPath": "images/cmpany.png",
         "selectedIconPath": "images/cmpanyBlue.png"
       },

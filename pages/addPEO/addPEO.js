@@ -87,45 +87,86 @@ Page({
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
   commit: function (e) {
+    var that=this
     let values = e.detail.value
     let name = values.name || ''
     let phone = values.phone || ''
+    console.log(values)
+    
     if (util.checkStaffForm(this,name,phone)){
-      console.log(values)
-      console.log(this.data.choosedId)
+      
       wx.request({
-        url: app.globalData.server +'/TransitPerson/addPersonFromWx.do',
+        url: app.globalData.server + '/TransitPerson/isNameRepeated.do',
         data: {
-          person:{
-            personName: name,
-            phoneNo: phone,
-            clientId: this.data.companyId,
-            personCompany: this.data.companyName,
-            photo: this.data.avatar
-          },
-          devices:this.data.choosedId
+          personName: name,
+          clientId: parseInt(that.data.companyId),
         },
         method: 'post',
-        success: (res)=>{
+        success: (res) => {
           console.log(res)
-          if(res.data=="SUCCESS"){
-            var pages = getCurrentPages();
-            var prevPage = pages[pages.length - 2];  //上一个页面
-            //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-            prevPage.setData({
-              isAdd: true,
-            })
-            wx.navigateBack()
-            wx.showToast({
-              title: '添加成功',
-              icon: 'success',
-              duration: 1000,
+          if(res.data){
+            //判断手机号
+            wx.request({
+              url: app.globalData.server + '/TransitPerson/isPhoneRepeated.do',
+              data: {
+                phoneNo: phone,
+                clientId: parseInt(that.data.companyId),
+              },
+              method: 'post',
+              success: (res) => {
+                console.log(res)
+                if (res.data) {
+                  wx.request({
+                    url: app.globalData.server + '/TransitPerson/addPersonFromWx.do',
+                    data: {
+                      person: {
+                        personName: name,
+                        phoneNo: phone,
+                        clientId: this.data.companyId,
+                        personCompany: this.data.companyName,
+                        photo: this.data.avatar
+                      },
+                      devices: this.data.choosedId
+                    },
+                    method: 'post',
+                    success: (res) => {
+                      console.log(res)
+                      if (res.data == "SUCCESS") {
+                        var pages = getCurrentPages();
+                        var prevPage = pages[pages.length - 2];  //上一个页面
+                        //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+                        prevPage.setData({
+                          isAdd: true,
+                        })
+                        wx.navigateBack()
+                        wx.showToast({
+                          title: '添加成功',
+                          icon: 'success',
+                          duration: 1000,
+                        })
+                      } else {
+                        wx.showToast({
+                          title: '添加失败，请稍后重试',
+                          icon: 'none',
+                          duration: 1000,
+                        })
+                      }
+                    }
+                  })
+                }else{
+                  wx.showToast({
+                    title: '抱歉！该手机号  重复，添加失败',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              }
             })
           }else{
             wx.showToast({
-              title: '添加失败，请稍后重试',
+              title: '抱歉！人员名称重复，添加失败',
               icon: 'none',
-              duration: 1000,
+              duration: 1500
             })
           }
         }

@@ -5,11 +5,16 @@
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
-        <input name='cmpname' placeholder='公司名称' focus></input>
+        <input name='cmpname' placeholder='单位名称' focus></input>
         <input name='address' placeholder='详细地址'></input>
+        <input name='device' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>
   </view>
-  <view class='footer'>添加公司</view>
+  <view class='footer'>添加单位</view>
 </view>
+<!-- 设备弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+</modal>

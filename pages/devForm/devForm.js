@@ -5,9 +5,9 @@ Page({
     bcgImg: '/images/bcgimg.jpg',
     devName:'',
     address:'',
-    serialnum: '',
+    serverIp: getApp().globalData.server,
     hidden: true,
-    array: ['WPA-PSK', 'WPA2-PSK','WEP'],
+    array: ['WPA-PSK', 'WPA2-PSK','WEP','无密码'],
     index: 0,
     disabled: false,
   },
@@ -24,6 +24,11 @@ Page({
     this.setData({
       hidden: !this.data.hidden
     })
+  },
+
+  //插入字符
+  insertStr(soure, start, newStr){
+    return soure.slice(0, start) + newStr + soure.slice(start);
   },
 
   commit(e) {
@@ -46,6 +51,17 @@ Page({
       })
       return
     }
+    var myreg = /[0-9a-zA-Z]{16}/;
+    if (!myreg.test(values.activationCode)){
+      wx.showToast({
+        title: '请输入16位字母或数字组合',
+        icon: 'none',
+      })
+      return
+    }
+    var insertStr = this.insertStr
+    var activationCode = insertStr(insertStr(insertStr(values.activationCode, 4, "-"), 9, "-"), 14, "-")
+    console.log(activationCode)
     if (values.netType=='1'){
       if (!values.wfName.replace(/\s+/g, '')) {
         wx.showToast({
@@ -54,27 +70,31 @@ Page({
         })
         return
       }
-      if (!values.wfPassword.replace(/\s+/g, '')) {
-        wx.showToast({
-          title: '请输入wifi密码',
-          icon: 'none',
-        })
-        return
-      }
-      if (values.wfPassword != values.checkPassword){
-        wx.showToast({
-          title: '密码不一致！请重新输入',
-          icon: 'none',
-        })
-        return
-      }
+      if(!this.data.index==3){
+        if (!values.wfPassword.replace(/\s+/g, '')) {
+          wx.showToast({
+            title: '请输入wifi密码',
+            icon: 'none',
+          })
+          return
+        }
+        if (values.wfPassword != values.checkPassword) {
+          wx.showToast({
+            title: '密码不一致！请重新输入',
+            icon: 'none',
+          })
+          return
+        }
+      }  
     }
+
 
     //二维码数据处理
     var codeJD={
-      "devId": values.serialnum,
+      "serverIp": getApp().globalData.server,
       "devName": values.name,
       "address": values.address,
+      "activationCode": activationCode,
       "clientId": app.globalData.admin.clientId,
       "regionId": app.globalData.admin.regionId,
       "netType": values.netType,
@@ -84,59 +104,10 @@ Page({
       codeJD.wfPassword = values.wfPassword
       codeJD.netSecurity = values.netSecurity
     }
-    
-    if(this.data.disabled){
-      wx.reLaunch({
-        url: '../qrcode/qrcode?data=' + JSON.stringify(codeJD),
-      })
-    }else{
-      wx.request({
-        url: app.globalData.server + '/DoorDevice/registerDevice.do',
-        data: {
-          devId: values.serialnum,
-          devName: values.name,
-          address: values.address,
-          clientId: app.globalData.admin.clientId,
-          regionId: app.globalData.admin.regionId
-        },
-        method: 'post',
-        success: function (res) {
-          console.log(res)
-          if (res.data == "SUCCESS") {
-            var pages = getCurrentPages();
-            var currPage = pages[pages.length - 1];   //当前页面
-            var prevPage = pages[pages.length - 2];  //上一个页面
-            //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-            var index = that.data.index
-            prevPage.setData({
-              isAdd: true
-            })
-            wx.reLaunch({
-              url: '../qrcode/qrcode?data=' + JSON.stringify(codeJD),
-            })
-            wx.showToast({
-              title: '添加成功',
-              icon: 'success',
-              duration: 1500,
-            })
-          } else {
-            wx.showToast({
-              title: '已添加该设备！不能再次添加',
-              icon: 'none',
-              duration: 1500,
-            })
-          }
-
-        },
-        fail: function (res) {
-          wx.showToast({
-            title: '网路开小差，请稍后再试',
-            icon: 'none',
-            duration: 1500,
-          })
-        }
-      }) 
-    }
+  
+    wx.reLaunch({
+      url: '../qrcode/qrcode?data=' + JSON.stringify(codeJD),
+    })
   },
 
   /**
@@ -152,19 +123,19 @@ Page({
         timingFunc: 'easeIn'
       }
     })
-    if(typeof(options.data)!="undefined"){
-      var json = JSON.parse(options.data) 
-      this.setData({
-        serialnum: json.deviceId||json.devId||'',
-        devName: json.devName||'',
-        address: json.devAddr || ''
-      })
-    }
-    if (typeof (options.tag) != "undefined"){
-      this.setData({
-        disabled: true
-      })
-    }
+    // if(typeof(options.data)!="undefined"){
+    //   var json = JSON.parse(options.data) 
+    //   this.setData({
+    //     serialnum: json.deviceId||json.devId||'',
+    //     devName: json.devName||'',
+    //     address: json.devAddr || ''
+    //   })
+    // }
+    // if (typeof (options.tag) != "undefined"){
+    //   this.setData({
+    //     disabled: true
+    //   })
+    // }
   },
 
   /**

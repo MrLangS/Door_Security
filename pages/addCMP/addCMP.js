@@ -1,4 +1,7 @@
 var app = getApp()
+var pre_checkedDev = []
+var pre_checkedId = []
+var app = getApp()
 Page({
 
   /**
@@ -6,6 +9,75 @@ Page({
    */
   data: {
     photo: '',
+    devices: [],
+    pre_devices: [],
+    hiddenmodal: true,
+    choosedDEV: [],
+    checkedDev: [],
+    checkedId: [],
+    choosedId: [],
+  },
+  chooseDev: function () {
+    var that = this
+    this.setData({
+      hiddenmodal: false
+    })
+    console.log('hello')
+    this.setData({
+      pre_devices: this.data.devices
+    })
+    console.log("记录进入前的设备列表:")
+    console.log(this.data.pre_devices)
+    pre_checkedDev = [].concat(this.data.checkedDev)
+    pre_checkedId = [].concat(this.data.checkedId)
+  },
+  cancel: function () {
+    this.setData({
+      hiddenmodal: true,
+      devices: this.data.pre_devices,
+      checkedDev: pre_checkedDev,
+      checkedId: pre_checkedId
+    });
+  },
+  confirm: function () {
+    this.setData({
+      hiddenmodal: true,
+      choosedDEV: this.data.checkedDev,
+      choosedId: this.data.checkedId
+    })
+  },
+  //多选
+  userCheck: function (e) {
+    let index = e.currentTarget.dataset.id;//获取用户当前选中的索引值
+    let checkBox = this.data.devices;
+    if (checkBox[index].checked) {
+      this.data.devices[index].checked = false;
+    } else {
+      this.data.devices[index].checked = true;
+    }
+    this.setData({ devices: this.data.devices })
+
+    //返回用户选中的值
+    let value = checkBox.filter((item, index) => {
+      return item.checked == true;
+    })
+    var checkedDev = []
+    var checkedId = []
+    for (var i = 0; i < value.length; i++) {
+      var item = value[i].devName
+      var itemId = value[i].devId
+      checkedDev.push(item)
+      checkedId.push(itemId)
+    }
+    this.setData({
+      checkedDev: checkedDev,
+      checkedId: checkedId
+    })
+    console.log(this.data.checkedDev)
+    console.log("选择进行时的设备列表:")
+    console.log(this.data.devices)
+    console.log("选择进行时的过去设备列表:")
+    console.log(this.data.pre_devices)
   },
   //上传公司图片
   chooseImg: function () {
@@ -113,7 +185,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
+      method: 'post',
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          devices: res.data
+        })
+      }
+    })
   },
 
   /**

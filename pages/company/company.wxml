@@ -1,6 +1,6 @@
 <view class='wrapper'>
   <view class='new' catchtap='newCMP'>
-    <view>新增公司</view>
+    <view>新增单位</view>
   </view>
   <block wx:for="{{companys}}" wx:for-item="company" wx:key>
     <view class='card profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
@@ -9,7 +9,7 @@
           <image class='avatar' src='{{company.clientLogoURL}}' wx:if='{{company.clientLogoURL}}'></image>
           <image class='avatar' src='/images/cmpany.png' wx:else></image>
           <view class='text'>
-            <view class='name'>{{company.name || '公司名称'}}</view>
+            <view class='name'>{{company.name || '单位名称'}}</view>
             <view>{{company.addr || '暂无地址'}}</view>
           </view>
         </view>

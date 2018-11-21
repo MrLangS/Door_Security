@@ -19,6 +19,50 @@
       <view class='count'>{{dataArr[2] || '未知'}}</view>
     </view>
   </view>
+  <!-- 网络状态 -->
+  <view class='t'>
+    <!-- <view class='title'>
+      <view>网络</view>
+    </view> -->
+    <view class='content'>
+      <view class='item'>
+        <view>
+          <view>设备网络状态</view>
+          <view class='tip'>
+            绿色表示状态良好，红色表示状态异常
+          </view>
+        </view>
+        <image class='wifi' src='{{netStatus?"/images/good.png":"/images/bad.png"}}'></image>
+        <!-- <icon wx:if='{{netStatus}}' type="success" size="20"/>
+        <icon wx:if='{{!netStatus}}' type="cancel" size="20"/> -->
+        <!-- <switch color='#40a7e7' checked='{{setting.forceUpdate}}' bindchange='switchChange' data-switchParam='forceUpdate'></switch> -->
+      </view>
+    </view>
+  </view>
+  <!-- 远程控制开关门 -->
+  <view class='t'>
+    <view class='title'>
+      <view>门控制</view>
+    </view>
+    <view class='content sub'>
+      <view class='subtitle'>自动处理</view>
+      <view class='item'>
+        <view>
+          <view>当前状态：{{autoStatus?'开':'关'}}</view>
+          <view class='tip'>开启时门由设备自动控制</view>
+        </view>
+        <switch color='#40a7e7' bindchange='switchAuto' checked='{{autoStatus}}'></switch>
+      </view>
+      <view class='subtitle' hidden='{{autoStatus}}'>强制处理</view>
+      <view class='item' hidden='{{autoStatus}}'>
+        <view>
+          <view>门是否开启：{{doorStatus?'开':'关'}}</view>
+          <view class='tip'>“开”表示强制开门，“关”表示强制关门</view>
+        </view>
+        <switch color='#40a7e7' bindchange='switchDoor' checked='{{doorStatus}}'></switch>
+      </view>
+    </view>
+  </view>
 
   <!-- 设置部分 -->
   <view class='setting'>
@@ -54,48 +98,6 @@
       </view>
     </view>
   </view>
-  <!-- 远程控制开关门 -->
-  <view class='t'>
-    <view class='title'>
-      <view>门控制</view>
-    </view>
-    <view class='content sub'>
-      <view class='subtitle'>自动处理</view>
-      <view class='item'>
-        <view>
-          <view>当前状态：{{autoStatus?'开':'关'}}</view>
-          <view class='tip'>开启时门由设备自动控制</view>
-        </view>
-        <switch color='#40a7e7' bindchange='switchAuto' checked='{{autoStatus}}'></switch>
-      </view>
-      <view class='subtitle' hidden='{{autoStatus}}'>强制处理</view>
-      <view class='item' hidden='{{autoStatus}}'>
-        <view>
-          <view>门是否开启：{{doorStatus?'开':'关'}}</view>
-          <view class='tip'>“开”表示强制开门，“关”表示强制关门</view>
-        </view>
-        <switch color='#40a7e7' bindchange='switchDoor' checked='{{doorStatus}}'></switch>
-      </view>
-    </view>
-  </view>
-  <!-- 网络状态 -->
-  <view class='t'>
-    <view class='title'>
-      <view>网络</view>
-    </view>
-    <view class='content'>
-      <view class='item'>
-        <view>
-          <view>设备网络状态</view>
-          <view class='tip'>
-            绿色表示状态良好，红色表示状态异常
-          </view>
-        </view>
-        <image class='wifi' src='{{netStatus?"/images/good.png":"/images/bad.png"}}'></image>
-        <!-- <icon wx:if='{{netStatus}}' type="success" size="20"/>
-        <icon wx:if='{{!netStatus}}' type="cancel" size="20"/> -->
-        <!-- <switch color='#40a7e7' checked='{{setting.forceUpdate}}' bindchange='switchChange' data-switchParam='forceUpdate'></switch> -->
-      </view>
-    </view>
-  </view>
+  
+  
 </view>
