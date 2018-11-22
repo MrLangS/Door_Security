@@ -29,7 +29,7 @@
         <block wx:if='{{!hidden}}'>
           <view class='item'>
             <label>wifi名称</label>
-            <input name='wfName'></input>
+            <input name='wfName' disabled='true' bindtap='showModal' value='{{wifiName}}'></input>
           </view>
           <view class='item'>
             <label>安全类型</label>
@@ -56,3 +56,15 @@
   </view>
   <view class='footer'>门禁管理</view>
 </view>
+<!-- 内部人员选择弹窗 -->
+<modal hidden="{{modal}}" title="wifi选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm01"
+bindcancel="cancel01">
+  <radio-group bindchange="wifiradioChange">
+    <label class="checkrad" wx:key wx:for="{{wifiNameList}}">
+      <view>
+        <radio value="{{item}}" checked="{{item.checked}}"/>{{item}}
+      </view>
+    </label>
+  </radio-group>
+  <view class='none' wx:if="{{!wifiNameList.length}}">未检测到wifi</view>
+</modal>

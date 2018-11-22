@@ -6,6 +6,10 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.checkrad{
+  display: flex;
+  flex-direction: column;
+}
 .code{
   display: flex;
   flex-direction: row;
@@ -21,6 +25,9 @@
   left: 0;
   /* background: #40a7e7; */
   /* background: linear-gradient(to bottom, #73C6F1, #50B5EC); */
+}
+.none{
+  text-align: center;
 }
 .item{
   display: flex;

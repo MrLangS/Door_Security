@@ -9,9 +9,9 @@ App({
   globalData: {
     sysWXUser: null,
     openid: null,
-    server: 'http://192.168.0.251:8080/ebank',
+    // server: 'http://192.168.0.251:8080/ebank',
     // server: 'https://doorcontrol.faceos.com/FaceMonitorWeb',
-    // server: 'http://doortest.faceos.com/FaceMonitorWeb',
+    server: 'http://doortest.faceos.com/FaceMonitorWeb',
     admin: null
   }
 })

@@ -1,9 +1,9 @@
 {
   "pages":[
+    "pages/devForm/devForm",
     "pages/register/phone/phone",
     "pages/register/userInfo/userInfo",
     "pages/searchRes/searchRes",
-    "pages/devForm/devForm",
     "pages/qrcode/qrcode",
     "pages/register/result/result",
     "pages/device/device",

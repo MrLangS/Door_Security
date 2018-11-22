@@ -84,45 +84,71 @@ Page({
         var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do"
         var tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
-        if (tempFilePaths.length > 0) {
-          wx.uploadFile({
-            url: uploadUserUrl,
-            filePath: tempFilePaths[0],
-            name: 'personPhoto',
-            header: { "Content-Type": "multipart/form-data" },
-            success: function (res) {
-              console.log('上传图片请求...')
-              var data = JSON.parse(res.data)
-              console.log(data)
-              if (data.quality == 0) {
-                that.setData({
-                  avatar: data.photoURL,
-                  quality: 0,
-                })
-                wx.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '上传失败,图片须为本人清晰头像',
-                  icon: 'none',
-                  duration: 1500
-                })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            console.log('data:image/png;base64,' + res.data)
+            console.log(typeof (res.data))
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                personPhoto: res.data
+              },
+              success: (res)=>{
+                console.log('上传图片请求结果：')
+                console.log(res)
               }
-            },
-            fail: function (res) {
-              console.log('上传失败...')
-              wx.showModal({
-                title: '提示',
-                content: '上传失败',
-                showCancel: false
-              })
-            },
-          })
-        }
+            })
+          }
+        })
+        // wx.getImageInfo({
+        //   src: res.tempFilePaths[0],
+        //   success(res) {
+        //     console.log('照片的本地路径：')
+        //     console.log(res.path)
+        //   }
+        // })
 
+        // if (tempFilePaths.length > 0) {
+        //   wx.uploadFile({
+        //     url: uploadUserUrl,
+        //     filePath: tempFilePaths[0],
+        //     name: 'personPhoto',
+        //     header: { "Content-Type": "multipart/form-data" },
+        //     success: function (res) {
+        //       console.log('上传图片请求...')
+        //       var data = JSON.parse(res.data)
+        //       console.log(data)
+        //       if (data.quality == 0) {
+        //         that.setData({
+        //           avatar: data.photoURL,
+        //           quality: 0,
+        //         })
+        //         wx.showToast({
+        //           title: '上传成功',
+        //           icon: 'success',
+        //           duration: 1500
+        //         })
+        //       } else {
+        //         wx.showToast({
+        //           title: '上传失败,图片须为本人清晰头像',
+        //           icon: 'none',
+        //           duration: 1500
+        //         })
+        //       }
+        //     },
+        //     fail: function (res) {
+        //       console.log('上传失败...')
+        //       wx.showModal({
+        //         title: '提示',
+        //         content: '上传失败',
+        //         showCancel: false
+        //       })
+        //     },
+        //   })
+        // }
       },
     })
   },

@@ -1,4 +1,16 @@
 var app = getApp()
+var preWifiName=''
+var prewifiNameList=[]
+Array.prototype.pushNoRepeat = function () {
+  for (var i = 0; i < arguments.length; i++) {
+    var ele = arguments[i];
+    if(typeof(ele)!="undefined"&&ele!=''){
+      if (this.indexOf(ele) == -1) {
+        this.push(ele);
+      }
+    }
+  }
+};
 Page({
 
   data: {
@@ -8,7 +20,10 @@ Page({
     serverIp: getApp().globalData.server,
     hidden: true,
     array: ['WPA-PSK', 'WPA2-PSK','WEP','无密码'],
+    modal: true,
     index: 0,
+    wifiNameList: [],
+    wifiName: '',
     disabled: false,
   },
 
@@ -26,6 +41,32 @@ Page({
     })
   },
 
+  wifiradioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    this.setData({
+      wifiName: e.detail.value
+    })
+  },
+  showModal: function(){
+    preWifiName=this.data.wifiName
+    prewifiNameList=this.data.wifiNameList
+    this.setData({
+      modal: !this.data.modal
+    })
+  },
+  cancel01: function () {
+    this.setData({
+      modal: true,
+      wifiName: preWifiName,
+      wifiNameList: prewifiNameList
+    })
+  },
+  confirm01: function () {
+    this.setData({
+      modal: true,
+    })
+    console.log(this.data.wifiNameList)
+  },
   //插入字符
   insertStr(soure, start, newStr){
     return soure.slice(0, start) + newStr + soure.slice(start);
@@ -114,6 +155,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that=this
     //设置导航栏背景色
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
@@ -122,6 +164,26 @@ Page({
         duration: 200,
         timingFunc: 'easeIn'
       }
+    })
+    wx.startWifi({
+      success: (res)=>{
+        console.log(res)
+        wx.getWifiList({
+        })
+      }
+    }) 
+    wx.onGetWifiList(function (CALLBACK) {
+      var a = CALLBACK.wifiList;
+      var obj=new Object()
+      var arr=[]
+      for(let i in a){
+        arr.pushNoRepeat(a[i].SSID)
+      }
+      that.setData({
+        wifiNameList: arr
+      })
+      // var array=arr.filter(function(wifiname){return wifiname!=''})
+      console.log(arr);
     })
     // if(typeof(options.data)!="undefined"){
     //   var json = JSON.parse(options.data) 
