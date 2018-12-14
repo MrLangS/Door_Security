@@ -25,6 +25,20 @@
       <view class='count'>{{dataArr[2] || '未知'}}</view>
     </view>
   </view>
+  <!-- 查看设备权限部分 -->
+  <view class='card items'>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modifyCompDevs/modifyCompDevs?devs={{devs}}&id={{company.id}}&img={{dataArr[0]}}&name={{dataArr[1]}}' hover-class='hover-class'>
+      <view class='title'>
+        <view>设备权限</view>
+      </view>
+      <!-- <view class='count'>查看</view> -->
+      <view class='more'>
+        <image src='/images/profile_arrow.png'></image>
+      </view>
+    </view>
+    
+  </view>
+
   <!-- 管理人员部分 -->
   <view class='card items'>
     <view class='item'>
@@ -33,17 +47,17 @@
       </view> 
       <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}人</view> 
     </view>
-    <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+    <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' data-index="{{index}}">
       <view class='content'>
         <view class='title'>
-          <image src='{{item.avatar}}'></image>
-          <view>{{item.name || '未知'}}</view>
+          <image src='{{item.userPhotoURL?item.userPhotoURL:"/images/empty_avatar_user.png"}}'></image>
+          <view>{{item.userName || '未知'}}</view>
         </view>
-        <view class='more'>
-          <image src='/images/profile_arrow.png'></image>
+        <view class='count' catchtap='makeCall' data-index="{{index}}">
+          <view>{{item.phoneNum}}</view>
         </view>
       </view>
-      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+      <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
     </view>
   </view>
   <!-- 普通员工部分 -->
@@ -52,7 +66,7 @@
       <view class='title'>
         <view style='color:#40a7e7;'>普通员工</view>   
       </view> 
-      <view style='color:#40a7e7;' class='count'>{{staff.length || 0}}人</view> 
+      <view style='color:#40a7e7;' class='count'>{{totalCount || 0}}人</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{staff}}" wx:key bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-flag='1' data-index="{{index}}">
       <view class='content'>

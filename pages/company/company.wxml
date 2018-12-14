@@ -1,23 +1,24 @@
-<view class='wrapper'>
-  <view class='new' catchtap='newCMP'>
-    <view>新增单位</view>
+<view class='{{isMajorUser? "wrapper":""}}'>
+  <view class='new' hidden='{{!isMajorUser}}' hover-class='hover-class' catchtap='newCMP'>
+    <view><image class='add' src='/images/add.png'></image></view>
+    <view>新增</view>
   </view>
   <block wx:for="{{companys}}" wx:for-item="company" wx:key>
-    <view class='card profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+    <view class='box-shadow profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
         <view class='info'>
-          <image class='avatar' src='{{company.clientLogoURL}}' wx:if='{{company.clientLogoURL}}'></image>
+          <image class='avatar' src='{{company.client.clientLogoURL}}' wx:if='{{company.client.clientLogoURL}}'></image>
           <image class='avatar' src='/images/cmpany.png' wx:else></image>
           <view class='text'>
-            <view class='name'>{{company.name || '单位名称'}}</view>
-            <view>{{company.addr || '暂无地址'}}</view>
+            <view class='name'>{{company.client.name || '未知单位'}}</view>
+            <view>{{company.client.addr || '未知地址'}}</view>
           </view>
         </view>
         <view class='more'>
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
-      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+      <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
     </view>
   </block>
 </view>

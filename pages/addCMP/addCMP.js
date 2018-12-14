@@ -89,43 +89,49 @@ Page({
       success: function (res) {
         var uploadUserUrl = getApp().globalData.server + "/ClientInfoAction!uploadPhoto.do"
         var tempFilePaths = res.tempFilePaths
-        if (tempFilePaths.length > 0) {
-          wx.uploadFile({
-            url: uploadUserUrl,
-            filePath: tempFilePaths[0],
-            name: 'logoPhoto',
-            header: { "Content-Type": "multipart/form-data" },
-            success: function (res) {
-              console.log('上传图片请求...')
-              var data = JSON.parse(res.data)
-              console.log(data)
-              if (typeof(data.photoURL)!="undefined") {
-                that.setData({
-                  photo: data.photoURL,
-                })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                logoPhoto: res.data
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                var data = res.data
+                console.log(data)
+                if (typeof (data.photoURL) != "undefined") {
+                  that.setData({
+                    photo: data.photoURL,
+                  })
+                  wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,请重试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
                 wx.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '上传失败,请重试!',
-                  icon: 'loading',
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
                   duration: 1500
                 })
               }
-            },
-            fail: function (res) {
-              console.log('上传失败...')
-              wx.showModal({
-                title: '提示',
-                content: '上传失败',
-                showCancel: false
-              })
-            },
-          })
-        }
+            })
+          }
+        })
 
       },
     })
@@ -137,7 +143,7 @@ Page({
     let address = values.address || ''
     if (!cmpname.replace(/\s+/g, '')) {
       wx.showToast({
-        title: '请输入公司名称',
+        title: '请输入单位名称',
         icon: 'none',
       })
       return
@@ -150,13 +156,15 @@ Page({
       return
     }
     console.log(values)
+    console.log(that.data.choosedId)
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!addCompany.do',
       data:{
         name: values.cmpname,
         addr: values.address,
         clientLogoURL: that.data.photo,
-        superiorClientId: app.globalData.admin.clientId
+        superiorClientId: app.globalData.admin.clientId,
+        devices: that.data.choosedId
       },
       method: 'post',
       success: function(res){

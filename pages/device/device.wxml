@@ -1,6 +1,8 @@
-<view class='wrapper'>
-  <view class='new' catchtap='newDEV'>
-    <view>新增设备</view>
+<view class='{{isMajorUser? "wrapper":""}}'>
+  
+  <view class='new' hidden='{{!isMajorUser}}' hover-class='hover-class' catchtap='newDEV'>
+    <view><image class='add' src='/images/add.png'></image></view>
+    <view>新增</view>
   </view>
   <view class='no-box' wx:if="{{!devices.length}}">
     <view class='no-record'>
@@ -8,15 +10,16 @@
     </view> 
   </view>
   
+  
   <block wx:for="{{devices}}" wx:key>
-    <view class='card profile {{item.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
+    <view class=' box-shadow profile {{item.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
         <view class='info'>
           <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
           <image class='avatar' src='/images/device.png' wx:else></image>
           <view class='text'>
-            <view class='name'>{{item.devName || '设备名称'}}</view>
-            <view>{{item.devAddr || '设备地址'}}</view>
+            <view class='name'>{{item.devName || '未知设备'}}</view>
+            <view>{{item.devAddr || '未知地址'}}</view>
           </view>
         </view>
         <view class='more'>
@@ -24,7 +27,7 @@
         </view>
       </view>
       <!-- <view class="code" catchtap="code" data-index="{{index}}">生成二维码</view> -->
-      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+      <view class="del" hidden='{{!isMajorUser}}' catchtap="del" data-index="{{index}}">删除</view>
     </view>
   </block>
 </view>

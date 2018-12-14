@@ -8,11 +8,67 @@ Page({
   data: {
     dataArr: [],
     currentVolume: 0,
-    volumeTip: true,
+    radarStatus: true,
     netStatus: true,//网络状态
     autoStatus: true,
     doorStatus: true,
     isModify: false,
+    isMajorUser: true,
+    activeBtn: false,
+    voiceArr: ['姓名语音','验证语音','滴声'],
+    voiceIdx: 0,
+    distanceArr: ['2m', '1m'],
+    distanceIdx: 0,
+  },
+
+  // 雷达控制
+  switchChange: function(e){
+    var that = this
+    var data = that.data.dataArr
+    this.setData({
+      radarStatus: e.detail.value
+    })
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: that.data.radarStatus? '1' : '0' }],
+      method: 'post',
+      success: (res) => {
+        
+      }
+    })
+  },
+
+  //开门按钮点击事件
+  activeBtn: function(e){
+    var that=this
+    that.setData({
+      activeBtn:true
+    })
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/openDoor.do?devId=' + this.data.dataArr[1],
+      method: 'post',
+      success: (res)=>{
+        if(res.data=='SUCCESS'){
+          wx.showToast({
+            title: '正在开启，请耐心等候!',
+            icon: 'none',
+            duration: 700,
+          })
+        }else{
+          wx.showToast({
+            title: '出现故障',
+            icon: 'none',
+            duration: 500,
+          })
+        }
+      }
+    })
+    setTimeout( function(){
+      that.setData({
+        activeBtn: false
+      })
+    }, 500)
   },
 
   //设备音量设置
@@ -24,6 +80,9 @@ Page({
   volumeBindChange: function(e){
     var that=this
     console.log("一次拖动完成!")
+    that.setData({
+      currentVolume: e.detail.value
+    })
     var data=this.data.dataArr
     console.log(data)
     wx.request({
@@ -37,22 +96,40 @@ Page({
     })
   },
   //语音提示设置
-  switchChange: function(e){
-    var that=this
+  bindVoicePicker: function(e){
+    var that = this
     var data = this.data.dataArr
     this.setData({
-      volumeTip: e.detail.value
+      voiceIdx: e.detail.value
     })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][1].id, key: data[3][1].key, keyValue: that.data.volumeTip? 0 : 1 }],
+        { devId: data[1], id: data[3][1].id, key: data[3][1].key, keyValue: that.data.voiceIdx}],
       method: 'post',
       success: (res) => {
         console.log(res)
       }
     })
   },
+  //距离设置
+  bindDistancePicker: function (e) {
+    var that = this
+    var data = this.data.dataArr
+    this.setData({
+      distanceIdx: e.detail.value
+    })
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: data[3][4].id, key: data[3][4].key, keyValue: that.data.distanceIdx == '0' ? '0.1' : '0.3' }],
+      method: 'post',
+      success: (res) => {
+        console.log(res)
+      }
+    })
+  },
+
   //自动开门设置
   switchAuto(e){
     this.setData({
@@ -102,8 +179,44 @@ Page({
       }
     })
   },
+  //检查更新
+  updateSoft: function(){
+    wx.request({
+      url: app.globalData.server + '/DoorDevice/updateDeviceSW.do?devId=' + this.data.dataArr[1],
+      data:{
+        devId: this.data.dataArr[1],
+      },
+      method: 'post',
+      success: (res)=>{
+        console.log(res)
+        if(res.data=='SUCCESS'){
+          wx.showToast({
+            title: '已通知设备自动更新',
+            icon: 'none',
+            duration: 1500,
+          })
+        }else{
+          wx.showToast({
+            title: '当前设备软件已是最新版本',
+            icon: 'none',
+            duration: 1500,
+          })
+        }
+      },
+      fail: (res)=>{
+        wx.showToast({
+          title: '网络开小差，请稍后再试',
+          icon: 'none',
+          duration: 1500,
+        })
+      }
+    })
+  },
   //列表项操作
   navigateItem: function (e) {
+    this.setData({
+      isModify: false,
+    })
     wx.navigateTo({
       url: e.currentTarget.dataset.url,
     })
@@ -116,11 +229,29 @@ Page({
     if (typeof (options.data) != "undefined") {
       var json = JSON.parse(options.data)
       // var arr = util.JsonToArray(JSON.parse(options.data))
-      var arr = [json.devName, json.devId, json.devAddr, json.deviceParameters, json.devStatus, json.doorStatus, json.id]
+      var arr = [json.devName, json.devId, json.devAddr, json.deviceParameters, json.devStatus, json.doorStatus, json.id, json.swVersion, json.swVersionName]
+
+      wx.request({
+        url: app.globalData.server + '/DoorDevice/isNewestVersion.do?currentVersion=' + arr[7],
+        method: 'post',
+        success: (res)=>{
+          if(res.data == "SUCCESS"){
+            wx.showToast({
+              title: '发现新版本，可在设置中通知设备更新',
+              icon: 'none',
+              duration: 1500,
+            })
+          }
+        }
+      })
+
       this.setData({
+        isMajorUser: app.globalData.isMajorUser,
         dataArr: arr,
         currentVolume: arr[3][0].keyValue,
-        volumeTip: arr[3][1].keyValue == 0 ? true : false,
+        voiceIdx: arr[3][1].keyValue,
+        distanceIdx: arr[3][4].keyValue == '0.1' ? '0':'1',
+        radarStatus: arr[3][3].keyValue == '1' ? true : false,
         autoStatus: arr[5]=='03'?true:false,
         netStatus: arr[4]=='01'?true:false
       })

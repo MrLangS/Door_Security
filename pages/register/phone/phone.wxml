@@ -6,7 +6,7 @@
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
-        <input name='phoneNumber' bindinput='getPhoneValue' placeholder='手机号' focus></input>
+        <input name='phoneNumber' bindinput='getPhoneValue' placeholder='手机号'></input>
         <view class='code'>
           <input name='code' bindinput='getCodeValue' placeholder='验证码' value='{{code}}'></input>
           <button class='codeBtn' bindtap='getVerificationCode' disabled='{{disabled}}' >{{codename}}</button>
@@ -17,3 +17,19 @@
   </view>
   <view class='footer'>门禁管理</view>
 </view>
+<!-- 内部人员选择弹窗 -->
+<modal hidden="{{modal}}" title="内部用户选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm"
+bindcancel="cancel">
+  <radio-group bindchange="radioChange">
+    <label class="checkbox" wx:key wx:for="{{list}}">
+      <view>
+        <radio value="{{item.id}}" checked="{{item.checked}}"/>{{item.userName}} | 所属单位·{{item.clientName}}
+      </view>
+    </label>
+  </radio-group>
+</modal>
+<!-- 选择弹窗 -->
+<modal hidden="{{modalTo}}" title="提示" confirm-text="原用户" cancel-text="新注册" bindconfirm="confirmTo"
+bindcancel="cancelTo">
+  <view>检测到已存在用户</view>
+</modal>

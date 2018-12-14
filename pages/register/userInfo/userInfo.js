@@ -12,6 +12,7 @@ Page({
     quality: 1,
     username: '',//姓名
     company: '',
+    picId: 0,
   },
   commit(e) {
     var that=this
@@ -24,6 +25,7 @@ Page({
       json.username = values.username
       json.company = values.company
       json.avatar=this.data.avatar
+      json.picId=this.data.picId
       wx.chooseLocation({
         success: function (res) {
           console.log(res)
@@ -43,7 +45,8 @@ Page({
               latitude: json.latitude+'',
               username: json.username,
               phoneNum: json.phoneNumber,
-              userPhotoURL: json.avatar,
+              // userPhotoURL: json.avatar,
+              userPicId: json.picId,
               clientLogoURL: ''
             },
             header: {},
@@ -53,6 +56,7 @@ Page({
               console.log(res)
               app.globalData.sysWXUser = res.data.sysWXUser
               app.globalData.admin = res.data.admin
+              app.globalData.isMajorUser = true
               wx.redirectTo({
                 url: '../result/result',
               })
@@ -81,15 +85,14 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
-        var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do"
+        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
         var tempFilePaths = res.tempFilePaths
-        console.log(tempFilePaths)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
-            console.log('data:image/png;base64,' + res.data)
-            console.log(typeof (res.data))
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
             wx.request({
               url: uploadUserUrl,
               method: 'post',
@@ -99,56 +102,30 @@ Page({
               success: (res)=>{
                 console.log('上传图片请求结果：')
                 console.log(res)
+                if(res.data.msg=='ok'){
+                  that.setData({
+                    avatar: res.data.photoURL,
+                    picId: res.data.picId,
+                    quality: 0,
+                  })
+                }else{
+                  wx.showToast({
+                    title: '上传失败,图片须为本人清晰头像',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res)=>{
+                wx.showToast({
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
+                  duration: 1500
+                })
               }
             })
           }
         })
-        // wx.getImageInfo({
-        //   src: res.tempFilePaths[0],
-        //   success(res) {
-        //     console.log('照片的本地路径：')
-        //     console.log(res.path)
-        //   }
-        // })
-
-        // if (tempFilePaths.length > 0) {
-        //   wx.uploadFile({
-        //     url: uploadUserUrl,
-        //     filePath: tempFilePaths[0],
-        //     name: 'personPhoto',
-        //     header: { "Content-Type": "multipart/form-data" },
-        //     success: function (res) {
-        //       console.log('上传图片请求...')
-        //       var data = JSON.parse(res.data)
-        //       console.log(data)
-        //       if (data.quality == 0) {
-        //         that.setData({
-        //           avatar: data.photoURL,
-        //           quality: 0,
-        //         })
-        //         wx.showToast({
-        //           title: '上传成功',
-        //           icon: 'success',
-        //           duration: 1500
-        //         })
-        //       } else {
-        //         wx.showToast({
-        //           title: '上传失败,图片须为本人清晰头像',
-        //           icon: 'none',
-        //           duration: 1500
-        //         })
-        //       }
-        //     },
-        //     fail: function (res) {
-        //       console.log('上传失败...')
-        //       wx.showModal({
-        //         title: '提示',
-        //         content: '上传失败',
-        //         showCancel: false
-        //       })
-        //     },
-        //   })
-        // }
       },
     })
   },

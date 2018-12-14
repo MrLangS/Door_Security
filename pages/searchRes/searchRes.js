@@ -196,7 +196,7 @@ Page({
           console.log("当前页码:" + that.data.pageNum)
           let data = res.data
           console.log(data)
-          let list = data
+          let list = data.persons
           if (!util.isEmptyObject(list)) {
             let pageNum = this.data.pageNum + 1
             this.setData({

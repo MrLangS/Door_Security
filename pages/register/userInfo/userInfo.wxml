@@ -3,6 +3,7 @@
   <view class='top'>
     <view class='avator'>
       <image bindtap='chooseImg' src='{{avatar?avatar:"/images/empty_avatar_user.png"}}' background-size="cover"></image>
+      <view class='tip'>头像</view>
     </view>
     <form class='form' bindsubmit='commit'>
       <view class='border'>

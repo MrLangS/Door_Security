@@ -49,8 +49,6 @@ Page({
       choosedDEV: this.data.checkedDev,
       choosedId: this.data.checkedId
     })
-    console.log(typeof(this.data.choosedId))
-    console.log(this.data.choosedId)
     wx.request({
       url: getApp().globalData.server + '/TransitPerson/updatePersonFromWx.do',
       data: {
@@ -106,49 +104,48 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
-        var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do?photoId=" + that.data.peo.person.picId
+        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
         var tempFilePaths = res.tempFilePaths
-        if (tempFilePaths.length > 0) {
-          var dataArr=that.data.dataArr
-          wx.uploadFile({
-            url: uploadUserUrl,
-            filePath: tempFilePaths[0],
-            name: 'personPhoto',
-            data: { photoId: that.data.peo.person.picId},
-            header: { "Content-Type": "multipart/form-data" },
-            success: function (res) {
-              console.log('上传图片请求...')
-              var data = JSON.parse(res.data)
-              console.log(res)
-              dataArr[0] = data.photoURL
-              if (data.quality == 0) {
-                that.setData({
-                  dataArr: dataArr
-                })
+        var dataArr = that.data.dataArr
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                personPhoto: res.data,
+                personId: that.data.peo.person.id
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                console.log(res)
+                if (res.data.msg == 'ok') {
+                  dataArr[0] = res.data.photoURL
+                  that.setData({
+                    dataArr: dataArr
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,图片须为本人清晰头像',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
                 wx.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '上传失败,图片须为本人清晰头像!',
+                  title: '网络开小差，请稍后再试',
                   icon: 'none',
                   duration: 1500
                 })
               }
-            },
-            fail: function (res) {
-              console.log('上传失败...')
-              wx.showModal({
-                title: '提示',
-                content: '上传失败',
-                showCancel: false
-              })
-            },
-          })
-        }
-
+            })
+          }
+        })
       },
     })
   },
@@ -169,6 +166,9 @@ Page({
 
   //列表项操作
   navigateItem: function (e) {
+    this.setData({
+      isModify: false,
+    })
     wx.navigateTo({
       url: e.currentTarget.dataset.url,
     })
@@ -177,8 +177,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.data)
-    if (typeof (options.data)!="undefined"){
+    if (typeof (options.data) != "undefined") {
       var json = JSON.parse(options.data)
       var arr = [json.person.photoURL, json.person.personName, json.person.phoneNo]
       this.setData({
@@ -210,7 +209,6 @@ Page({
         })
       }
     })
-    
   },
 
   /**

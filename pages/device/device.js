@@ -10,6 +10,7 @@ Page({
     startY: 0,
     data:{},
     isAdd: false,
+    isMajorUser: true,
   },
 
   newDEV: function(){
@@ -17,22 +18,6 @@ Page({
     wx.navigateTo({
       url: '../devForm/devForm',
     })
-    // var show
-    // wx.scanCode({
-    //   success: (res)=>{
-    //     show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
-    //     console.log("扫码结果类型"+typeof(res.result))
-    //     // var device = JSON.parse(res.result)
-    //     // that.data.devices.unshift(device)
-    //     // console.log(that.data.devices)
-    //     // that.setData({
-    //     //   devices: that.data.devices
-    //     // })
-    //     wx.navigateTo({
-    //       url: '../devForm/devForm?data=' + res.result,
-    //     })
-    //   },
-    // })
   },
 
   navigatItem: function (e) {
@@ -111,32 +96,40 @@ Page({
       content: '确定删除该设备吗？',
       success: function (res) {
         if (res.confirm) {
-          console.log(that.data.devices[index].id)
-          wx.request({
-            url: app.globalData.server + '/DoorDevice/deleteDevice.do?devId=' + that.data.devices[index].devId,
-            data: {},
-            method: 'post',
-            success: function (res) {
-              console.log(res)
-              if (res.data == "SUCCESS") {
-                that.data.devices.splice(index, 1)
-                that.setData({
-                  devices: that.data.devices
-                })
-                wx.showToast({
-                  title: '删除成功!',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '删除失败，请稍后再试!',
-                  icon: 'none',
-                  duration: 1500
-                })
+          if (that.data.devices[index].devStatus == '02'){
+            wx.showToast({
+              title: '设备在离线状态下不能被删除！',
+              icon: 'none',
+              duration: 1500,
+            })
+          }else{
+            wx.request({
+              url: app.globalData.server + '/DoorDevice/deleteDevice.do?devId=' + that.data.devices[index].devId,
+              data: {},
+              method: 'post',
+              success: function (res) {
+                console.log(res)
+                if (res.data == "SUCCESS") {
+                  that.data.devices.splice(index, 1)
+                  that.setData({
+                    devices: that.data.devices
+                  })
+                  wx.showToast({
+                    title: '删除成功!',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '删除失败，请稍后再试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
               }
-            }
-          })
+            })
+          }
+          
         }
       }
     })
@@ -155,12 +148,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    this.setData({
+      isMajorUser: app.globalData.isMajorUser
+    })
   },
 
   onShow: function () {
     var that = this;
-    console.log(app.globalData.admin.clientId)
     wx.request({
       url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',

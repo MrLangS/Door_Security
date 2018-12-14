@@ -5,20 +5,32 @@ var app=getApp()
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     companyId: 0,
     companyName: '',
     devices: [],
     pre_devices: [],
     avatar: '',
+    picId: 0,
     hiddenmodal: true,
     choosedDEV: [],
     checkedDev: [],
     checkedId: [],
     choosedId: [],
+    tag: false,
+    btnTag: false,
+    personName: '',
+    personPhone: '',
+  },
+  getName: function(e){
+    this.setData({
+      personName: e.detail.value
+    })
+  },
+  getPhone: function (e) {
+    this.setData({
+      personPhone: e.detail.value
+    })
   },
   chooseDev: function(){
     var that=this
@@ -85,6 +97,16 @@ Page({
 
   radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
+    this.setData({
+      tag: e.detail.value=='admin'? true : false
+    })
+    // if (e.detail.value == 'admin'){
+    //   wx.showToast({
+    //     title: '确认后需选择微信用户进行转发，并通知他填写手机号进行验证，对方验证通过后子管理员方能添加成功!',
+    //     icon: 'none',
+    //     duration: 6000,
+    //   })
+    // }
   },
   commit: function (e) {
     var that=this
@@ -94,83 +116,94 @@ Page({
     console.log(values)
     
     if (util.checkStaffForm(this,name,phone)){
-      
-      wx.request({
-        url: app.globalData.server + '/TransitPerson/isNameRepeated.do',
-        data: {
-          personName: name,
-          clientId: parseInt(that.data.companyId),
-        },
-        method: 'post',
-        success: (res) => {
-          console.log(res)
-          if(res.data){
-            //判断手机号
-            wx.request({
-              url: app.globalData.server + '/TransitPerson/isPhoneRepeated.do',
-              data: {
-                phoneNo: phone,
-                clientId: parseInt(that.data.companyId),
-              },
-              method: 'post',
-              success: (res) => {
-                console.log(res)
-                if (res.data) {
-                  wx.request({
-                    url: app.globalData.server + '/TransitPerson/addPersonFromWx.do',
-                    data: {
-                      person: {
-                        personName: name,
-                        phoneNo: phone,
-                        clientId: this.data.companyId,
-                        personCompany: this.data.companyName,
-                        photo: this.data.avatar
-                      },
-                      devices: this.data.choosedId
-                    },
-                    method: 'post',
-                    success: (res) => {
-                      console.log(res)
-                      if (res.data == "SUCCESS") {
-                        var pages = getCurrentPages();
-                        var prevPage = pages[pages.length - 2];  //上一个页面
-                        //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-                        prevPage.setData({
-                          isAdd: true,
-                        })
-                        wx.navigateBack()
-                        wx.showToast({
-                          title: '添加成功',
-                          icon: 'success',
-                          duration: 1000,
-                        })
-                      } else {
-                        wx.showToast({
-                          title: '添加失败，请稍后重试',
-                          icon: 'none',
-                          duration: 1000,
-                        })
-                      }
+      if(this.data.tag==false){
+        wx.request({
+          url: app.globalData.server + '/TransitPerson/isNameRepeated.do',
+          data: {
+            personName: name,
+            clientId: parseInt(that.data.companyId),
+          },
+          method: 'post',
+          success: (res) => {
+            console.log(res)
+            if (res.data) {
+              //判断手机号
+              wx.request({
+                url: app.globalData.server + '/TransitPerson/isPhoneRepeated.do',
+                data: {
+                  phoneNo: phone,
+                  clientId: parseInt(that.data.companyId),
+                },
+                method: 'post',
+                success: (res) => {
+                  console.log(res)
+                  if (res.data) {
+                    if (that.data.tag) {
+
+                    } else {
+                      wx.request({
+                        url: app.globalData.server + '/TransitPerson/addPersonFromWx.do',
+                        data: {
+                          person: {
+                            personName: name,
+                            phoneNo: phone,
+                            clientId: this.data.companyId,
+                            personCompany: this.data.companyName,
+                            picId: this.data.picId
+                          },
+                          devices: this.data.choosedId
+                        },
+                        method: 'post',
+                        success: (res) => {
+                          console.log(res)
+                          if (res.data == "SUCCESS") {
+                            var pages = getCurrentPages();
+                            var prevPage = pages[pages.length - 2];  //上一个页面
+                            //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+                            prevPage.setData({
+                              isAdd: true,
+                            })
+                            wx.navigateBack()
+                            wx.showToast({
+                              title: '添加成功',
+                              icon: 'success',
+                              duration: 1000,
+                            })
+                          } else {
+                            wx.showToast({
+                              title: '添加失败，请确认后重试',
+                              icon: 'none',
+                              duration: 1000,
+                            })
+                          }
+                        }
+                      })
                     }
-                  })
-                }else{
-                  wx.showToast({
-                    title: '抱歉！该手机号  重复，添加失败',
-                    icon: 'none',
-                    duration: 1500
-                  })
+
+                  } else {
+                    wx.showToast({
+                      title: '抱歉！该手机号  重复，添加失败',
+                      icon: 'none',
+                      duration: 1500
+                    })
+                  }
                 }
-              }
-            })
-          }else{
-            wx.showToast({
-              title: '抱歉！人员名称重复，添加失败',
-              icon: 'none',
-              duration: 1500
-            })
+              })
+            } else {
+              wx.showToast({
+                title: '抱歉！人员名称重复，添加失败',
+                icon: 'none',
+                duration: 1500
+              })
+            }
           }
-        }
-      })
+        })
+      }else{
+        that.setData({
+          btnTag: true
+        })
+      }
+      
     }  
   },
 
@@ -181,46 +214,47 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
-        var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do"
+        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
         var tempFilePaths = res.tempFilePaths
-        if (tempFilePaths.length > 0) {
-          wx.uploadFile({
-            url: uploadUserUrl,
-            filePath: tempFilePaths[0],
-            name: 'personPhoto',
-            header: { "Content-Type": "multipart/form-data" },
-            success: function (res) {
-              console.log('上传图片请求...')
-              var data = JSON.parse(res.data)
-              console.log(res)
-              if (data.quality==0) {
-                that.setData({
-                  avatar: data.photoURL
-                }) 
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                personPhoto: res.data
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                console.log(res)
+                if (res.data.msg == 'ok') {
+                  that.setData({
+                    avatar: res.data.photoURL,
+                    picId: res.data.picId,
+                    quality: 0,
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,图片须为本人清晰头像',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
                 wx.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '上传失败,图片须为本人清晰头像!',
+                  title: '网络开小差，请稍后再试',
                   icon: 'none',
                   duration: 1500
                 })
               }
-            },
-            fail: function (res) {
-              console.log('上传失败...')
-              wx.showModal({
-                title: '提示',
-                content: '上传失败',
-                showCancel: false
-              })
-            },
-          })
-        }
-
+            })
+          }
+        })
       },
     })
   },
@@ -228,71 +262,65 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.request({
-      url: app.globalData.server +'/DoorDevice/getClientDevices.do?clientId='+app.globalData.admin.clientId,
-      method: 'post',
-      success: (res)=>{
-        console.log(res)
-        this.setData({
-          devices: res.data
-        })
-      }
-    })
-    if(typeof(options.id)!="undefined"){
-      console.log("公司id为"+options.id)
+    if (typeof (options.id) != "undefined") {
+      console.log("公司id为" + options.id)
       this.setData({
         companyId: options.id,
         companyName: options.name
       })
+      wx.request({
+        url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + options.id,
+        method: 'post',
+        success: (res) => {
+          console.log(res)
+          this.setData({
+            devices: res.data
+          })
+        }
+      })
     }
+    
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
-
+    var that = this
+    var subAdmin={
+      companyId: this.data.companyId,
+      companyName: this.data.companyName,
+      name: this.data.personName,
+      phone: this.data.personPhone,
+      picId: this.data.picId,
+    }
+    return {
+      title: '子管理员',
+      path: '/pages/subAdmin/subAdmin?subAdmin=' + JSON.stringify(subAdmin),
+      // imageUrl: '../resource/images/inv.jpg',
+      success: function (res) {
+        console.log("转发成功:" + JSON.stringify(res));
+        var shareTickets = res.shareTickets;
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+        wx.showToast({
+          title: '转发失败',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
+    
   }
 })

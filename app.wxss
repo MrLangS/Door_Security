@@ -18,6 +18,11 @@ page {
   background: #fff;
   margin-bottom: 20rpx;
 }
+.box-shadow{
+  background: #fff; 
+  margin-bottom: 10rpx;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .items .item {
   height: 90rpx;
   padding: 0 40rpx;

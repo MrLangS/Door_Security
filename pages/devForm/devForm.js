@@ -22,6 +22,7 @@ Page({
     array: ['WPA-PSK', 'WPA2-PSK','WEP','无密码'],
     modal: true,
     index: 0,
+    netType: 0,
     wifiNameList: [],
     wifiName: '',
     disabled: false,
@@ -36,8 +37,14 @@ Page({
 
   radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
+    var netType=''
+    if(this.data.netType=='0'){
+      netType='1'
+    }else{
+      netType = '0'
+    }
     this.setData({
-      hidden: !this.data.hidden
+      netType: netType
     })
   },
 
@@ -124,6 +131,9 @@ Page({
             title: '密码不一致！请重新输入',
             icon: 'none',
           })
+          this.setData({
+            password: ''
+          })
           return
         }
       }  
@@ -134,7 +144,7 @@ Page({
     var codeJD={
       "serverIp": getApp().globalData.server,
       "devName": values.name,
-      "address": values.address,
+      "devAddr": values.address,
       "activationCode": activationCode,
       "clientId": app.globalData.admin.clientId,
       "regionId": app.globalData.admin.regionId,
@@ -144,7 +154,14 @@ Page({
       codeJD.wfName = values.wfName
       codeJD.wfPassword = values.wfPassword
       codeJD.netSecurity = values.netSecurity
+      var formCache = new Object()
+      formCache.netType = codeJD.netType
+      formCache.wifiName = values.wfName
+      formCache.netSecurity = values.netSecurity
+      formCache.wfPassword = values.wfPassword
+      wx.setStorageSync('formCache', formCache)
     }
+    
   
     wx.reLaunch({
       url: '../qrcode/qrcode?data=' + JSON.stringify(codeJD),
@@ -185,66 +202,31 @@ Page({
       // var array=arr.filter(function(wifiname){return wifiname!=''})
       console.log(arr);
     })
-    // if(typeof(options.data)!="undefined"){
-    //   var json = JSON.parse(options.data) 
-    //   this.setData({
-    //     serialnum: json.deviceId||json.devId||'',
-    //     devName: json.devName||'',
-    //     address: json.devAddr || ''
-    //   })
-    // }
-    // if (typeof (options.tag) != "undefined"){
-    //   this.setData({
-    //     disabled: true
-    //   })
-    // }
+    var formCache = wx.getStorageSync('formCache')
+    console.log(typeof (formCache))
+    if (typeof (formCache.wifiName)!='undefined'){
+      console.log('表单缓存数据：')
+      console.log(formCache)
+      that.setData({
+        wifiName: formCache.wifiName||'',
+        index: formCache.netSecurity,
+        netType: formCache.netType,
+        password: formCache.wfPassword||''
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

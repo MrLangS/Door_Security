@@ -1,0 +1,101 @@
+.wrapper {
+  padding-bottom: 100rpx;
+}
+.button {
+    background-color: #f44336; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    height: 75rpx;
+    line-height: 75rpx;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+.button-hover{
+  background-color: #fff;
+  color: #f44336;
+}
+.profile {
+  width: 100%;
+  height: 180rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  background: #fff;
+  border-bottom: 1rpx solid #efefef;
+  /* padding-left: 40rpx; */
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px;
+  overflow: hidden
+}
+.del {
+  background-color: orangered;
+  height: 180rpx;
+  width: 90px;
+  display: flex;
+  /* margin-left: 40rpx; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-active .profile, .touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.profile .avatar {
+  width: 90rpx;
+  height: 90rpx;
+  margin-right: 40rpx;
+  box-shadow: 3px 4px 12px 0 rgba(0,0,0,.2);
+  
+}
+.profile .more {
+  display: flex;
+  color: #abb4bf;
+  align-items: center;
+}
+.profileitem{
+  padding: 0 40rpx;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile .info {
+  display: flex;
+  /* flex: 1; */
+  font-size: 24rpx;
+  color: #abb4bf;
+}
+.profile .name {
+  font-size: 40rpx;
+  color: #333;
+}
+.profile .info .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* justify-content: center; */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.username{
+  line-height: 90rpx;
+  font-size: 40rpx;
+  color: #333;
+}
+.item{
+  padding: 0 40rpx;
+}

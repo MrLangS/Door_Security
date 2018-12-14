@@ -8,7 +8,8 @@ Page({
       // { avatar: '/images/cmpany.png', name: '公司1', address: '地址1' }
     ],
     startX: 0, //开始坐标
-    startY: 0
+    startY: 0,
+    isMajorUser: true,
   },
 
   newCMP:function(){
@@ -87,40 +88,49 @@ Page({
   del: function (e) {
     var that=this
     var index = e.currentTarget.dataset.index
-    wx.showModal({
-      title: '提示',
-      content: '删除公司会一并删除该公司旗下员工，确定删除吗？',
-      success: function(res){
-        if(res.confirm){
-          console.log(that.data.companys[index].id)
-          wx.request({
-            url: app.globalData.server + '/ClientInfoAction!deleteClient.do?id=' + that.data.companys[index].id,
-            data: {},
-            method: 'post',
-            success: function (res) {
-              console.log(res)
-              if(res.data=="SUCCESS"){
-                that.data.companys.splice(index, 1)
-                that.setData({
-                  companys: that.data.companys
-                })
-                wx.showToast({
-                  title: '删除成功!',
-                  icon: 'success',
-                  duration: 1500
-                })
-              }else{
-                wx.showToast({
-                  title: '删除失败，请稍后再试!',
-                  icon: 'none',
-                  duration: 1500
-                })
+    var id = that.data.companys[index].client.id
+    if (app.globalData.admin.clientId == id){
+      wx.showToast({
+        title: '主单位不能删除!',
+        icon: 'none',
+        duration: 1500
+      })
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '删除单位会一并删除该单位下所有员工，确定删除吗？',
+        success: function (res) {
+          if (res.confirm) {
+            wx.request({
+              url: app.globalData.server + '/ClientInfoAction!deleteClient.do?id=' + id,
+              data: {},
+              method: 'post',
+              success: function (res) {
+                console.log(res)
+                if (res.data == "SUCCESS") {
+                  that.data.companys.splice(index, 1)
+                  that.setData({
+                    companys: that.data.companys
+                  })
+                  wx.showToast({
+                    title: '删除成功!',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '删除失败，请稍后再试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
               }
-            }
-          })
+            })
+          }
         }
-      }
-    })
+      })
+    }
+    
   },
 
   /**
@@ -133,6 +143,7 @@ Page({
       items[i].isTouchMove = false //默认隐藏删除
     }
     that.setData({
+      isMajorUser: app.globalData.isMajorUser,
       companys: items
     });
   },

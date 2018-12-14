@@ -1,6 +1,6 @@
 <view class='wrapper'>
   <view class='card items'>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=设备名称&content={{dataArr[0]}}&index=0' hover-class='hover-class'>
+    <view class='item' catchtap='{{isMajorUser? "navigateItem":""}}' data-url='/pages/modify/modify?title=设备名称&content={{dataArr[0]}}&index=0' hover-class='hover-class'>
       <view class='title'>
         <view>设备名称</view>
       </view>
@@ -12,7 +12,7 @@
       </view> 
       <view class='count'>{{dataArr[1] || '未知'}}</view> 
     </view>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=详细地址&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
+    <view class='item' catchtap='{{isMajorUser? "navigateItem":""}}' data-url='/pages/modify/modify?title=详细地址&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
       <view class='title'>
         <view>详细地址</view>
       </view>
@@ -39,27 +39,16 @@
       </view>
     </view>
   </view>
-  <!-- 远程控制开关门 -->
+
+  <!-- 门控制部分 -->
   <view class='t'>
-    <view class='title'>
-      <view>门控制</view>
-    </view>
-    <view class='content sub'>
-      <view class='subtitle'>自动处理</view>
+    <view class='content'>
       <view class='item'>
         <view>
-          <view>当前状态：{{autoStatus?'开':'关'}}</view>
-          <view class='tip'>开启时门由设备自动控制</view>
+          <view>门控制</view>
+          <view class='tip'>点击右侧按钮即可开门</view>
         </view>
-        <switch color='#40a7e7' bindchange='switchAuto' checked='{{autoStatus}}'></switch>
-      </view>
-      <view class='subtitle' hidden='{{autoStatus}}'>强制处理</view>
-      <view class='item' hidden='{{autoStatus}}'>
-        <view>
-          <view>门是否开启：{{doorStatus?'开':'关'}}</view>
-          <view class='tip'>“开”表示强制开门，“关”表示强制关门</view>
-        </view>
-        <switch color='#40a7e7' bindchange='switchDoor' checked='{{doorStatus}}'></switch>
+        <view><button class="button {{activeBtn? 'active' : ''}}" catchtap='activeBtn'>P</button></view>
       </view>
     </view>
   </view>
@@ -86,13 +75,56 @@
               <slider value='{{currentVolume}}' min='0' max='100' step='1' block-size='12' block-color='#40a7e7' activeColor='#40a7e7' bindchange='volumeBindChange' bindchanging='volumeBindChanging'></slider>
             </view>
           </view>
+
           <view class='subtitle'>语音提示</view>
-          <view class='item'>
+          <!-- <view class='item'>
             <view>
               <view>当前状态：{{volumeTip?'开':'关'}}</view>
               <view class='tip'>蓝色开关表示打开，白色开关表示关闭</view>
             </view>
             <switch color='#40a7e7' bindchange='switchChange' checked='{{volumeTip}}'></switch>
+          </view> -->
+          <!-- 语音选择 -->
+          <picker bindchange="bindVoicePicker" value="{{voiceIdx}}" range="{{voiceArr}}">
+          <view class='item'>
+            <view>
+              <view>语音选择</view>
+            </view>
+            <view class="count">
+              {{voiceArr[voiceIdx]}}
+            </view>
+            <!-- <view class='count'>语音</view> -->
+          </view>
+          </picker>
+
+          <!-- 雷达开关 -->
+          <view class='subtitle'>雷达</view>
+          <view class='item'>
+            <view>
+              <view>当前状态：{{radarStatus?'开':'关'}}</view>
+              <view class='tip'>开启时，黑暗情况下仍能检测目标</view>
+            </view>
+            <switch color='#40a7e7' bindchange='switchChange' checked='{{radarStatus}}'></switch>
+          </view>
+
+          <picker bindchange="bindDistancePicker" value="{{distanceIdx}}" range="{{distanceArr}}">
+          <view class='subtitle'>检测距离</view>
+          <view class='item'>
+            <view>
+              <view>当前距离</view>
+              <view class='tip'>推荐检测距离为1m</view>
+            </view>
+            <view class='count'>{{distanceArr[distanceIdx]}}</view>
+          </view>
+          </picker>
+
+          <view class='subtitle'>软件更新</view>
+          <view class='item'>
+            <view>
+              <view>当前版本</view>
+              <view class='tip'>{{dataArr[8]||'未置版本'}}</view>
+            </view>
+            <view class='updateSoft' hover-class='hover-class' bindtap='updateSoft'>通知更新</view>
           </view>
         </view>
       </view>

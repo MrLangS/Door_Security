@@ -9,6 +9,7 @@
 .logo {
   text-align: center;
   padding: 40rpx 0;
+  background: #1e90ff;
 }
 .logo image {
   width: 94rpx;
@@ -18,6 +19,9 @@
 .form view {
   border-radius: 4rpx;
   background: #fff;
+}
+.none{
+  text-align: center;
 }
 .form input {
   width: 100%;

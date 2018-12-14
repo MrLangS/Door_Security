@@ -1,0 +1,41 @@
+<view class='wrapper'>
+  <view class='box-shadow profile'>
+    <view class='item'>
+      <view class='info'>
+        <image class='avatar' src='{{company.clientLogoURL?company.clientLogoURL:"/images/cmpany.png"}}'></image>
+        <view class='text'>
+          <view class='name'>{{company.name || '公司名称'}}</view>
+          <view>{{company.addr || '公司地址'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='profile {{isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove">
+    <view class='profileitem'>
+      <view class='info'>
+        <image class='avatar' src='{{user.photoURL?user.photoURL:"/images/empty_avatar_user.png"}}'></image>
+        <view class='username'>{{user.username || '未知'}}</view>
+      </view>
+      <!-- <view class='more' bindtap='logout' hover-class='hover-class'>
+        <view><button class='button' hover-class='button-hover'>注销</button></view>
+      </view> -->
+    </view>
+    <view class="del" catchtap="logout" >注销</view>
+  </view>
+
+  <view class='box-shadow items'>
+    <view class='item'>
+      <view class='title'>
+        <view>用户身份</view>
+      </view>
+      <view class='count'>{{isMajorUser?'主管理员' : '子管理员'}}</view>
+    </view>
+    <view class='item'>
+      <view class='title'>
+        <view>手机号</view>
+      </view>
+      <view class='count'>{{ user.phonenum|| '未知'}}</view>
+    </view>
+  </view>
+</view>

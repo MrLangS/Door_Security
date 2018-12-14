@@ -5,15 +5,17 @@
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
-        <input name='name' placeholder='人员名称' focus></input>
-        <input name='phone' placeholder='手机号'></input>
-        <input name='device' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
+        <input name='name' bindinput='getName' placeholder='人员名称' focus></input>
+        <input name='phone' bindinput='getPhone' placeholder='手机号'></input>
         <radio-group class='choose' name="role" bindchange="radioChange">
           <view><radio value="staff" checked="true"/>普通员工</view>
           <view><radio value="admin" />管理员工</view>
         </radio-group>
+        <input name='device' hidden='{{tag}}' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
+        
       </view>
-      <button class='login' formType='submit'>确认</button>
+      <button class='login' formType='submit' hidden='{{btnTag}}'>确认</button>
+      <button open-type="share" class='login' hidden='{{!btnTag}}'>二次确认</button>
     </form>
   </view>
   <view class='footer'>添加人员</view>
@@ -21,4 +23,5 @@
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
     <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+    <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
 </modal>

@@ -1,4 +1,5 @@
 var util = require("../../utils/util.js")
+var app = getApp()
 var timeoutID
 Page({
 
@@ -10,18 +11,27 @@ Page({
     dataArr:[],
     admin: [],
     staff: [],
+    devs: [],
     noResult: false,
     pageNum: 1,
     startX: 0, //开始坐标
     startY: 0,
     hideSearch: true,
     isModify: false,
-    isAdd: false
+    isAdd: false,
+    isMajorUser: true,
   },
 
   search: function () {
     wx.navigateTo({
       url: '/pages/searchRes/searchRes?tag='+0+'&id='+this.data.company.id,
+    })
+  },
+  //拨打电话
+  makeCall: function(e){
+    console.log(e)
+    wx.makePhoneCall({
+      phoneNumber: this.data.admin[e.currentTarget.dataset.index].phoneNum
     })
   },
   chooseImg: function(){
@@ -33,61 +43,67 @@ Page({
       success: function (res) {
         var uploadUserUrl = getApp().globalData.server + "/ClientInfoAction!uploadPhoto.do"
         var tempFilePaths = res.tempFilePaths
-        if (tempFilePaths.length > 0) {
-          wx.uploadFile({
-            url: uploadUserUrl,
-            filePath: tempFilePaths[0],
-            name: 'logoPhoto',
-            header: { "Content-Type": "multipart/form-data" },
-            success: function (res) {
-              console.log('上传图片请求...')
-              var data = JSON.parse(res.data)
-              console.log(data)
-              var dataArr=that.data.dataArr
-              if (typeof (data.photoURL) != "undefined") {
-                dataArr[0] = data.photoURL
-                that.setData({
-                  dataArr: dataArr,
-                })
-                wx.request({
-                  url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
-                  data: {
-                    id: that.data.company.id,
-                    clientLogoURL: that.data.dataArr[0],
-                    name: that.data.dataArr[1],
-                    addr: that.data.dataArr[2]
-                  },
-                  method: 'post',
-                  success: function (res) {
-                    console.log(res)
-                  }
-                })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                logoPhoto: res.data
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                var data = res.data
+                console.log(data)
+                var dataArr=that.data.dataArr
+                if (typeof (data.photoURL) != "undefined") {
+                  dataArr[0] = data.photoURL
+                  that.setData({
+                    dataArr: dataArr,
+                  })
+                  wx.request({
+                    url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
+                    data: {
+                      id: that.data.company.id,
+                      clientLogoURL: that.data.dataArr[0],
+                      name: that.data.dataArr[1],
+                      addr: that.data.dataArr[2]
+                    },
+                    method: 'post',
+                    success: function (res) {
+                      console.log(res)
+                    }
+                  })
+                  wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,请重试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
                 wx.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1500
-                })
-              } else {
-                wx.showToast({
-                  title: '上传失败,请重试!',
-                  icon: 'loading',
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
                   duration: 1500
                 })
               }
-            },
-            fail: function (res) {
-              console.log('上传失败...')
-              wx.showModal({
-                title: '提示',
-                content: '上传失败',
-                showCancel: false
-              })
-            },
-          })
-        }
-
+            })
+          }
+        })
       },
     })
+    
   },
   preview: function(){
     var that = this
@@ -142,6 +158,9 @@ Page({
   },
   //列表项操作
   navigateItem:function(e){
+    this.setData({
+      isModify: false,
+    })
     wx.navigateTo({
       url: e.currentTarget.dataset.url,
     })
@@ -155,7 +174,7 @@ Page({
       data = this.data.staff[e.currentTarget.dataset.index]
     }
     wx.navigateTo({
-      url: '/pages/contentPEO/contentPEO?data='+JSON.stringify(data),
+      url: '/pages/contentPEO/contentPEO?data='+JSON.stringify(data)+'&flag=1',
     })
   },
   //手指触摸动作开始 记录起点X坐标
@@ -242,10 +261,50 @@ Page({
   del: function (e) {
     var that=this
     if (typeof (e.currentTarget.dataset.flag)=="undefined"){
-      this.data.admin.splice(e.currentTarget.dataset.index, 1)
-      this.setData({
-        admin: this.data.admin
-      })
+      var index = e.currentTarget.dataset.index
+      var id = that.data.admin[index].id
+      if(app.globalData.admin.id!=id){
+        wx.showModal({
+          title: '提示',
+          content: '确定删除' + this.data.admin[index].userName + '吗？',
+          success: function (res) {
+            if (res.confirm) {
+              wx.request({
+                url: getApp().globalData.server + '/UserAction!deleteById.do?id=' + id,
+                data: {},
+                method: 'post',
+                success: function (res) {
+                  console.log(res)
+                  if (res.data == 1) {
+                    that.data.admin.splice(index, 1)
+                    that.setData({
+                      admin: that.data.admin
+                    })
+                    wx.showToast({
+                      title: '删除成功!',
+                      icon: 'success',
+                      duration: 1500
+                    })
+                  } else {
+                    wx.showToast({
+                      title: '删除失败，请稍后再试!',
+                      icon: 'none',
+                      duration: 1500
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      }else{
+        wx.showToast({
+          title: '不能删除自身用户!',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+      
     }else{
       var index = e.currentTarget.dataset.index
       wx.showModal({
@@ -296,7 +355,7 @@ Page({
   init(reload) {
     this.getList(reload)
   },
-  // 获取小册列表
+  // 获取人员列表
   getList(reload) {
     var that = this
     if (reload) {
@@ -316,12 +375,13 @@ Page({
       success: (res) => {
         console.log("当前页码:" + that.data.pageNum)
         console.log(res)
-        let list = res.data
+        let list = res.data.persons
         if (!util.isEmptyObject(list)) {
           let pageNum = this.data.pageNum + 1
           this.setData({
             pageNum,
             staff: reload ? list : this.data.staff.concat(list),
+            totalCount: res.data.totalCount
           })
         } else {
           this.setData({
@@ -335,6 +395,7 @@ Page({
           }else{
             this.setData({
               staff: [],
+              totalCount: 0,
             })
           }
         }
@@ -357,16 +418,32 @@ Page({
   onLoad: function (options) {
     var that = this;
     if (typeof(options.data)!="undefined"){
-      var json=JSON.parse(options.data)
+      var jsonAll=JSON.parse(options.data)
+      var json = jsonAll.client
       // var arr = util.JsonToArray(JSON.parse(options.data))
       var arr = [json.clientLogoURL, json.name, json.addr]
-      console.log(arr)
       this.setData({
         dataArr: arr,
-        company: json
+        company: json,
+        isMajorUser: app.globalData.isMajorUser,
+        devs: jsonAll.permission
       })
     }
 
+    wx.request({
+      url: getApp().globalData.server + '/UserAction!getClientUsers.do',
+      data: {
+        clientId: that.data.company.id
+      },
+      method: 'post',
+      success: (res)=>{
+        console.log('管理员列表:')
+        console.log(res)
+        this.setData({
+          admin: res.data
+        })
+      }
+    })
     //加载人员列表
     // this.reload(true)
 
@@ -408,7 +485,7 @@ Page({
     // if (this.data.isAdd){
     this.reload(true)
   },
-
+  
 
   onPullDownRefresh: function () {
 

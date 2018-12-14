@@ -203,12 +203,18 @@ let isEmptyObject = (obj) => {
   return true
 }
 function checkStaffForm(that,name,phone){
-  return checkAvatar(that) && checkName(name) && checkPhone01(phone)&&checkDevice(that)
+  if(that.data.tag){
+    return checkAvatar(that) && checkName(name) && checkPhone01(phone)
+  }else{
+    return checkAvatar(that) && checkName(name) && checkPhone01(phone) && checkDevice(that)
+  }
+  
   // return checkDevice(that)
 }
 //表单验证
 function checkForm(that,tag) {
   if(tag==0){
+    // return true
     if (checkPhone(that) && checkCode(that)) {
       return true
     } else {
@@ -265,12 +271,13 @@ function getCode(that) {
   }
 }
 
-function login() {
+function login(isSubAdmin) {
   // 登录
   wx.login({
     success: res => {
       // 发送 res.code 到后台换取 openId, sessionKey, unionId
       var code = res.code
+
       if (code) {
         console.log('获取用户登录凭证：' + code);
         var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do?code=' + code + '&WxUserType=3';
@@ -298,10 +305,19 @@ function login() {
                 success: function(res){
                   console.log(res)
                   app.globalData.sysWXUser = res.data.sysWXUser
+                  app.globalData.isMajorUser = res.data.isMajorUser
                   app.globalData.admin = res.data.admin
-                  wx.switchTab({
-                    url: '../../device/device',
-                  })
+                  if (res.data.admin.valid!=false){
+                    if (isSubAdmin) {
+                      wx.switchTab({
+                        url: '../device/device',
+                      })
+                    } else {
+                      wx.switchTab({
+                        url: '../../device/device',
+                      })
+                    }
+                  }
                 }
               })
             }

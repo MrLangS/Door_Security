@@ -87,3 +87,12 @@
   height: 80rpx;
   line-height: 80rpx;
 }
+.checkbox{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden; */
+}
