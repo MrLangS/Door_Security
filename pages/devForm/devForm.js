@@ -26,6 +26,21 @@ Page({
     wifiNameList: [],
     wifiName: '',
     disabled: false,
+    platform: '',
+  },
+
+  scancode: function(){
+    var that=this
+    // 只允许从相机扫码
+    wx.scanCode({
+      onlyFromCamera: true,
+      success(res) {
+        console.log(res)
+        that.setData({
+          activationCode: res.result
+        })
+      }
+    })
   },
 
   bindPickerChange: function (e) {
@@ -55,11 +70,62 @@ Page({
     })
   },
   showModal: function(){
-    preWifiName=this.data.wifiName
-    prewifiNameList=this.data.wifiNameList
-    this.setData({
-      modal: !this.data.modal
-    })
+    var that=this
+    // if(that.data.platform=='ios'){
+      wx.startWifi({
+        success: (res) => {
+          console.log(res)
+          if(res.errMsg=='startWifi:ok'){
+            wx.showToast({
+              title: '自动填充当前连接wifi名',
+              icon: 'none',
+              duration: 1500,
+            })
+          }
+        }
+      })
+      wx.getConnectedWifi({
+        success: (res) => {
+          console.log(res)
+          that.setData({
+            wifiName: res.wifi.SSID
+          })
+        }
+      })
+    // }else{
+    //   wx.startWifi({
+    //     success: (res) => {
+    //       console.log(res)
+    //       wx.getWifiList({
+    //         success: (res) => {
+    //           console.log(res)
+    //         }
+    //       })
+    //     }
+    //   })
+
+    //   wx.onGetWifiList(function (CALLBACK) {
+    //     var a = CALLBACK.wifiList;
+    //     console.log(a)
+    //     var obj = new Object()
+    //     var arr = []
+    //     for (let i in a) {
+    //       arr.pushNoRepeat(a[i].SSID)
+    //     }
+    //     that.setData({
+    //       wifiNameList: arr
+    //     })
+    //     // var array=arr.filter(function(wifiname){return wifiname!=''})
+    //     console.log(arr);
+    //   })
+
+    //   preWifiName = this.data.wifiName
+    //   prewifiNameList = this.data.wifiNameList
+    //   this.setData({
+    //     modal: !this.data.modal
+    //   })
+    // }
+    
   },
   cancel01: function () {
     this.setData({
@@ -182,26 +248,15 @@ Page({
         timingFunc: 'easeIn'
       }
     })
-    wx.startWifi({
-      success: (res)=>{
+    wx.getSystemInfo({
+      success: function(res) {
         console.log(res)
-        wx.getWifiList({
+        that.setData({
+          platform: res.platform
         })
-      }
-    }) 
-    wx.onGetWifiList(function (CALLBACK) {
-      var a = CALLBACK.wifiList;
-      var obj=new Object()
-      var arr=[]
-      for(let i in a){
-        arr.pushNoRepeat(a[i].SSID)
-      }
-      that.setData({
-        wifiNameList: arr
-      })
-      // var array=arr.filter(function(wifiname){return wifiname!=''})
-      console.log(arr);
+      },
     })
+
     var formCache = wx.getStorageSync('formCache')
     console.log(typeof (formCache))
     if (typeof (formCache.wifiName)!='undefined'){

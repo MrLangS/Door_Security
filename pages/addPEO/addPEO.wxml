@@ -3,10 +3,13 @@
     <view class='logo'>
       <image bindtap='chooseImg' src='{{avatar?avatar: "/images/empty_avatar_user.png"}}'></image>
     </view>
+    <view class='progress'>
+      <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
+    </view>
     <form class='form' bindsubmit='commit'>
       <view>
         <input name='name' bindinput='getName' placeholder='人员名称' focus></input>
-        <input name='phone' bindinput='getPhone' placeholder='手机号'></input>
+        <input name='phone' bindinput='getPhone' type='number' placeholder='手机号'></input>
         <radio-group class='choose' name="role" bindchange="radioChange">
           <view><radio value="staff" checked="true"/>普通员工</view>
           <view><radio value="admin" />管理员工</view>

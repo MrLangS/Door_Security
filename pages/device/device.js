@@ -20,6 +20,11 @@ Page({
     })
   },
 
+  configDevice: function(e){
+    console.log(e.currentTarget.dataset.index)
+    
+  },
+
   navigatItem: function (e) {
     console.log(e.currentTarget.dataset.index)
     // var json = this.data.devices[e.currentTarget.dataset.index]

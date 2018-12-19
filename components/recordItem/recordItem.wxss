@@ -47,7 +47,8 @@
   font-size: 24rpx;
   font-weight: 500;
   width: 130rpx;
-  height: 60rpx;
+  padding: 20rpx 20rpx;
+  /* height: 60rpx; */
   border-radius: 30rpx;
   background: rgb(241, 247, 254);
 }

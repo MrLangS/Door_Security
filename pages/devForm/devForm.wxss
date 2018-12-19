@@ -14,6 +14,18 @@
   display: flex;
   flex-direction: row;
 }
+.activeBtn{
+  width: 70rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+  margin-top: 19rpx;
+}
+.tipBtn{
+  width: 80rpx;
+  height: 70rpx;
+  margin-right: 20rpx;
+  margin-top: 10rpx;
+}
 .bcg {
   position: fixed;
   z-index: 2;
@@ -114,4 +126,7 @@
 }
 .picker{
   background: red;
+}
+.modal{
+  height: 400rpx;
 }

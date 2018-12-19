@@ -10,5 +10,5 @@
       </view>
     </view>
   </view>
-  <view class='price' >{{item.deviceName||'暂无设备'}}</view>
+  <view class='price' >{{item.clientName||'未知单位'}}</view>
 </view>

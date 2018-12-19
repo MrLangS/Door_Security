@@ -3,6 +3,9 @@
     <view class='logo' bindtap='chooseImg'>
       <image src='{{photo? photo:"/images/cmpany.png"}}'></image>
     </view>
+    <view class='progress'>
+      <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
+    </view>
     <form class='form' bindsubmit='commit'>
       <view>
         <input name='cmpname' placeholder='单位名称' focus></input>

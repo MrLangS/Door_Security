@@ -16,6 +16,9 @@ Page({
     checkedDev: [],
     checkedId: [],
     choosedId: [],
+    active: false,
+    percent: 0,
+    progressColor: '#3281ff',
   },
   chooseDev: function () {
     var that = this
@@ -95,6 +98,15 @@ Page({
           success: res => { //成功的回调
             // console.log('data:image/png;base64,' + res.data)
             console.log(res)
+            that.setData({
+              percent: 0,
+            })
+            that.setData({
+              percent: 100,
+              progressColor: '#3281ff',
+              active: true
+            })
+
             wx.request({
               url: uploadUserUrl,
               method: 'post',
@@ -115,6 +127,9 @@ Page({
                     duration: 1500
                   })
                 } else {
+                  that.setData({
+                    progressColor: 'red',
+                  })
                   wx.showToast({
                     title: '上传失败,请重试!',
                     icon: 'none',
@@ -127,6 +142,11 @@ Page({
                   title: '网络开小差，请稍后再试',
                   icon: 'none',
                   duration: 1500
+                })
+              },
+              complete: (res) => {
+                that.setData({
+                  active: false,
                 })
               }
             })

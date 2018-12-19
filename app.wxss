@@ -64,6 +64,7 @@ page {
 .navigator-hover {
   background: #f2f2f2 !important;
 }
+
 .search {
   position: fixed;
   z-index: 4;

@@ -13,6 +13,14 @@ Page({
     username: '',//姓名
     company: '',
     picId: 0,
+    progress: true,
+    active: false,
+    percent: 0,
+    progressColor: '#3281ff',
+  },
+
+  progressIsOk: function(){
+    console.log('ok')
   },
   commit(e) {
     var that=this
@@ -93,6 +101,11 @@ Page({
           success: res => { //成功的回调
             // console.log('data:image/png;base64,' + res.data)
             console.log(res)
+            that.setData({
+              progress: false,
+              percent: 100,
+              active: true
+            })
             wx.request({
               url: uploadUserUrl,
               method: 'post',
@@ -109,10 +122,13 @@ Page({
                     quality: 0,
                   })
                 }else{
+                  that.setData({
+                    progressColor: 'red',
+                  })
                   wx.showToast({
                     title: '上传失败,图片须为本人清晰头像',
                     icon: 'none',
-                    duration: 1500
+                    duration: 1500,
                   })
                 }
               },
@@ -121,6 +137,14 @@ Page({
                   title: '网络开小差，请稍后再试',
                   icon: 'none',
                   duration: 1500
+                })
+              },
+              complete: (res)=>{
+                that.setData({
+                  progress: true,
+                  percent: 0,
+                  active: false,
+                  progressColor: '#3281ff'
                 })
               }
             })

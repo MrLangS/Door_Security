@@ -2,7 +2,10 @@
   <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill' ></image>
   <view class='top'>
     <view class='avator'>
-      <image bindtap='chooseImg' src='{{avatar?avatar:"/images/empty_avatar_user.png"}}' background-size="cover"></image>
+      <view><image bindtap='chooseImg' src='{{avatar?avatar:"/images/empty_avatar_user.png"}}' background-size="cover"></image></view>
+      <view class='progress' hidden='{{progress}}'>
+        <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
+      </view>
       <view class='tip'>头像</view>
     </view>
     <form class='form' bindsubmit='commit'>

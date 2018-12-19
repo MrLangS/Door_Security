@@ -73,7 +73,7 @@ Page({
       success: (res)=>{
         if(res.confirm){
           wx.request({
-            url: app.globalData.server + '/SysWXUserAction/logoutUser.do?wxUserId=' + app.globalData.sysWXUser.id,
+            url: app.globalData.server + '/SysWXUserAction/logoutUser.do?wxUserId=' + app.globalData.sysWXUser.id +'&type='+3,
             method: 'post',
             success: function (res) {
               console.log(res)

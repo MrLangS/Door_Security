@@ -18,6 +18,7 @@
         <view class='item'>
           <label>激活码</label>
           <input value='{{activationCode}}' name='activationCode'></input>
+          <image class='activeBtn' src='/images/scancode.png' bindtap='scancode'></image>
         </view>
         <view class='item'>
           <label>网络类型</label>
@@ -29,7 +30,8 @@
         <block wx:if='{{netType=="1"}}'>
           <view class='item'>
             <label>wifi名称</label>
-            <input name='wfName' disabled='true' bindtap='showModal' value='{{wifiName}}'></input>
+            <input name='wfName' value='{{wifiName}}'></input> 
+            <image class='tipBtn' src='/images/filler.png' bindtap='showModal'></image>
           </view>
           <view class='item'>
             <label>安全类型</label>
@@ -59,12 +61,15 @@
 <!-- 内部人员选择弹窗 -->
 <modal hidden="{{modal}}" title="wifi选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm01"
 bindcancel="cancel01">
-  <radio-group bindchange="wifiradioChange">
-    <label class="checkrad" wx:key wx:for="{{wifiNameList}}">
-      <view>
-        <radio value="{{item}}" checked="{{item.checked}}"/>{{item}}
-      </view>
-    </label>
-  </radio-group>
-  <view class='none' wx:if="{{!wifiNameList.length}}">未检测到wifi</view>
+  <!-- <view class='modal'> -->
+    <radio-group bindchange="wifiradioChange">
+      <label class="checkrad" wx:key wx:for="{{wifiNameList}}">
+        <view>
+          <radio value="{{item}}" checked="{{item.checked}}"/>{{item}}
+        </view>
+      </label>
+    </radio-group>
+    <view class='none' wx:if="{{!wifiNameList.length}}">未检测到wifi</view>
+  <!-- </view> -->
+  
 </modal>
