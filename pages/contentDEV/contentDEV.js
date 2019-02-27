@@ -9,6 +9,7 @@ Page({
     dataArr: [],
     currentVolume: 0,
     radarStatus: true,
+    nameStatus: true,
     netStatus: true,//网络状态
     autoStatus: true,
     doorStatus: true,
@@ -19,6 +20,24 @@ Page({
     voiceIdx: 0,
     distanceArr: ['2m', '1m'],
     distanceIdx: 0,
+  },
+
+  //人名显示控制
+  switchName: function(e){
+    var that = this
+    var data = that.data.dataArr
+    this.setData({
+      nameStatus: e.detail.value
+    })
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: data[3][6].id, key: data[3][6].key, keyValue: that.data.nameStatus ? '1' : '0' }],
+      method: 'post',
+      success: (res) => {
+
+      }
+    })
   },
 
   // 雷达控制
@@ -252,6 +271,7 @@ Page({
         voiceIdx: arr[3][1].keyValue,
         distanceIdx: arr[3][4].keyValue == '0.1' ? '0':'1',
         radarStatus: arr[3][3].keyValue == '1' ? true : false,
+        nameStatus: arr[3][6].keyValue == '1' ? true : false,
         autoStatus: arr[5]=='03'?true:false,
         netStatus: arr[4]=='01'?true:false
       })

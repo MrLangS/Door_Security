@@ -68,6 +68,7 @@
   height: 80rpx;
   line-height: 80rpx;
   color: #3281ff;
+
   /* background: #F4F6F9; */
 }
 .btn{
@@ -81,7 +82,7 @@
 }
 .lists-staff{
   margin-top: 110rpx;
-  background: red
+  /* background: red */
 }
 .pickGroup{
   padding: 0 65rpx;

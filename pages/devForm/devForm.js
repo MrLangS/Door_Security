@@ -14,7 +14,7 @@ Array.prototype.pushNoRepeat = function () {
 Page({
 
   data: {
-    bcgImg: '/images/bcgimg.jpg',
+    bcgImg: '/images/001.jpg',
     devName:'',
     address:'',
     serverIp: getApp().globalData.server,
@@ -242,7 +242,7 @@ Page({
     //设置导航栏背景色
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
-      backgroundColor: '#262022',
+      backgroundColor: '#0e122b',
       animation: {
         duration: 200,
         timingFunc: 'easeIn'

@@ -4,9 +4,18 @@ Page({
     company: {},
     user: {},
     isMajorUser: true,
+    isCompanyTouch:false,
     isTouchMove: false,
     startX: 0, //开始坐标
     startY: 0,
+    remind: '加载中',
+    angle: 0,
+  },
+
+  navigate2strange: function(){
+    wx.navigateTo({
+      url: '../record/strangeRecord',
+    })
   },
 
   //手指触摸动作开始 记录起点X坐标
@@ -19,37 +28,53 @@ Page({
     this.setData({
       startX: e.changedTouches[0].clientX,
       startY: e.changedTouches[0].clientY,
-      isTouchMove: false
+      isTouchMove: false,
+      isCompanyTouch: false
     })
   },
 
   //滑动事件处理
   touchmove: function (e) {
+    var index=e.currentTarget.dataset.index
     var that = this,
-      // index = e.currentTarget.dataset.index, //当前索引
-      startX = that.data.startX, //开始X坐标
-      startY = that.data.startY, //开始Y坐标
-      touchMoveX = e.changedTouches[0].clientX, //滑动变化坐标
-      touchMoveY = e.changedTouches[0].clientY, //滑动变化坐标
-      //获取滑动角度
-      angle = that.angle({
-        X: startX,
-        Y: startY
-      }, {
-          X: touchMoveX,
-          Y: touchMoveY
-        });
+    // index = e.currentTarget.dataset.index, //当前索引
+    startX = that.data.startX, //开始X坐标
+    startY = that.data.startY, //开始Y坐标
+    touchMoveX = e.changedTouches[0].clientX, //滑动变化坐标
+    touchMoveY = e.changedTouches[0].clientY, //滑动变化坐标
+    //获取滑动角度
+    angle = that.angle({
+      X: startX,
+      Y: startY
+    }, {
+        X: touchMoveX,
+        Y: touchMoveY
+      });
     //滑动超过30度角 return
     if (Math.abs(angle) < 30){
       if (touchMoveX > startX){
         //右滑
-        that.setData({
-          isTouchMove : false 
-        })
-      }else //左滑
-        that.setData({
-          isTouchMove: true
-        })
+        if(index=='0'){
+          that.setData({
+            isCompanyTouch: false
+          })
+        }else{
+          that.setData({
+            isTouchMove: false
+          })
+        }
+      }else{
+        //左滑
+        if (index == '0') {
+          that.setData({
+            isCompanyTouch: true
+          })
+        } else {
+          that.setData({
+            isTouchMove: true
+          })
+        }
+      } 
     }
   },
 
@@ -123,6 +148,25 @@ Page({
         })
       }
     })
+  },
+
+  onReady: function(){
+    var that = this;
+    setTimeout(function () {
+      that.setData({
+        remind: ''
+      });
+    }, 1000);
+    wx.onAccelerometerChange(function (res) {
+      var angle = -(res.x * 30).toFixed(1);
+      if (angle > 14) { angle = 14; }
+      else if (angle < -14) { angle = -14; }
+      if (that.data.angle !== angle) {
+        that.setData({
+          angle: angle
+        });
+      }
+    });
   },
 
   onPullDownRefresh: function () {

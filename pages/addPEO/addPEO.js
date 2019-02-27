@@ -185,7 +185,7 @@ Page({
 
                   } else {
                     wx.showToast({
-                      title: '抱歉！该手机号  重复，添加失败',
+                      title: '抱歉！该手机号重复，添加失败',
                       icon: 'none',
                       duration: 1500
                     })
@@ -202,9 +202,30 @@ Page({
           }
         })
       }else{
-        that.setData({
-          btnTag: true
+
+        //判断手机号
+        wx.request({
+          url: app.globalData.server + '/UserAction!isPhoneNumRepeated.do',
+          data: {
+            phoneNum: phone,
+          },
+          method: 'post',
+          success: (res) => {
+            console.log(res)
+            if(res.data){
+              that.setData({
+                btnTag: true
+              })
+            }else{
+              wx.showToast({
+                title: '抱歉！该手机号重复，添加失败',
+                icon: 'none',
+                duration: 1500
+              })
+            }
+          }
         })
+        
       }
       
     }  

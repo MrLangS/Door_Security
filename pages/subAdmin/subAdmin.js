@@ -6,13 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    authorizeTAG: false,
     subAdmin: {},
     phoneNumber: '',
     disabled: false,
     code: '',
     iscode: '',//用于存放验证码接口里获取到的code
     codename: '发送验证码',
-    bcgImg: '/images/bcgimg.jpg',
+    bcgImg: '/images/001.jpg',
   },
   //获取验证码
   getVerificationCode() {
@@ -81,7 +82,7 @@ Page({
     //设置导航栏背景色
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
-      backgroundColor: '#262022',
+      backgroundColor: '#0e122b',
       animation: {
         duration: 200,
         timingFunc: 'easeIn'
@@ -94,55 +95,49 @@ Page({
       })
     }
     var subAdmin=true
-    util.login(subAdmin)
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        console.log(res)
+        if (res.authSetting['scope.userInfo']) {
+          //登录
+          util.login(subAdmin)
+
+        } else {
+          wx.navigateTo({
+            url: '/pages/authorize/authorize?authortag=1',
+          })
+        }
+      }
+    })
+    //util.login(subAdmin)
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-
+    if (this.data.authorizeTAG) {
+      //登录
+      util.login(true)
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

@@ -4,7 +4,7 @@
       <view class='title'>
         <view>设备名称</view>
       </view>
-      <view class='count'>{{dataArr[0] || '未知'}}</view>
+      <view class='count longText'>{{dataArr[0] || '未知'}}</view>
     </view>
     <view class='item' hover-class='hover-class'>
       <view class='title'>
@@ -16,7 +16,7 @@
       <view class='title'>
         <view>详细地址</view>
       </view>
-      <view class='count'>{{dataArr[2] || '未知'}}</view>
+      <view class='count longText'>{{dataArr[2] || '未知'}}</view>
     </view>
   </view>
   <!-- 网络状态 -->
@@ -96,6 +96,16 @@
             <!-- <view class='count'>语音</view> -->
           </view>
           </picker>
+
+          <!-- 姓名显示 -->
+          <view class='subtitle'>人名显示</view>
+          <view class='item'>
+            <view>
+              <view>当前状态：{{nameStatus?'开':'关'}}</view>
+              
+            </view>
+            <switch color='#40a7e7' bindchange='switchName' checked='{{nameStatus}}'></switch>
+          </view>
 
           <!-- 雷达开关 -->
           <view class='subtitle'>雷达</view>

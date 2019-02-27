@@ -14,13 +14,11 @@
   <block wx:for="{{devices}}" wx:key>
     <view class=' box-shadow profile {{item.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
+        <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
+        <image class='avatar' src='/images/device.png' wx:else></image>
         <view class='info'>
-          <image class='avatar' src='{{company.avatar}}' wx:if='{{company.avatar}}'></image>
-          <image class='avatar' src='/images/device.png' wx:else></image>
-          <view class='text'>
-            <view class='name'>{{item.devName || '未知设备'}}</view>
-            <view>{{item.devAddr || '未知地址'}}</view>
-          </view>
+            <view class='title'>{{item.devName || '未知设备'}}</view>
+            <view class='addr'>{{item.devAddr || '未知地址'}}</view>
         </view>
         <view class='more'>
           <image src='/images/profile_arrow.png'></image>

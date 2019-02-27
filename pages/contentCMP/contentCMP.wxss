@@ -17,6 +17,7 @@
   color: white;
   background: #3281ff;
 }
+
 .content{
   width: 100%;
   display: flex;

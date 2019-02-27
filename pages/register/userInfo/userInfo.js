@@ -7,7 +7,7 @@ Page({
    */
   data: {
     values:'',
-    bcgImg: '/images/bcgimg.jpg',
+    bcgImg: '/images/001.jpg',
     avatar: '',
     quality: 1,
     username: '',//姓名
@@ -161,7 +161,7 @@ Page({
     //设置导航栏背景色
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
-      backgroundColor: '#262022',
+      backgroundColor: '#0e122b',
       animation: {
         duration: 50,
         timingFunc: 'easeIn'

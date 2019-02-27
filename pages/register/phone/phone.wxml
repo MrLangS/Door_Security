@@ -13,6 +13,7 @@
         </view>
       </view>
       <button class='login' formType='submit'>下一步</button>
+      
     </form>
   </view>
   <view class='footer'>门禁管理</view>

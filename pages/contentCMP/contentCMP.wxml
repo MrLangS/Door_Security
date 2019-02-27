@@ -16,13 +16,13 @@
       <view class='title'>
         <view>单位名称</view>
       </view>
-      <view class='count'>{{dataArr[1] || '未知'}}</view>
+      <view class='count longText'>{{dataArr[1] || '未知'}}</view>
     </view>
     <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=详细地址&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
       <view class='title'>
         <view>详细地址</view>
       </view>
-      <view class='count'>{{dataArr[2] || '未知'}}</view>
+      <view class='count longText'>{{dataArr[2] || '未知'}}</view>
     </view>
   </view>
   <!-- 查看设备权限部分 -->

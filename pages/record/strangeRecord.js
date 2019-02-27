@@ -1,6 +1,6 @@
 var timeoutID
 var util = require("../../utils/util.js")
-var app=getApp()
+var app = getApp()
 Page({
 
   /**
@@ -20,26 +20,26 @@ Page({
     this.init()
   },
 
-  search: function(){
+  search: function () {
     wx.navigateTo({
-      url: '/pages/searchRes/searchRes?tag=' + 1,
+      url: '/pages/searchRes/searchSta/searchSta',
     })
   },
   //页面滚动监听
   onPageScroll: function (e) {
-    if (typeof (timeoutID)!="undefined"){
+    if (typeof (timeoutID) != "undefined") {
       clearTimeout(timeoutID)
     }
-    var that=this
+    var that = this
     // console.log(e);
     that.setData({
       hideSearch: false
     })
-    timeoutID=setTimeout(function(){
+    timeoutID = setTimeout(function () {
       that.setData({
         hideSearch: true
       })
-    },2000)
+    }, 2000)
   },
 
   onPullDownRefresh: function () {
@@ -66,15 +66,16 @@ Page({
       })
     }
     wx.request({
-      url: getApp().globalData.server + '/AccessRecords/getAccessRecordsFromWx.do',
+      url: getApp().globalData.server + '/CaptureRecords/getStrangeRecordsFromWx.do',
       data: {
-        pageIndex: that.data.pageNum-1 ,
+        pageIndex: that.data.pageNum - 1,
         // pageIndex: 0,
         // regionId: app.globalData.admin.regionId,
         clientId: app.globalData.admin.clientId
       },
       method: 'post',
       success: (res) => {
+        console.log("当前页码:" + that.data.pageNum)
         let data = res.data
         console.log(data)
         let list = data.recordList
@@ -93,7 +94,7 @@ Page({
               title: '已加载至最底!',
               icon: 'none',
             })
-          }else{
+          } else {
             this.setData({
               recordList: [],
             })

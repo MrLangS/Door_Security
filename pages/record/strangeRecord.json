@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "陌生访客",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "strangeItem": "/components/strangeItem/strangeItem"
+  }
+}

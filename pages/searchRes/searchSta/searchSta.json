@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "查询",
+  "usingComponents": {
+    "strangeItem": "/components/strangeItem/strangeItem"
+  }
+}

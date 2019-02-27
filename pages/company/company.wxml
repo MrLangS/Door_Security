@@ -6,13 +6,11 @@
   <block wx:for="{{companys}}" wx:for-item="company" wx:key>
     <view class='box-shadow profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
+        <image class='avatar' src='{{company.client.clientLogoURL}}' wx:if='{{company.client.clientLogoURL}}'></image>
+        <image class='avatar' src='/images/cmpany.png' wx:else></image>
         <view class='info'>
-          <image class='avatar' src='{{company.client.clientLogoURL}}' wx:if='{{company.client.clientLogoURL}}'></image>
-          <image class='avatar' src='/images/cmpany.png' wx:else></image>
-          <view class='text'>
-            <view class='name'>{{company.client.name || '未知单位'}}</view>
-            <view>{{company.client.addr || '未知地址'}}</view>
-          </view>
+            <view class='title'>{{company.client.name || '未知单位'}}</view>
+            <view class='addr'>{{company.client.addr || '未知地址'}}</view>
         </view>
         <view class='more'>
           <image src='/images/profile_arrow.png'></image>

@@ -23,6 +23,14 @@ page {
   margin-bottom: 10rpx;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.longText{
+  flex: 1;
+  text-align: right;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
 .items .item {
   height: 90rpx;
   padding: 0 40rpx;

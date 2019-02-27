@@ -12,12 +12,14 @@ Page({
     code:'',
     iscode: '',//用于存放验证码接口里获取到的code
     codename: '发送验证码',
-    bcgImg: '/images/bcgimg.jpg',
+    bcgImg: '/images/001.jpg',
     modal: true,
     modalTo: true,
     list: [],
     staffId: 0,
     values: '',
+    //判断小程序的API，回调，参数，组件等是否在当前版本可用。
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //获取验证码
   getVerificationCode() {
@@ -129,61 +131,36 @@ Page({
     //设置导航栏背景色
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
-      backgroundColor: '#262022',
+      backgroundColor: '#0e122b',
       animation: {
         duration: 200,
         timingFunc: 'easeIn'
       }
     })
-    util.login()
+    
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        console.log(res)
+        if (res.authSetting['scope.userInfo']) {
+          util.login()
+        }else{
+          wx.redirectTo({
+            url: '/pages/authorize/authorize',
+          })
+        }
+      }
+    })
+
+    //util.login()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

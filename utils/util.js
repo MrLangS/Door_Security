@@ -272,65 +272,90 @@ function getCode(that) {
 }
 
 function login(isSubAdmin) {
+  var encryptedData=null
+  var iv=null
   // 登录
   wx.login({
     success: res => {
       // 发送 res.code 到后台换取 openId, sessionKey, unionId
       var code = res.code
-
+      
       if (code) {
         console.log('获取用户登录凭证：' + code);
-        var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do?code=' + code + '&WxUserType=3';
-        // --------- 发送凭证 ------------------
-        wx.request({
-          url: loginUrl,
-          data: { code: code },
+        wx.getUserInfo({
           success: function (res) {
-            var openid = res.data.openid //返回openid
-            console.log("openid is: " + openid);
-            app.globalData.openid = openid
-            wx.setStorageSync('openid', openid);
-            var registed = res.data.registed
-            wx.setStorageSync('registed', registed)
-            console.log("registed:" + registed)
+            encryptedData = res.encryptedData
+            iv = res.iv
+            //用户已经授权过
+            var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do';
+            // --------- 发送凭证 ------------------
+            wx.request({
+              url: loginUrl,
+              data: {
+                code: code,
+                encryptedData: encryptedData,
+                iv: iv,
+                userType: '3'
+              },
+              method: 'post',
+              success: function (res) {
+                console.log(res)
+                var openid = res.data.openid //返回openid
+                console.log("openid is: " + openid);
+                app.globalData.openid = openid
+                wx.setStorageSync('openid', openid);
+                var registed = res.data.registed
+                wx.setStorageSync('registed', registed)
+                console.log("registed:" + registed)
 
-            //已注册用户的处理
-            if(registed==1){
-              wx.request({
-                url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
-                data: {
-                  openId: openid
-                },
-                method: 'post',
-                success: function(res){
-                  console.log(res)
-                  app.globalData.sysWXUser = res.data.sysWXUser
-                  app.globalData.isMajorUser = res.data.isMajorUser
-                  app.globalData.admin = res.data.admin
-                  if (res.data.admin.valid!=false){
-                    if (isSubAdmin) {
-                      wx.switchTab({
-                        url: '../device/device',
-                      })
-                    } else {
-                      wx.switchTab({
-                        url: '../../device/device',
-                      })
+                //已注册用户的处理
+                if (registed == 1) {
+                  wx.request({
+                    url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
+                    data: {
+                      openId: openid
+                    },
+                    method: 'post',
+                    success: function (res) {
+                      console.log(res)
+                      if(typeof(res.data.admin)=='undefined'){
+                        wx.redirectTo({
+                          url: '/pages/authorize/authorize?tag=1',
+                        })
+                      }else{
+                        app.globalData.sysWXUser = res.data.sysWXUser
+                        app.globalData.isMajorUser = res.data.isMajorUser
+                        app.globalData.admin = res.data.admin
+                        if (res.data.admin.valid != false) {
+                          if (isSubAdmin) {
+                            wx.switchTab({
+                              url: '../device/device',
+                            })
+                          } else {
+                            wx.switchTab({
+                              url: '../../device/device',
+                            })
+                          }
+                        }
+                      }
+                      
                     }
-                  }
+                  })
                 }
-              })
-            }
-          },
-          fail: function () {
-            console.log("fail")
+              },
+              fail: function () {
+                console.log("fail")
+              }
+            })
           }
         })
+
       } else {
         console.log('获取用户登录态失败：' + res.errMsg);
       }
     }
   })
+  
 }
 function formatDay(that) {
   var date = that.data
