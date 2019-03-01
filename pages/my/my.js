@@ -12,6 +12,18 @@ Page({
     angle: 0,
   },
 
+  jump2visit: function(){
+    wx.navigateToMiniProgram({
+      appId: 'wxab85b5facf961d5d',
+      path: '',
+      extraData: {},
+      envVersion: 'develop',
+      success(res) {
+        console.log('跳转到人人访客')
+      }
+    })
+  },
+
   navigate2strange: function(){
     wx.navigateTo({
       url: '../record/strangeRecord',

@@ -15,7 +15,7 @@
       <view>
         <input name='company' bindinput='getCompname' placeholder='公司名称' focus></input>
       </view>
-      <button class='login' formType='submit'>下一步</button>
+      <button class='login' formType='submit' hover-class='hover-class'>下一步</button>
     </form>
   </view>
   <view class='footer'>门禁管理</view>

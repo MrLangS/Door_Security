@@ -50,6 +50,15 @@
             </view>
           </view>
 
+          <view class='box-shadow items'>
+            <view class='item' bindtap='jump2visit' hover-class='hover-class'>
+              <view class='infotitle'>
+                <view>点击跳转</view>
+              </view>
+              <view class='count'>{{'人人访客小程序'}}</view>
+            </view>
+          </view>
+
         </view>
         
         <text class="copyright">FaceOS</text>

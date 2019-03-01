@@ -63,7 +63,9 @@
         "iconPath": "images/my.png",
         "selectedIconPath": "images/my_blue.png"
       }
-
     ]
-  }
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wxab85b5facf961d5d"
+  ]
 }
