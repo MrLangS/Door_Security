@@ -24,7 +24,7 @@
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
-      <view class="code" catchtap="configDevice" data-index="{{index}}">配置wifi</view>
+      <!-- <view class="code" catchtap="configDevice" data-index="{{index}}">配置wifi</view> -->
       <view class="del" hidden='{{!isMajorUser}}' catchtap="del" data-index="{{index}}">删除</view>
     </view>
   </block>

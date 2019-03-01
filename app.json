@@ -3,7 +3,6 @@
     "pages/register/phone/phone",
     "pages/register/userInfo/userInfo",
     "pages/authorize/authorize",
-    "pages/connectedBlueTooth/connectedBlueTooth",
     "pages/device/device",
     "pages/company/company",
     "pages/addCMP/addCMP",

@@ -135,8 +135,8 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  -webkit-transform: translateX(180px);
-  transform: translateX(180px);
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
 }
