@@ -25,6 +25,7 @@ Page({
   commit(e) {
     var that=this
     let values = e.detail.value
+    console.log("表单提交")
     var json={}
     if(util.checkForm(this, 1)) {
       if(this.data.values.length!=0){
@@ -34,6 +35,27 @@ Page({
       json.company = values.company
       json.avatar=this.data.avatar
       json.picId=this.data.picId
+      // 查看是否授权
+      wx.getSetting({
+        success(res) {
+          if (!res.authSetting['scope.userLocation']) {
+            wx.authorize({
+              scope: 'scope.userLocation',
+              success() {
+                
+              },
+              fail(res) {
+                wx.showToast({
+                  title: '授权失败！',
+                })
+              }
+            })
+          }else{
+            console.log("地理位置已授权")
+          }
+        }
+      })
+      
       wx.chooseLocation({
         success: function (res) {
           console.log(res)
@@ -49,8 +71,8 @@ Page({
               clientName: json.company,
               siteName: json.siteName,
               address: json.address,
-              longitude: json.longitude+'',
-              latitude: json.latitude+'',
+              longitude: json.longitude + '',
+              latitude: json.latitude + '',
               username: json.username,
               phoneNum: json.phoneNumber,
               // userPhotoURL: json.avatar,
@@ -60,7 +82,7 @@ Page({
             header: {},
             method: 'post',
             dataType: 'json',
-            success: function(res) {
+            success: function (res) {
               console.log(res)
               app.globalData.sysWXUser = res.data.sysWXUser
               app.globalData.admin = res.data.admin
@@ -69,10 +91,11 @@ Page({
                 url: '../result/result',
               })
             },
-            fail: function(res) {},
+            fail: function (res) { },
           })
         },
       })
+      
     }
   },
 

@@ -107,11 +107,10 @@ Page({
       },
       method: 'post',
       success: (res) => {
-        console.log("当前页码:" + that.data.pageNum)
         let data = res.data
         console.log(data)
         let list = data.recordList
-        if (!util.isEmptyObject(list)) {
+        if (list.length) {
           let pageNum = this.data.pageNum + 1
           this.setData({
             pageNum,

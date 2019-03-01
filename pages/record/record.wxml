@@ -1,15 +1,49 @@
-<view hidden='{{hideSearch}}' class='search' catchtap='search' style='background:#3281ff'>
+<view hidden='{{!(hideSearch&&(currentTab==0))}}' class='search' catchtap='search' style='background:#3281ff'>
   <view class='wrapper'>
     <image src='/images/search.png'></image>
-    <view class='placeholderClass'>搜索记录</view>
-    <!-- <input placeholder-class='placeholderClass' bindblur='blur' disabled='true' confirm-type='search' placeholder='查询记录' maxlength='20' bindconfirm='commitSearch' value='{{searchText}}'></input> -->
+    <view class='placeholderClass'>搜索通行记录</view>
   </view>
 </view>
-<view class='lists'>
-  <recordItem list='{{recordList}}'></recordItem>
+<view hidden='{{!(hideSearch&&(currentTab==1))}}' class='search' catchtap='searchStg' style='background:#3281ff'>
+  <view class='wrapper'>
+    <image src='/images/search.png'></image>
+    <view class='placeholderClass'>搜索陌生记录</view>
+  </view>
 </view>
-<view class='no-box' wx:if="{{!recordList.length}}">
-  <view class='no-record'>
-    暂无记录！
-  </view> 
-</view>
+<view class="swiper-tab">    
+  <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">通行记录</view>    
+  <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">陌生记录</view> 
+</view>   
+<swiper current="{{currentTab}}" duration="300" style="height:{{height+80}}px;"  bindchange="bindChange">
+  <!-- 通行记录 -->    
+  <swiper-item>      
+    <!-- 新样式 -->
+    <view>
+      <view class='lists'>
+        <recordItem list='{{recordList}}'></recordItem>
+      </view>
+        <view class='no-box' wx:if="{{!recordList.length}}">
+        <view class='no-record'>
+          暂无记录！
+        </view>
+      </view>
+  </view>
+    
+  </swiper-item>   
+
+  <!-- 陌生记录 -->    
+  <swiper-item>      
+    
+    <view class='lists'>
+      <strangeItem list='{{strangeList}}'></strangeItem>
+    </view>
+    <view class='no-box' wx:if="{{!strangeList.length}}">
+      <view class='no-record'>
+        暂无记录！
+      </view> 
+    </view>
+    
+  </swiper-item>    
+
+</swiper>
+

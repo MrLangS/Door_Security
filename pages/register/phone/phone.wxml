@@ -12,7 +12,7 @@
           <button class='codeBtn' bindtap='getVerificationCode' disabled='{{disabled}}' >{{codename}}</button>
         </view>
       </view>
-      <button class='login' formType='submit'>下一步</button>
+      <button class='login' formType='submit' >下一步</button>
       
     </form>
   </view>

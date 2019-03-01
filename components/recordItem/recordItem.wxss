@@ -14,6 +14,7 @@
   padding: 8rpx 20rpx;
   display: flex;
   flex-direction: column;
+  
   justify-content: space-between;
 }
 .list .poster {

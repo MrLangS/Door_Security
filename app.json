@@ -10,20 +10,24 @@
     "pages/addPEO/addPEO",
     "pages/devForm/devForm",
     "pages/searchRes/searchSta/searchSta",
+    "pages/record/record",
     "pages/register/result/result",
     "pages/searchRes/searchRes",
     "pages/qrcode/qrcode",
     "pages/subAdmin/subAdmin",
     "pages/contentDEV/contentDEV",
     "pages/contentCMP/contentCMP",
-    "pages/record/record",
-    "pages/record/strangeRecord",
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/contentPEO/contentPEO",
     "pages/modify/modify",
     "pages/my/my",
     "pages/index/index"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序需要获取你的位置信息"
+    }
+  },
   "window":{
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#3281ff",

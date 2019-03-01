@@ -10,3 +10,42 @@
   line-height: 400rpx;
   text-align: center;
 }
+.search{
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  left: 0;
+}
+.swiper-tab{	
+  width: 100%;	
+  border-bottom: 
+  2rpx solid #777777;	
+  text-align: center;	
+  line-height: 80rpx;
+  background-color: #3281ff;
+}
+/* .abs{
+  position: relative;
+  margin-top: 90rpx;
+} */
+.swiper-tab-list{  
+  font-size: 30rpx;    
+  display: inline-block;
+  width: 50%;	
+  color: #fff;
+  opacity: 0.3;
+}
+.swiper-tab-li{  
+  font-size: 30rpx;    
+  display: inline-block;
+  width: 100%;	
+  color: #ffffff;
+}
+.on{ 
+  background-color: #3281ff;
+  color: #ffffff;	
+  border-bottom: 5rpx solid #63d958;
+  opacity: 1;
+} 

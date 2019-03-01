@@ -197,7 +197,7 @@ Page({
           let data = res.data
           console.log(data)
           let list = data.persons
-          if (!util.isEmptyObject(list)) {
+          if (list.length) {
             let pageNum = this.data.pageNum + 1
             this.setData({
               pageNum,

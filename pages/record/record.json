@@ -1,7 +1,8 @@
 {
-  "navigationBarTitleText": "通行记录",
+  "navigationBarTitleText": "记录",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "recordItem": "/components/recordItem/recordItem"
+    "recordItem": "/components/recordItem/recordItem",
+    "strangeItem": "/components/strangeItem/strangeItem"
   }
 }
