@@ -10,6 +10,15 @@ Page({
     startY: 0,
     remind: '加载中',
     angle: 0,
+    sum: 0,
+  },
+  navigate2perList: function(){
+    wx.navigateTo({
+      url: '../perRegister/perList/perList',
+    })
+    // wx.showTabBarRedDot({
+    //   index: 3,
+    // })
   },
 
   jump2visit: function(){
@@ -145,6 +154,7 @@ Page({
       user: app.globalData.sysWXUser||'',
       isMajorUser: app.globalData.isMajorUser
     })
+
   },
 
 
@@ -154,9 +164,24 @@ Page({
       url: app.globalData.server + '/ClientInfoAction!getById.do?id=' + app.globalData.admin.clientId,
       method: 'post',
       success: function (res) {
-        console.log(res)
         that.setData({
           company: res.data
+        })
+      }
+    })
+
+    wx.request({
+      url: app.globalData.server + '/TransitPerson/getUnauditedPersons.do',
+      data: {
+        clientId: app.globalData.admin.clientId,
+        pageIndex: 0
+      },
+      method: 'post',
+      success: function (res) {
+        console.log('审核列表信息:')
+        console.log(res)
+        that.setData({
+          sum: res.data.totalCount
         })
       }
     })

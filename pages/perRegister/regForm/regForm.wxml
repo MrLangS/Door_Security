@@ -1,0 +1,30 @@
+<view class='wrapper'>
+  <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill' ></image>
+  <view class='top'>
+    <view class='avator'>
+      <view><image bindtap='chooseImg' src='{{avatar?avatar:"/images/empty_avatar_user.png"}}' background-size="cover"></image></view>
+      <view class='progress' hidden='{{progress}}'>
+        <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
+      </view>
+      <view class='tip'>头像</view>
+    </view>
+    <form class='form' report-submit='true' bindsubmit='commit'>
+      <view class='border'>
+        <input name='username' bindinput='getUsername' placeholder='姓名'></input>
+      </view>
+      <view class='border'>
+        <input name='phoneNumber' bindinput='getPhonenum' type='number' placeholder='手机号'></input>
+      </view>
+      <view>
+        <input wx:if='{{company}}' name='company' placeholder='公司名称' disabled='true' value='{{company||"未知单位"}}'></input>
+        <picker wx:else bindchange="bindPickerChange" name="picker" value="{{array[index].clientId}}" range="{{array}}">
+          <view class="picker">
+            {{array[index].clientName}}
+          </view>
+        </picker>
+      </view>
+      <button class='login' formType='submit' hover-class='hover-class'>确认</button>
+    </form>
+  </view>
+  <view class='footer'>自助注册</view>
+</view>

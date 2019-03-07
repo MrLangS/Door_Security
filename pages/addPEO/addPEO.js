@@ -44,8 +44,6 @@ Page({
     this.setData({
       pre_devices: this.data.devices
     })
-    console.log("记录进入前的设备列表:")
-    console.log(this.data.pre_devices)
     pre_checkedDev = [].concat(this.data.checkedDev)
     pre_checkedId = [].concat(this.data.checkedId)
   },
@@ -91,25 +89,13 @@ Page({
       checkedDev: checkedDev,
       checkedId: checkedId
     })
-    console.log(this.data.checkedDev)
-    console.log("选择进行时的设备列表:")
-    console.log(this.data.devices)
-    console.log("选择进行时的过去设备列表:")
-    console.log(this.data.pre_devices)
+
   },
 
   radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.setData({
       tag: e.detail.value=='admin'? true : false
     })
-    // if (e.detail.value == 'admin'){
-    //   wx.showToast({
-    //     title: '确认后需选择微信用户进行转发，并通知他填写手机号进行验证，对方验证通过后子管理员方能添加成功!',
-    //     icon: 'none',
-    //     duration: 6000,
-    //   })
-    // }
   },
   commit: function (e) {
     var that=this

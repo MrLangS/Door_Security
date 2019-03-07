@@ -81,7 +81,9 @@
       <view class="del" catchtap="del" data-index="{{index}}" data-flag='1' >删除</view>
     </view>
   </view>
-  <view class='new' catchtap='newCMP'>
-    <view>新增人员</view>
+
+  <view class='new'>
+    <view style='background: #3281ff;' class='bottom' hover-class='hover-cla' catchtap='newCMP'>新增人员</view>
+    <button style='background: #4289ff;' class='bottom bottombut' hover-class='hover-cla' open-type="share">自助注册</button>
   </view>
 </view>

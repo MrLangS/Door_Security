@@ -51,6 +51,15 @@
           </view>
 
           <view class='box-shadow items'>
+            <view class='item' bindtap='navigate2perList' hover-class='hover-class'>
+              <view class='infotitle'>
+                <view>待审核</view>
+              </view>
+              <view class='count {{sum==0 ? "" : "reddot"}}'>{{sum}}人</view>
+            </view>
+          </view>
+
+          <view class='box-shadow items'>
             <view class='item' bindtap='jump2visit' hover-class='hover-class'>
               <view class='infotitle'>
                 <view>点击跳转</view>

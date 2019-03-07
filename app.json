@@ -1,6 +1,9 @@
 {
   "pages":[
     "pages/register/phone/phone",
+    "pages/index/index",
+    "pages/perRegister/regForm/regForm",
+    "pages/perRegister/perList/perList",
     "pages/register/userInfo/userInfo",
     "pages/authorize/authorize",
     "pages/device/device",
@@ -19,8 +22,7 @@
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/contentPEO/contentPEO",
     "pages/modify/modify",
-    "pages/my/my",
-    "pages/index/index"
+    "pages/my/my"
   ],
   "permission": {
     "scope.userLocation": {

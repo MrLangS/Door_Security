@@ -6,8 +6,13 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+
+function getCurrentTime(){
+  return formatTime(new Date())
+}
+
 var app=getApp()
 const formatNumber = n => {
   n = n.toString()
@@ -220,6 +225,12 @@ function checkForm(that,tag) {
     } else {
       return false
     }
+  }else if(tag==2){
+    if (checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that)) {
+      return true
+    } else {
+      return false
+    }
   }else{
     if (checkImage(that) && checkUsername(that) && checkCompname(that)) {
       return true
@@ -271,6 +282,59 @@ function getCode(that) {
   }
 }
 
+function login2getId() {
+  var encryptedData = null
+  var iv = null
+  // 登录
+  wx.login({
+    success: res => {
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      var code = res.code
+
+      if (code) {
+        console.log('获取用户登录凭证：' + code);
+        wx.getUserInfo({
+          success: function (res) {
+            encryptedData = res.encryptedData
+            iv = res.iv
+            //用户已经授权过
+            var loginUrl = getApp().globalData.server + '/SysWXUserAction/onLogin.do';
+            // --------- 发送凭证 ------------------
+            wx.request({
+              url: loginUrl,
+              data: {
+                code: code,
+                encryptedData: encryptedData,
+                iv: iv,
+                userType: '3'
+              },
+              method: 'post',
+              success: function (res) {
+                console.log(res)
+                var openid = res.data.openid //返回openid
+                console.log("openid is: " + openid);
+                app.globalData.openid = openid
+                app.globalData.realOpenid = res.data.miniproId
+                wx.setStorageSync('openid', openid);
+                var registed = res.data.registed
+                wx.setStorageSync('registed', registed)
+                console.log("registed:" + registed)
+              },
+              fail: function () {
+                console.log("fail")
+              }
+            })
+          }
+        })
+
+      } else {
+        console.log('获取用户登录态失败：' + res.errMsg);
+      }
+    }
+  })
+
+}
+
 function login(isSubAdmin) {
   var encryptedData=null
   var iv=null
@@ -302,7 +366,9 @@ function login(isSubAdmin) {
                 console.log(res)
                 var openid = res.data.openid //返回openid
                 console.log("openid is: " + openid);
+                console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
+                app.globalData.realOpenid = res.data.miniproId
                 wx.setStorageSync('openid', openid);
                 var registed = res.data.registed
                 wx.setStorageSync('registed', registed)
@@ -366,7 +432,9 @@ module.exports = {
   getCode: getCode,
   checkForm: checkForm,
   JsonToArray: JsonToArray,
+  getCurrentTime: getCurrentTime,
   login: login,
+  login2getId: login2getId,
   checkStaffForm: checkStaffForm,
   isEmptyObject: isEmptyObject,
   getPicker: getPicker,

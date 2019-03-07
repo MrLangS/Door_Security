@@ -1,0 +1,41 @@
+
+<form bindsubmit="formSubmit" report-submit>
+  
+    <checkbox-group name='checkbox' bindchange="checkboxChange">
+      <view class='items'>
+        <button plain class="formbtn" wx:for="{{items}}" wx:key hover-class='none' form-type="submit" 
+        data-type="{{index}}">
+
+        <view class='item perList' >
+          <!-- <checkbox value="{{item.name}}" checked="{{item.checked}}" />
+          <view>{{item.value}}</view> -->
+
+          <view class='content'>
+            <view class='title'>
+              <checkbox value="{{item.id}}" checked="{{item.checked}}" />
+              <image src='{{item.photoURL?item.photoURL:"/images/empty_avatar_user.png"}}'></image>
+              <view>{{item.personName || '未知'}}</view>
+            </view>
+            <view class='count' style='line-height:90rpx' catchtap='makeCall' data-index="{{index}}">
+              <view>{{item.personCompany||'公司名称'}}</view>
+            </view>
+          </view>
+        </view>
+
+        </button>  
+      </view>
+    </checkbox-group>
+  
+</form>
+<view class='new {{isTouchMove ? "touch-move-right" : "touch-move-left"}}' bindtouchstart="touchstart" bindtouchmove="touchmove">
+  <view style='background: #0fe814;' class='bottom left' hover-class='hover-blue' catchtap='chooseDev'>确认接受</view>
+  <view>{{isTouchMove? '右滑接受' : '左滑拒绝'}}</view>
+  <view style='background: orangered;' class='bottom right' hover-class='hover-red' catchtap='reject'>确认拒绝</view>
+</view>
+<!-- 设备弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="分配设备" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+    <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
+</modal>
+
+

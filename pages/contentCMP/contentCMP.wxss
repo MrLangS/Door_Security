@@ -2,6 +2,7 @@
   padding-top: 20rpx;
   padding-bottom: 100rpx;
 }
+
 .new{
   background: #fff;
   height: 90rpx;
@@ -9,13 +10,29 @@
   width: 100%;
   z-index: 100;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   right: 0;
   bottom: 0;
   left: 0;
   color: white;
   background: #3281ff;
+}
+.bottom{
+  height: 90rpx;
+  line-height: 90rpx;
+  width: 50%;
+  text-align: center;
+}
+.bottombut{
+  -webkit-font-smoothing: antialiased;
+  font-family: "PingHei","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+  font-size: 28rpx;
+  color: #fff;
+}
+.hover-cla {
+  background: #f2f2f2 !important;
+  color: #3281ff;
 }
 
 .content{

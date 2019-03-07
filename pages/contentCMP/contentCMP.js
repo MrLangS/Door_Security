@@ -501,6 +501,23 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    var that = this
+    //转发部分
+    return {
+      title: '自助注册',
+      path: 'pages/perRegister/regForm/regForm?clientId=' + that.data.company.id + '&companyName=' + that.data.company.name,
+      imageUrl: '',
+      success: function (res) {
+        console.log("转发成功:");
+        var shareTickets = res.shareTickets;
+      },
+      fail: function (res) {
+        console.log("转发失败:" + JSON.stringify(res));
+        wx.showToast({
+          title: '邀请失败',
+          duration: 1500
+        })
+      }
+    }
   }
 })

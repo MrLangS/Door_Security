@@ -1,0 +1,93 @@
+.perList{
+  background: #fff;
+}
+.formbtn{
+  border:none;
+  text-align:left;
+  padding:0;
+  margin:0;
+  line-height:1.5;
+}
+.content{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(70px);
+  transform: translateX(70px);
+  margin-left: -70px;
+}
+.items .item image {
+  width: 42rpx;
+  height: 42rpx;
+  margin-right: 10rpx;
+}
+.new{
+  background: #fff;
+  height: 90rpx;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background: #3281ff;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px;
+}
+.bottom{
+  height: 90rpx;
+  line-height: 90rpx;
+  width: 180rpx;
+  text-align: center;
+}
+.right{
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.left{
+  -webkit-transform: translateX(-180px);
+  transform: translateX(-180px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.touch-move-right .right {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.touch-move-left .left {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.hover-blue {
+  background: #f2f2f2 !important;
+  color: #0fe814;
+}
+.hover-red {
+  background: #f2f2f2 !important;
+  color: orangered;
+}
+.checkbox{
+  display:inline-block;
+  margin:10px;
+  padding:6px;
+  background:#eee;
+  border-radius: 4px;
+}
+.checkedActive{
+  background:#40a7e7;
+  color:#fff;
+}
+.none{
+  text-align: center;
+}

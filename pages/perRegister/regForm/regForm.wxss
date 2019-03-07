@@ -1,0 +1,13 @@
+@import "/pages/register/userInfo/userInfo.wxss";
+.picker{
+  width: 100%;
+  padding-left: 30rpx;
+  box-sizing: border-box;
+  height: 100rpx;
+  border-radius: 4rpx;
+  border-bottom: 1rpx solid #efefef;
+  line-height: 100rpx;
+  -webkit-font-smoothing: antialiased;
+  font-family: "PingHei","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+  font-size: 28rpx;
+}
