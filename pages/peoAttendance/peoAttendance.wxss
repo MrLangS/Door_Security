@@ -1,0 +1,5 @@
+@import "../modifyCompDevs/modifyCompDevs.wxss";
+.centerTitle{
+  text-align: center;
+  color: #40a7e7;
+}

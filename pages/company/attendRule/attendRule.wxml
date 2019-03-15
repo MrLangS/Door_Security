@@ -1,0 +1,100 @@
+<view class='wrapper'>
+  <view class='card items'>
+    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
+      <view class='title'>
+        <view>{{name|| '未知'}}</view>
+      </view>  
+      <image catchtap='preview' class='rightImg' src='{{img?img:"/images/cmpany.png"}}'></image>
+    </view>
+  </view>
+  <view class='card items'>
+  <!-- 新建考勤组 -->
+  <view wx:if='{{newRule}}' class='setting'>
+    <view class='s'>
+      <view class='t'>
+        <view bindtap='newRule' hover-class='hover-class' class='title'>
+          <view class='centerTitle'>建立考勤组</view>
+        </view>
+      </view>
+    </view>
+  </view>
+    <!-- 设备部分 -->
+  <view wx:else class='setting'>
+    <view class='s'>
+      <view class='t'>
+        <view class='title'>
+          <view class='centerTitle'>考勤规则</view>
+        </view>
+        <view class='content sub'>
+          <view class='item'>
+            <view>
+              <view>考勤组</view>
+            </view>
+            <view><input style='text-align:right' class='content-end {{hasPopped? "content-edit":""}}' value='{{groupName}}' bindinput='getGroupName' disabled='{{!hasPopped}}' placeholder='填写名称' placeholder-class='content-end'></input>
+            </view>
+          </view>  
+          <view class='item'>
+            <view>
+              <view>上班时间</view>
+            </view>
+            <view>
+              <picker mode='time' value='{{startTime}}' class='content-end {{hasPopped? "content-edit":""}}' disabled='{{!hasPopped}}' start='07:00' end='24:00' bindchange='startTimeChange' bindcancel=''>
+                <view>{{startTime}}</view>
+              </picker>
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>上班延迟</view>
+            </view>
+            <view>
+              <picker value='{{staIndex}}' range='{{delay}}' class='content-end {{hasPopped? "content-edit":""}}' disabled='{{!hasPopped}}' bindchange='staDelayTimeChange' bindcancel=''>
+                <view>{{delay[staIndex]}}分</view>
+              </picker>
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>下班时间</view>
+            </view>
+            <view>
+              <picker mode='time' value='{{endTime}}' class='content-end {{hasPopped? "content-edit":""}}' start='07:00' end='24:00' disabled='{{!hasPopped}}' bindchange='endTimeChange' bindcancel=''>
+                <view>{{endTime}}</view>
+              </picker>
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>早退允许</view>
+            </view>
+            <view>
+              <picker value='{{endIndex}}' range='{{delay}}' class='content-end {{hasPopped? "content-edit":""}}' bindchange='endDelayTimeChange' disabled='{{!hasPopped}}' bindcancel=''>
+                <view>{{delay[endIndex]}}分</view>
+              </picker>
+            </view>
+          </view> 
+          <view class='item' catchtap='chooseDay'>
+            <view>
+              <view>工作日</view>
+            </view>
+            <view class='content-end {{hasPopped? "content-edit":""}}'>{{checked.length?'周'+checked : '请选择'}}
+            </view>
+          </view> 
+        </view>
+      </view>
+    </view>
+  </view>
+  </view>
+</view>
+<text wx:if='{{!newRule}}' class="copyright">{{hasPopped? '修改需要点击✔保存' : '点击图标进行编辑'}}</text>
+<!-- 工作日 -->
+<modal hidden="{{hiddenmodal}}" title="选择工作日" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+    <view wx:for="{{week}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.value}}</view>
+</modal>
+<!-- 悬浮菜单  wx:if='{{!bcgImgAreaShow}}'-->
+  <view class='menus' wx:if='{{!newRule}}'>
+    <image src="/images/confirm.png" animation="{{animationOne}}" class="menu" bindtap="menuOne"  style='top:{{pos.top}}px;left:{{pos.left}}px;'></image>
+    <!-- <image src="/images/edit.png" animation="{{animationTwo}}" class="menu" bindtap="menuTwo"  style='top:{{pos.top}}px;left:{{pos.left}}px;'></image> -->
+    <image src="/images/cancel.png" animation="{{animationThree}}" class="menu" bindtap="menuThree"  style='top:{{pos.top}}px;left:{{pos.left}}px;'></image>
+    <image src="/images/edit.png" animation="{{animationMain}}" class="menu main" bindtap="menuMain" catchtouchmove='menuMainMove' style='top:{{pos.top}}px;left:{{pos.left}}px;'></image>
+  </view>

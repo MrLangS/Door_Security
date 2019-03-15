@@ -1,4 +1,5 @@
 var app = getApp()
+var util = require("../../utils/util.js")
 Page({
 
   /**
@@ -21,11 +22,7 @@ Page({
   },
 
   configDevice: function(e){
-    // wx.showToast({
-    //   title: '正在完善，后续版本即可使用',
-    //   icon: 'none',
-    //   duration: 1500,
-    // })
+    
     this.initBlue()
   },
 
@@ -37,33 +34,10 @@ Page({
     wx.navigateTo({
       url: '../connectedBlueTooth/connectedBlueTooth',
     })
-    // wx.openBluetoothAdapter({//调用微信小程序api 打开蓝牙适配器接口
-    //   success: function (res) {
-    //     // console.log(res)
-    //     wx.showToast({
-    //       title: '初始化成功',
-    //       icon: 'success',
-    //       duration: 800
-    //     })
-        
-    //     //that.findBlue();//2.0
-    //   },
-    //   fail: function (res) {//如果手机上的蓝牙没有打开，可以提醒用户
-    //     wx.showToast({
-    //       title: '请开启蓝牙',
-    //       icon: 'none',
-    //       duration: 1000
-    //     })
-    //     wx.navigateTo({
-    //       url: '../blueTooth/blueTooth',
-    //     })
-    //   }
-    // })
   },
 
   navigatItem: function (e) {
     console.log(e.currentTarget.dataset.index)
-    // var json = this.data.devices[e.currentTarget.dataset.index]
     wx.navigateTo({
       url: '../contentDEV/contentDEV?data=' + JSON.stringify(this.data.devices[e.currentTarget.dataset.index]),
     })
@@ -213,6 +187,8 @@ Page({
     that.setData({
       devices: items
     });
+
+    util.redotListener()
   },
 
   /**

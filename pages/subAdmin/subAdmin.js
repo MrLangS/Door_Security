@@ -24,6 +24,25 @@ Page({
     this.setData({
       phoneNumber: e.detail.value
     })
+    if (this.bindPhoneChange(e.detail.value)) {
+      this.setData({
+        isaPhoneNum: true
+      })
+    } else {
+      this.setData({
+        isaPhoneNum: false
+      })
+    }
+  },
+  bindPhoneChange(num) {
+    var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+    if (num == "") {
+      return false;
+    } else if (!myreg.test(num)) {
+      return false;
+    } else {
+      return true
+    }
   },
   getCodeValue: function (e) {
     this.setData({
@@ -43,6 +62,7 @@ Page({
           url: getApp().globalData.server + '/UserAction!saveSubAdmin.do',
           data: {
             wxOpenId: getApp().globalData.openid,
+            miniproId: getApp().globalData.realOpenid,
             unitName: subAdmin.companyName,
             clientId: parseInt(subAdmin.companyId),
             username: subAdmin.name,

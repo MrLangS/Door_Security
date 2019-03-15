@@ -16,8 +16,8 @@
         <input name='phoneNumber' bindinput='getPhonenum' type='number' placeholder='手机号'></input>
       </view>
       <view>
-        <input wx:if='{{company}}' name='company' placeholder='公司名称' disabled='true' value='{{company||"未知单位"}}'></input>
-        <picker wx:else bindchange="bindPickerChange" name="picker" value="{{array[index].clientId}}" range="{{array}}">
+        <input wx:if='{{tag}}' name='company' placeholder='公司名称' disabled='true' value='{{company||"未知单位"}}'></input>
+        <picker wx:else bindchange="bindPickerChange" name="picker" value="{{index}}" range="{{values}}">
           <view class="picker">
             {{array[index].clientName}}
           </view>

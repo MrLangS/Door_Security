@@ -1,14 +1,18 @@
 .wrapper {
-  padding-top: 110rpx;
+  padding-top: 110rpx !important;
 }
 .profile {
-  /* width: 100%; */
   height: 180rpx;
   display: flex;
   justify-content: space-between;
   align-items: center; 
-  /* padding-left: 40rpx; */
   overflow: hidden
+}
+
+.modalpicker{
+  position: relative;
+  width: 100%; 
+  height: 300px;
 }
 .profile .avatar {
   width: 90rpx;
@@ -91,9 +95,24 @@
   margin-right: 0;
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
-  -webkit-transform: translateX(90px);
-  transform: translateX(90px);
-  margin-left: -90px;
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  margin-left: -180px;
+}
+.code {
+  background-color: #d3d3d3;
+  height: 180rpx;
+  width: 90px;
+  display: flex;
+  /* margin-left: 40rpx; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 .del {
   background-color: orangered;
@@ -110,7 +129,7 @@
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
 }
-.touch-move-active .item, .touch-move-active .del {
+.touch-move-active .item, .touch-move-active .del, .touch-move-active .code {
   -webkit-transform: translateX(0);
   transform: translateX(0);
 }

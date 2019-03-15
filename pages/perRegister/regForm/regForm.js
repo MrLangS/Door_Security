@@ -8,6 +8,7 @@ Page({
     quality: 1,
     username: '',//姓名
     company: '',
+    tag: true,
     picId: 0,
     progress: true,
     active: false,
@@ -19,45 +20,50 @@ Page({
   },
 
   commit: function(e) {
-    util.checkForm(this,2)
-    var that=this
+    var that = this
     var formId = e.detail.formId
-    
-    wx.request({
-      url: app.globalData.server + '/TransitPerson/indepregistered.do',
-      data: {
-        clientId: parseInt(this.data.clientId+''),
-        personName: this.data.username,
-        phoneNo: this.data.phoneNumber,
-        picId: this.data.picId,
-        openId: app.globalData.realOpenid,
-        unionId: app.globalData.openid,
-        formId: formId
-      },
-      method: 'post',
-      success: res=>{
-        if(res.data.result=='SUCCESS'){
+    if(util.checkForm(this,2)){
+      wx.request({
+        url: app.globalData.server + '/TransitPerson/indepregistered.do',
+        data: {
+          clientId: parseInt(this.data.clientId + ''),
+          personName: this.data.username,
+          phoneNo: this.data.phoneNumber,
+          picId: this.data.picId,
+          openId: app.globalData.realOpenid,
+          unionId: app.globalData.openid,
+          formId: formId
+        },
+        method: 'post',
+        success: res => {
+          console.log(res)
+          if (res.data.result == 'SUCCESS') {
+            wx.showToast({
+              title: '提交成功，请耐心等待管理员审核',
+              icon: 'success',
+              duration: 2000
+            })
+            wx.redirectTo({
+              url: '../result/result',
+            })
+          } else {
+            wx.showToast({
+              title: '抱歉，一个微信用户只能注册一次',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        },
+        fail: res => {
           wx.showToast({
-            title: '提交成功，请耐心等待管理员审核',
-            icon: 'none',
-            duration: 2000
-          })
-        }else{
-          wx.showToast({
-            title: '提交失败，请核对信息是否正确',
+            title: '网络异常',
             icon: 'none',
             duration: 2000
           })
         }
-      },
-      fail: res=>{
-        wx.showToast({
-          title: '网络异常',
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    })
+      })
+    }
+    
   },
 
   onLoad: function (options) {
@@ -75,14 +81,20 @@ Page({
       })
     }
 
-    if (typeof (options.deviceId) != 'undefined') {
-      let head = { "clientId": 0, "clientName": "选择单位" }
+    if (options.scene) {
+      let scene = decodeURIComponent(options.scene);
+      let head = { clientId: 0, clientName: "选择单位" }
       wx.request({
-        url: getApp().globalData.server + '/DoorDevice/getRelevanceUnits.do?devId=' + options.deviceId,
+        url: getApp().globalData.server + '/DoorDevice/getRelevanceUnits.do?devId=' + scene,
         method: 'post',
         success: res => {
+          var arr = res.data
+          arr.unshift(head)
+          var values = arr.map(e => { return e.clientName })
           that.setData({
-            array: res.data.unshift(head)
+            array: arr,
+            tag: false,
+            values: values
           })
         }
       })
@@ -101,7 +113,6 @@ Page({
     // 查看是否授权
     wx.getSetting({
       success: function (res) {
-        console.log(res)
         if (res.authSetting['scope.userInfo']) {
           //登录
           util.login2getId()
@@ -115,10 +126,11 @@ Page({
   },
 
   bindPickerChange: function(e){
-    var clientId = this.data.array[e.detail.value]
+    var clientId = this.data.array[e.detail.value].clientId
     this.setData({
       index: e.detail.value,
-      clientId: clientId
+      clientId: clientId ,
+      company: this.data.array[e.detail.value].clientName
     })
   },
 
@@ -127,11 +139,7 @@ Page({
       username: e.detail.value
     })
   },
-  // getCompname: function (e) {
-  //   this.setData({
-  //     company: e.detail.value
-  //   })
-  // },
+
   getPhonenum: function(e){
     this.setData({
       phoneNumber: e.detail.value

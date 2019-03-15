@@ -27,13 +27,18 @@
     </checkbox-group>
   
 </form>
+<view class='no-box' wx:if="{{!items.length}}">
+  <view class='no-record'>
+    0人待审核！
+  </view> 
+</view>
 <view class='new {{isTouchMove ? "touch-move-right" : "touch-move-left"}}' bindtouchstart="touchstart" bindtouchmove="touchmove">
   <view style='background: #0fe814;' class='bottom left' hover-class='hover-blue' catchtap='chooseDev'>确认接受</view>
   <view>{{isTouchMove? '右滑接受' : '左滑拒绝'}}</view>
   <view style='background: orangered;' class='bottom right' hover-class='hover-red' catchtap='reject'>确认拒绝</view>
 </view>
 <!-- 设备弹窗 -->
-<modal hidden="{{hiddenmodal}}" title="分配设备" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+<modal hidden="{{hiddenmodal}}" title="分配设备权限" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
     <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
     <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
 </modal>

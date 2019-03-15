@@ -1,0 +1,40 @@
+<view class='wrapper'>
+  <view class='card items'>
+    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
+      <view class='title'>
+        <view>{{dataArr[1]|| '未知'}}</view>
+      </view>  
+      <image catchtap='preview' class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/empty_avatar_user.png"}}'></image>
+    </view>
+  </view>
+  <view class='card items'>
+    <!-- 部分 -->
+  <view class='setting'>
+    <view class='s'>
+      <view class='t'>
+        <view class='title'>
+          <view class='centerTitle'>考勤统计</view>
+        </view>
+        <view class='content sub'>
+          <view class='item'>
+            <view>
+              <view>{{item.devName||'考勤组'}}</view>
+            </view>
+            <view><input style='text-align:right' value='' placeholder='名称'></input>
+            </view>
+          </view>  
+          <view class='item'>
+            <view>
+              <view>{{item.devName||'出勤天数'}}</view>
+            </view>
+            <view>
+              30天
+            </view>
+          </view> 
+          
+        </view>
+      </view>
+    </view>
+  </view>
+  </view>
+</view>

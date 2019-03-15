@@ -68,6 +68,7 @@ Page({
             url: getApp().globalData.server + '/ClientInfoAction!registerClient.do',
             data: {
               wxOpenId: wx.getStorageSync('openid'),
+              miniproId: app.globalData.realOpenid,
               clientName: json.company,
               siteName: json.siteName,
               address: json.address,

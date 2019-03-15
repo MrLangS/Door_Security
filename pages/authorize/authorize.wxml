@@ -14,7 +14,7 @@
       <view class="bd">
          <!-- <image class="smalltitle" src="/images/more/confirm-word1.png"></image> -->
         <block wx:if="{{tip}}">
-          <view class='tip'>抱歉！您已在访客小程序注册普通用户，唯有内部管理人员能使用门禁小程序</view>
+          <view class='tip'>抱歉！检测到您是普通用户，唯有内部管理人员能使用门禁小程序进行管理</view>
         </block>
         <block wx:else>
           <view class="confirm-btn">

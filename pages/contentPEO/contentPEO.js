@@ -90,11 +90,6 @@ Page({
       checkedDev: checkedDev,
       checkedId: checkedId
     })
-    console.log(this.data.checkedDev)
-    console.log("选择进行时的设备列表:")
-    console.log(this.data.devices)
-    console.log("选择进行时的过去设备列表:")
-    console.log(this.data.pre_devices)
   },
   chooseImg: function () {
     var that = this
@@ -121,8 +116,6 @@ Page({
                 personId: that.data.peo.person.id
               },
               success: (res) => {
-                console.log('上传图片请求结果：')
-                console.log(res)
                 if (res.data.msg == 'ok') {
                   dataArr[0] = res.data.photoURL
                   that.setData({
@@ -190,7 +183,6 @@ Page({
       url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',
       success: (res) => {
-        console.log(res)
         this.setData({
           devices: res.data
         })
@@ -223,7 +215,6 @@ Page({
    */
   onShow: function () {
     if (this.data.isModify) {
-      console.log('保存人员修改信息')
       wx.request({
         url: getApp().globalData.server + '/TransitPerson/updatePersonFromWx.do',
         data: {
@@ -246,32 +237,4 @@ Page({
   onHide: function () {
 
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

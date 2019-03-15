@@ -8,8 +8,8 @@
       <view>
         <input name='phoneNumber' bindinput='getPhoneValue' type='number' placeholder='手机号'></input>
         <view class='code'>
-          <input name='code' bindinput='getCodeValue' placeholder='验证码' value='{{code}}'></input>
-          <button class='codeBtn' bindtap='getVerificationCode' disabled='{{disabled}}' >{{codename}}</button>
+          <input name='code' bindinput='getCodeValue' type='number' placeholder='验证码' value='{{code}}'></input>
+          <button class='codeBtn {{isaPhoneNum? "blue-color" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}' >{{codename}}</button>
         </view>
       </view>
       <button class='login' formType='submit' hover-class='hover-class'>下一步</button>

@@ -2,6 +2,7 @@ var globalData = getApp().globalData
 var app=getApp()
 var pre_checkedDev = []
 var pre_checkedId = []
+var util = require("../../../utils/util.js")
 Page({
 
   data: {
@@ -46,6 +47,7 @@ Page({
 
   reject(){
     //未通过审核
+    var that = this
     if (this.data.arr.length){
       wx.request({
         url: app.globalData.server + '/TransitPerson/approvalPersonnel.do',
@@ -56,21 +58,25 @@ Page({
         },
         method: 'post',
         success: function (res) {
-          console.log(res)
           var list=res.data
           if (list.length){
             wx.showToast({
               title: '拒绝成功',
               icon: 'none',
-              duration: 1000
+              duration: 2000
             })
+            that.setData({
+              arr: []
+            })
+            that.reload(true)
+            
             for(var one of list){
               //发送模版消息
               wx.request({
                 url: app.globalData.server + '/SysWXUserAction/sendTemplateMessage.do',
                 data: {
-                  openId: one.openId, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
-                  formId: one.formId,
+                  openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
+                  formId: one.formid,
                   templateId: 'VM72gcZpduGU5gxLfySyPdr6o7_19n5OEzE-O1NrqhQ',
                   Data: {
                     keyword1: { value: '抱歉，您的申请失败了' },
@@ -91,7 +97,8 @@ Page({
           }
         }
       })
-      this.reload(true)
+
+      
     }else{
       wx.showToast({
         title: '当前尚未选择',
@@ -129,6 +136,7 @@ Page({
     });
   },
   confirm: function () {
+    var that=this
     this.setData({
       hiddenmodal: true,
       choosedDEV: this.data.checkedDev,
@@ -152,23 +160,28 @@ Page({
         if (list.length) {
           wx.showToast({
             title: '接受成功',
-            icon: 'none',
-            duration: 1000
+            icon: 'success',
+            duration: 1500
           })
+          that.setData({
+            arr: []
+          })
+          that.reload(true)
+          
           for (var one of list) {
             //发送模版消息
             wx.request({
               url: app.globalData.server + '/SysWXUserAction/sendTemplateMessage.do',
               data: {
-                openId: one.openId, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
-                formId: one.formId,
+                openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
+                formId: one.formid,
                 templateId: 'VM72gcZpduGU5gxLfySyPdr6o7_19n5OEzE-O1NrqhQ',
                 Data: {
                   keyword1: { value: '您的申请已通过' },
                   keyword2: { value: app.globalData.admin.userName },
                   keyword3: { value: app.globalData.admin.phoneNum },
                   keyword4: { value: util.getCurrentTime() },
-                  keyword5: { value: '如有疑问可联系相应管理员' }
+                  keyword5: { value: '现可刷脸通行相应设备' }
                 }
               },
               method: 'post',
@@ -181,7 +194,7 @@ Page({
         }
       }
     })
-    this.reload(true)
+
   },
   //多选
   userCheck: function (e) {
@@ -238,6 +251,7 @@ Page({
     if (reload) {
       this.setData({
         pageNum: 1,
+        items: []
       })
     }
     wx.request({
@@ -248,8 +262,7 @@ Page({
       },
       method: 'post',
       success: (res) => {
-        console.log("当前页码:" + that.data.pageNum)
-        console.log(res)
+        
         let list = res.data.persons
         if (list.length) {
           let pageNum = this.data.pageNum + 1

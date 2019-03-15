@@ -54,7 +54,7 @@ function getPicker(tag) {
   } else if (tag == 'day') {
     return date.getDate()
   } else if (tag == 'arr') {
-    return [date.getFullYear() - 2017, date.getMonth(), date.getDate() - 1]
+    return [date.getFullYear() - 2017, date.getMonth()]
   } else if (tag == 'hour') {
     return date.getHours()
   } else if (tag == 'minute') {
@@ -134,9 +134,9 @@ function checkUsername(that) {
   }
 }
 function checkCompname(that) {
-  if (that.data.company == "") {
+  if (that.data.company == "" || that.data.company == "选择单位") {
     wx.showToast({
-      title: '公司名称不能为空',
+      title: '单位名称不能为空',
       icon: 'none',
       duration: 1000
     })
@@ -335,6 +335,25 @@ function login2getId() {
 
 }
 
+function redotListener(){
+  wx.request({
+    url: app.globalData.server + '/TransitPerson/getUnauditedPersons.do',
+    data: {
+      clientId: app.globalData.admin.clientId,
+      pageIndex: 0
+    },
+    method: 'post',
+    success: function (res) {
+      
+      if(res.data.totalCount){
+        wx.showTabBarRedDot({
+          index: 3,
+        })
+      }
+    }
+  })
+}
+
 function login(isSubAdmin) {
   var encryptedData=null
   var iv=null
@@ -439,5 +458,6 @@ module.exports = {
   isEmptyObject: isEmptyObject,
   getPicker: getPicker,
   getPickerList: getPickerList,
+  redotListener: redotListener,
   formatDay: formatDay
 }

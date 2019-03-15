@@ -1,4 +1,5 @@
 var app = getApp()
+var util = require("../../utils/util.js")
 Page({
   data: {
     company: {},
@@ -16,9 +17,6 @@ Page({
     wx.navigateTo({
       url: '../perRegister/perList/perList',
     })
-    // wx.showTabBarRedDot({
-    //   index: 3,
-    // })
   },
 
   jump2visit: function(){
@@ -160,6 +158,11 @@ Page({
 
   onShow: function () {
     var that = this
+
+    wx.hideTabBarRedDot({
+      index: 3,
+    })
+    
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!getById.do?id=' + app.globalData.admin.clientId,
       method: 'post',

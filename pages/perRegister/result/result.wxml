@@ -1,0 +1,8 @@
+<view class="box">
+  <view class="result">
+    <icon type="success" size="100"/>
+    <view class="text">申请成功</view>
+    <label class='lab'>欢迎使用门禁管理</label> 
+    <label class='lab'>请您耐心等待管理员审核</label>
+  </view>
+</view>

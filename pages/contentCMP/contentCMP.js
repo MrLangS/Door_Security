@@ -1,6 +1,11 @@
 var util = require("../../utils/util.js")
 var app = getApp()
 var timeoutID
+var app = getApp()
+var util = require("../../utils/util.js")
+var year = util.getPicker('year')
+var month = util.getPicker('month')
+var value = util.getPicker('arr')
 Page({
 
   /**
@@ -20,6 +25,41 @@ Page({
     isModify: false,
     isAdd: false,
     isMajorUser: true,
+    hiddenmodal: true,
+    value: value,
+    years: util.getPickerList('years'),
+    months: util.getPickerList('months'),
+    year: year,
+    month: month,
+  },
+
+  //弹出框
+  chooseDay: function () {
+    this.setData({
+      value: value,
+      year: year,
+      month: month,
+      hiddenmodal: !this.data.hiddenmodal,
+    })
+  },
+  cancel: function () {
+    this.setData({
+      hiddenmodal: true,
+    });
+  },
+  confirm: function () {
+    this.setData({
+      hiddenmodal: true
+    })
+
+    console.log(this.data.year + "年" + this.data.month + "月")
+  },
+  bindChange: function (e) {
+    console.log(e)
+    this.setData({
+      year: this.data.years[e.detail.value[0]],
+      month: this.data.months[e.detail.value[1]]
+    })
   },
 
   search: function () {
@@ -47,8 +87,6 @@ Page({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
-            // console.log('data:image/png;base64,' + res.data)
-            console.log(res)
             wx.request({
               url: uploadUserUrl,
               method: 'post',
@@ -56,9 +94,7 @@ Page({
                 logoPhoto: res.data
               },
               success: (res) => {
-                console.log('上传图片请求结果：')
                 var data = res.data
-                console.log(data)
                 var dataArr=that.data.dataArr
                 if (typeof (data.photoURL) != "undefined") {
                   dataArr[0] = data.photoURL
@@ -115,13 +151,6 @@ Page({
         duration: 1500,
       })
     }else{
-      // wx.previewImage({
-      //   current: imgURL,
-      //   urls: [imgURL],
-      //   success: (res)=>{
-      //     console.log(res)
-      //   }
-      // })
       wx.getImageInfo({
         src: imgURL,
         success: (res)=>{
@@ -175,6 +204,17 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/contentPEO/contentPEO?data='+JSON.stringify(data)+'&flag=1',
+    })
+  },
+  peoAttendance:function(e){
+    var data = {}
+    if (typeof (e.currentTarget.dataset.flag) == "undefined") {
+      data = this.data.admin[e.currentTarget.dataset.index]
+    } else {
+      data = this.data.staff[e.currentTarget.dataset.index]
+    }
+    wx.navigateTo({
+      url: '/pages/peoAttendance/peoAttendance?data=' + JSON.stringify(data),
     })
   },
   //手指触摸动作开始 记录起点X坐标
@@ -274,7 +314,6 @@ Page({
                 data: {},
                 method: 'post',
                 success: function (res) {
-                  console.log(res)
                   if (res.data == 1) {
                     that.data.admin.splice(index, 1)
                     that.setData({
@@ -317,11 +356,11 @@ Page({
               data: {},
               method: 'post',
               success: function (res) {
-                console.log(res)
                 if (res.data == "SUCCESS") {
                   that.data.staff.splice(index, 1)
                   that.setData({
-                    staff: that.data.staff
+                    staff: that.data.staff,
+                    totalCount: that.data.totalCount-1
                   })
                   wx.showToast({
                     title: '删除成功!',
@@ -368,7 +407,6 @@ Page({
       url: getApp().globalData.server + '/TransitPerson/getPersonsFromWx.do',
       data: {
         pageIndex: that.data.pageNum - 1,
-        // pageIndex: 0,
         clientId: this.data.company.id
       },
       method: 'post',
@@ -420,7 +458,6 @@ Page({
     if (typeof(options.data)!="undefined"){
       var jsonAll=JSON.parse(options.data)
       var json = jsonAll.client
-      // var arr = util.JsonToArray(JSON.parse(options.data))
       var arr = [json.clientLogoURL, json.name, json.addr]
       this.setData({
         dataArr: arr,
@@ -437,8 +474,6 @@ Page({
       },
       method: 'post',
       success: (res)=>{
-        console.log('管理员列表:')
-        console.log(res)
         this.setData({
           admin: res.data
         })
@@ -508,11 +543,9 @@ Page({
       path: 'pages/perRegister/regForm/regForm?clientId=' + that.data.company.id + '&companyName=' + that.data.company.name,
       imageUrl: '',
       success: function (res) {
-        console.log("转发成功:");
         var shareTickets = res.shareTickets;
       },
       fail: function (res) {
-        console.log("转发失败:" + JSON.stringify(res));
         wx.showToast({
           title: '邀请失败',
           duration: 1500

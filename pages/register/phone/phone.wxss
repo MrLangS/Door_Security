@@ -87,6 +87,10 @@
   height: 80rpx;
   line-height: 80rpx;
 }
+.blue-color{
+  background: #40a7e7;
+  color: #fff
+}
 .checkbox{
   overflow: hidden;
   text-overflow: ellipsis;

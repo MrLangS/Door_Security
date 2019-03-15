@@ -1,15 +1,50 @@
 var app = getApp()
+var util = require("../../utils/util.js")
+var year = util.getPicker('year')
+var month = util.getPicker('month')
+var value = util.getPicker('arr')
+
 Page({
-  /**
-   * 页面的初始数据
-   */
   data: {
-    companys: [
-      // { avatar: '/images/cmpany.png', name: '公司1', address: '地址1' }
-    ],
+    companys: [],
     startX: 0, //开始坐标
     startY: 0,
     isMajorUser: true,
+    hiddenmodal: true,
+    value: value,
+    years: util.getPickerList('years'),
+    months: util.getPickerList('months'),
+    year: year,
+    month: month,
+  },
+
+  //弹出框
+  chooseDay: function () {
+    this.setData({
+      value: value,
+      year: year,
+      month: month,
+      hiddenmodal: !this.data.hiddenmodal,
+    })
+  },
+  cancel: function () {
+    this.setData({
+      hiddenmodal: true,
+    });
+  },
+  confirm: function () {
+    this.setData({
+      hiddenmodal: true
+    })
+    
+    console.log(this.data.year+"年"+this.data.month+"月")
+  },
+  bindChange: function(e){
+    console.log(e)
+    this.setData({
+      year: this.data.years[e.detail.value[0]],
+      month: this.data.months[e.detail.value[1]]
+    })
   },
 
   newCMP:function(){
@@ -148,16 +183,6 @@ Page({
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
     var that=this
     wx.request({
@@ -171,40 +196,19 @@ Page({
         })
       }
     })
+
+    util.redotListener()
     
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

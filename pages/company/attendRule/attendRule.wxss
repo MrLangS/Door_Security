@@ -1,0 +1,49 @@
+@import "../../contentPEO/contentPEO.wxss";
+
+.logo-height{
+  height: 150rpx;
+  padding: 0 40rpx;
+  border-bottom: 1rpx solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+.rightImg{
+  position: absolute;
+  right: 40rpx;
+  width: 150rpx;
+  height: 150rpx;
+}
+.centerTitle{
+  text-align: center;
+  color: #151e26;
+}
+.menus .menu {
+  height: 40px;
+  width: 40px;
+  position: fixed;
+  z-index: 100;
+  bottom: 150rpx;
+  right: 70rpx;
+  opacity: 0;
+}
+.menus .main {
+  opacity: 1;
+}
+.content-end{
+  color: #abb4bf
+}
+.content-edit{
+  color: #40a7e7
+}
+.copyright {
+  font-size: 28rpx;
+  color: #999;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30rpx;
+  text-align: center;
+}

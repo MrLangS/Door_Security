@@ -91,3 +91,9 @@
 .none{
   text-align: center;
 }
+.no-record{
+  height: 400rpx;
+  line-height: 400rpx;
+  text-align: center;
+  background: white;
+}

@@ -76,6 +76,10 @@ Page({
     this.init(true)
   },
 
+  onShow: function(){
+    util.redotListener()
+  },
+
   search: function(){
     wx.navigateTo({
       url: '/pages/searchRes/searchRes?tag=' + 1,

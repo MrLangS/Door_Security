@@ -3,6 +3,7 @@
     <view><image class='add' src='/images/add.png'></image></view>
     <view>新增</view>
   </view>
+  <view>
   <block wx:for="{{companys}}" wx:for-item="company" wx:key>
     <view class='box-shadow profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
       <view class='item'>
@@ -16,7 +17,24 @@
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
+      <view class="code" catchtap="config" data-index="{{index}}" catchtap='chooseDay'>考勤统计</view>
       <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
     </view>
   </block>
+  </view>
+  
 </view>
+<!-- margin-left:100rpx; -->
+<!-- 日期弹窗 -->
+  <modal hidden="{{hiddenmodal}}" title="选择相应日期" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+    <picker-view indicator-style="height: 50px;" class='modalpicker' value="{{value}}" bindchange="bindChange">
+      <picker-view-column>
+        <view wx:for="{{years}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}年</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{months}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}月</view>
+      </picker-view-column>
+    </picker-view>
+  </modal>
+
+
