@@ -1,26 +1,27 @@
 {
   "pages":[
     "pages/register/phone/phone",
-    "pages/device/device",
-    "pages/perRegister/regForm/regForm",
+    "pages/personRecord/personRecord",
+    "pages/subAdmin/subAdmin",
+    "pages/peoAttendance/peoAttendance",
     "pages/perRegister/result/result",
-    "pages/company/attendRule/attendRule",
+    "pages/qrcode/qrcode",
+    "pages/index/index",
+    "pages/device/device",
+    "pages/addCMP/addCMP",
+    "pages/perRegister/regForm/regForm",
     "pages/perRegister/perList/perList",
     "pages/register/userInfo/userInfo",
     "pages/authorize/authorize",
     "pages/company/company",
-    "pages/addCMP/addCMP",
-    "pages/peoAttendance/peoAttendance",
     "pages/addPEO/addPEO",
+    "pages/company/attendRule/attendRule",
     "pages/devForm/devForm",
     "pages/searchRes/searchSta/searchSta",
     "pages/record/record",
     "pages/register/result/result",
-    "pages/subAdmin/subAdmin",
     "pages/searchRes/searchRes",
-    "pages/qrcode/qrcode",
     "pages/contentDEV/contentDEV",
-    "pages/index/index",
     "pages/contentCMP/contentCMP",
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/contentPEO/contentPEO",
@@ -37,6 +38,12 @@
     "navigationBarBackgroundColor": "#3281ff",
     "navigationBarTitleText": "门禁",
     "navigationBarTextStyle": "light"
+  },
+  "plugins": {
+    "calendar": {
+      "version": "1.1.3",
+      "provider": "wx92c68dae5a8bb046"
+    }
   },
   "tabBar": {
     "color": "#abb4bf",
@@ -71,6 +78,6 @@
     ]
   },
   "navigateToMiniProgramAppIdList": [
-    "wxab85b5facf961d5d"
+    "wx823d48bf0deffed9"
   ]
 }

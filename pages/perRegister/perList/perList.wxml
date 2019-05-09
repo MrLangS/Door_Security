@@ -39,8 +39,10 @@
 </view>
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="分配设备权限" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+  <view style='height:300rpx;overflow:auto'>
     <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
-    <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
+  </view>
+  <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
 </modal>
 
 

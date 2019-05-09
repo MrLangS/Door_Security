@@ -3,3 +3,19 @@
   text-align: center;
   color: #40a7e7;
 }
+/* .hasmore{
+  width: 200rpx;
+  display: flex; 
+  flex-direction: row;
+  background: red
+} */
+.more{
+  display: flex;
+  align-items: center;
+}
+.more image{
+  background: red;
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 0;
+}

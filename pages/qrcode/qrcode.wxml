@@ -8,6 +8,10 @@
             <label>请将生成的二维码对准设备扫描处</label>
             <!-- <input name='url' value='' type="text" maxlength="255" placeholder="{{placeholder}}"/> -->
         </view>
+        <view class="text-row"><view class='tip'>!</view><view>若扫描二维码出现问题，可进行手动配置</view></view>
+        <view class="text-row" style="white-space:pre-wrap">
+          <view>客户编号:<text style='color:#33e6cc'>{{clientId || '0'}}</text>   区域编号:<text style='color:#3281ff'>{{regionId|| '0'}}</text></view>
+        </view>
         
     </form>
     <button bindtap='gotoDevice' class="mybtn" type="primary">返回首页</button>

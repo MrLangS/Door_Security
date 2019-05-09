@@ -1,3 +1,4 @@
+var util = require("../../../utils/util.js")
 Page({
 
   data: {
@@ -5,10 +6,7 @@ Page({
   },
 
   intoIndex: function () {
-    console.log("index")
-    wx.reLaunch({
-      url: '../../device/device',
-    })
+    util.login()
   },
 
   onLoad: function (options) {

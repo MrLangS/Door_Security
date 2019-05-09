@@ -36,19 +36,46 @@ Page({
         },
         method: 'post',
         success: res => {
+          console.log("通知管理员")
           console.log(res)
           if (res.data.result == 'SUCCESS') {
+            if (typeof (res.data.userList) != 'undefined' && res.data.userList.length>0){
+              var list = res.data.userList
+              for (var one of list) {
+                //发送统一服务消息
+                wx.request({
+                  url: app.globalData.server + '/SysWXUserAction/sendUniMsg.do',
+                  data: {
+                    openId: one.openId,
+                    miniAppid: 'wx218bf8cb1afb43a2',
+                    templateId: 'yQRbgCf5pQ6zypI4ZNyNBj6stF7wV93w8O0Yt-ryDYw',
+                    dto: {
+                      first: { value: '申请加入' + that.data.company },
+                      keyword1: { value: that.data.username },
+                      keyword2: { value: util.getCurrentTime() },
+                      remark: { value: '请相应管理员尽快处理' }
+                    }
+                  },
+                  method: 'post',
+                  success: res => {
+                    console.log(res)
+                  }
+                })
+              }
+            }
+
             wx.showToast({
-              title: '提交成功，请耐心等待管理员审核',
+              title: '提交成功',
               icon: 'success',
               duration: 2000
             })
             wx.redirectTo({
               url: '../result/result',
             })
+
           } else {
             wx.showToast({
-              title: '抱歉，一个微信用户只能注册一次',
+              title: '抱歉!当前已存在用户，不可再申请',
               icon: 'none',
               duration: 2000
             })
@@ -96,6 +123,13 @@ Page({
             tag: false,
             values: values
           })
+        },
+        fail: res => {
+          wx.showToast({
+            title: '网络开小差，请稍后再试',
+            icno: 'none',
+            duration: 1500
+          })
         }
       })
     }
@@ -115,7 +149,7 @@ Page({
       success: function (res) {
         if (res.authSetting['scope.userInfo']) {
           //登录
-          util.login2getId()
+          util.login()
         } else {
           wx.navigateTo({
             url: '/pages/authorize/authorize?authortag=1',
@@ -158,8 +192,6 @@ Page({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
-            // console.log('data:image/png;base64,' + res.data)
-            console.log(res)
             that.setData({
               progress: false,
               percent: 100,
@@ -172,8 +204,6 @@ Page({
                 personPhoto: res.data
               },
               success: (res) => {
-                console.log('上传图片请求结果：')
-                console.log(res)
                 if (res.data.msg == 'ok') {
                   that.setData({
                     avatar: res.data.photoURL,
@@ -216,7 +246,7 @@ Page({
   onShow: function () {
     if (this.data.authorizeTAG) {
       //登录
-      util.login2getId()
+      util.login()
     }
   },
 

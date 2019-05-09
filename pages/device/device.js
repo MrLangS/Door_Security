@@ -174,7 +174,6 @@ Page({
       url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',
       success: (res) => {
-        console.log(res)
         that.setData({
           devices: res.data
         })

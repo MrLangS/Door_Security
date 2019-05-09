@@ -19,12 +19,20 @@ Page({
   },
 
   onLoad: function (options) {
+    var that = this
     this.setData({
       companyId: options.id,
       img: options.img,
       name: options.name
     })
     this.getAttendanceRule(options.id, this)
+    wx.getSystemInfo({
+      success: function(res) {
+        that.setData({
+          systeminfo: res
+        })
+      },
+    })
   },
 
   getAttendanceRule(companyId,that){
@@ -68,10 +76,6 @@ Page({
     this.setData({
       groupName: e.detail.value
     })
-  },
-
-  newRule(){
-    this.setData({ newRule: false})
   },
 
   chooseDay: function () {
@@ -153,6 +157,7 @@ Page({
         hasPopped: false,
       })
     }
+    var SYSTEMINFO=this.data.systeminfo
     let windowWidth = SYSTEMINFO.windowWidth
     let windowHeight = SYSTEMINFO.windowHeight
     let touches = e.touches[0]
@@ -179,6 +184,17 @@ Page({
       pos,
     })
   },
+  newRule() {
+    var that = this
+    this.setData({ newRule: false})
+    setTimeout(function () { 
+      that.popp()
+      that.setData({
+        hasPopped: true,
+      })
+      },1000)
+  },
+
   menuMain() {
     if (!this.data.hasPopped) {
       this.popp()

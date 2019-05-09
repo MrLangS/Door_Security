@@ -1,1 +1,10 @@
 @import "../register/phone/phone.wxss";
+.logo {
+  text-align: center;
+  padding: 40rpx 0;
+  background: #1e304f;
+}
+.logo image {
+  width: 94rpx;
+  height: 94rpx;
+}

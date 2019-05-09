@@ -57,12 +57,12 @@
   <view class='card items'>
     <view class='item'>
       <view class='title'>
-        <view style='color:#40a7e7;'>管理人员</view>
+        <view style='color:#40a7e7;'>管理员</view>
       </view> 
       <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}人</view> 
     </view>
     <view class='item {{item.isTouchMove ? "touch-move-active" : ""}}' wx:for="{{admin}}" wx:key  bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' data-index="{{index}}">
-      <view class='content-staff'>
+      <view class='content'>
         <view class='title'>
           <image src='{{item.userPhotoURL?item.userPhotoURL:"/images/empty_avatar_user.png"}}'></image>
           <view>{{item.userName || '未知'}}</view>
@@ -71,8 +71,8 @@
           <view>{{item.phoneNum}}</view>
         </view>
       </view>
-      <view class="code" catchtap="config" data-index="{{index}}" catchtap='peoAttendance'>考勤统计</view>
-      <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
+      <view class="code-admin" catchtap="config" data-index="{{index}}" catchtap='peoAttendance'>考勤统计</view>
+      <view class="staff-type" catchtap="set2staff" data-index="{{index}}">设为普通员工</view>
     </view>
   </view>
   <!-- 普通员工部分 -->
@@ -94,6 +94,7 @@
         </view>
       </view>
       <view class="code" catchtap="config" data-index="{{index}}" data-flag='1' catchtap='peoAttendance'>考勤统计</view>
+      <view class="admin-type" catchtap="set2admin" data-index="{{index}}">设为管理人员</view>
       <view class="del" catchtap="del" data-index="{{index}}" data-flag='1' >删除</view>
     </view>
   </view>
@@ -104,14 +105,4 @@
   </view>
 </view>
 <!-- margin-left:100rpx; -->
-<!-- 日期弹窗 -->
-  <modal hidden="{{hiddenmodal}}" title="选择相应日期" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
-    <picker-view indicator-style="height: 50px;" class='modalpicker' value="{{value}}" bindchange="bindChange">
-      <picker-view-column>
-        <view wx:for="{{years}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}年</view>
-      </picker-view-column>
-      <picker-view-column>
-        <view wx:for="{{months}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}月</view>
-      </picker-view-column>
-    </picker-view>
-  </modal>
+

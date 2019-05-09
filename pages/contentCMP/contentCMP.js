@@ -31,31 +31,131 @@ Page({
     months: util.getPickerList('months'),
     year: year,
     month: month,
+    peoInfo: '',
   },
 
-  //弹出框
-  chooseDay: function () {
-    this.setData({
-      value: value,
-      year: year,
-      month: month,
-      hiddenmodal: !this.data.hiddenmodal,
+  peoAttendance: function (e) {
+    var data = {}
+    var isAdmin = null
+    if (typeof (e.currentTarget.dataset.flag) == "undefined") {
+      data = this.data.admin[e.currentTarget.dataset.index]
+      isAdmin = true
+    } else {
+      data = this.data.staff[e.currentTarget.dataset.index]
+      isAdmin = false
+    }
+    
+    wx.navigateTo({
+      url: '/pages/peoAttendance/peoAttendance?data=' + JSON.stringify(data) + '&&isAdmin=' + isAdmin,
     })
   },
-  cancel: function () {
-    this.setData({
-      hiddenmodal: true,
-    });
-  },
-  confirm: function () {
-    this.setData({
-      hiddenmodal: true
-    })
 
-    console.log(this.data.year + "年" + this.data.month + "月")
+  set2staff: function(e) {
+    var index = e.currentTarget.dataset.index
+
+    var admin = this.data.admin[index]
+    console.log(admin.id)
+    if(app.globalData.admin.id == admin.id){
+      wx.showToast({
+        title: '不能设置自身为普通员工',
+        icon: 'none',
+        duration: 2000
+      })
+    }else{
+      wx.showModal({
+        title: '人员管理',
+        content: '确认将' + admin.userName + '设置为普通用户吗',
+        success: res => {
+          if (res.confirm) {
+            wx.request({
+              url: app.globalData.server + '/UserAction!changeUserLevel.do',
+              data: {
+                changeType: 1,
+                adminId: admin.id
+              },
+              method: 'post',
+              success: res => {
+                console.log(res)
+                this.reload(true)//更新普通员工列表
+                this.updateAdminList()//更新管理员
+                if (res.data == 'SUCCESS') {
+                  wx.showToast({
+                    title: '设置成功',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '设置失败',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+    }
+    
   },
+  set2admin: function (e) {
+    var index = e.currentTarget.dataset.index
+
+    var staff = this.data.staff[index].person
+    console.log(staff)
+    if (staff.phoneNo==''||staff.phoneNo==null){
+      wx.showToast({
+        title: '该人员手机号为空，不能设为管理员',
+        icon: 'none',
+        duration: 2000
+      })
+    }else{
+      wx.showModal({
+        title: '人员管理',
+        content: '确认将' + staff.personName + '设置为管理员吗',
+        success: res => {
+          if (res.confirm) {
+            wx.request({
+              url: app.globalData.server + '/UserAction!changeUserLevel.do',
+              data: {
+                changeType: 2,
+                personId: staff.id
+              },
+              method: 'post',
+              success: res => {
+                console.log(res)
+                this.reload(true)//更新普通员工列表
+                this.updateAdminList()//更新管理员
+                if (res.data == 'SUCCESS') {
+                  wx.showToast({
+                    title: '设置成功',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else if (res.data == 'ISEXIST') {
+                  wx.showToast({
+                    title: '该用户已存在管理员',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '设置失败',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+    }
+    
+  },
+
   bindChange: function (e) {
-    console.log(e)
     this.setData({
       year: this.data.years[e.detail.value[0]],
       month: this.data.months[e.detail.value[1]]
@@ -154,7 +254,6 @@ Page({
       wx.getImageInfo({
         src: imgURL,
         success: (res)=>{
-          console.log(res)
           wx.previewImage({
             current: res.path,
             urls: [res.path],
@@ -206,17 +305,7 @@ Page({
       url: '/pages/contentPEO/contentPEO?data='+JSON.stringify(data)+'&flag=1',
     })
   },
-  peoAttendance:function(e){
-    var data = {}
-    if (typeof (e.currentTarget.dataset.flag) == "undefined") {
-      data = this.data.admin[e.currentTarget.dataset.index]
-    } else {
-      data = this.data.staff[e.currentTarget.dataset.index]
-    }
-    wx.navigateTo({
-      url: '/pages/peoAttendance/peoAttendance?data=' + JSON.stringify(data),
-    })
-  },
+  
   //手指触摸动作开始 记录起点X坐标
   touchstart: function (e) {
     if (typeof (e.currentTarget.dataset.flag)=="undefined"){
@@ -402,7 +491,6 @@ Page({
         pageNum: 1,
       })
     }
-    console.log(this.data.company.id)
     wx.request({
       url: getApp().globalData.server + '/TransitPerson/getPersonsFromWx.do',
       data: {
@@ -411,8 +499,6 @@ Page({
       },
       method: 'post',
       success: (res) => {
-        console.log("当前页码:" + that.data.pageNum)
-        console.log(res)
         let list = res.data.persons
         if (!util.isEmptyObject(list)) {
           let pageNum = this.data.pageNum + 1
@@ -450,6 +536,22 @@ Page({
     })
   },
 
+  updateAdminList: function(){
+    
+    wx.request({
+      url: getApp().globalData.server + '/UserAction!getClientUsers.do',
+      data: {
+        clientId: this.data.company.id
+      },
+      method: 'post',
+      success: (res) => {
+        this.setData({
+          admin: res.data
+        })
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -467,35 +569,24 @@ Page({
       })
     }
 
-    wx.request({
-      url: getApp().globalData.server + '/UserAction!getClientUsers.do',
-      data: {
-        clientId: that.data.company.id
-      },
-      method: 'post',
-      success: (res)=>{
-        this.setData({
-          admin: res.data
-        })
-      }
-    })
+    this.updateAdminList()
     //加载人员列表
     // this.reload(true)
 
-    var items = that.data.admin
-    for (var i = 0; i < items.length; i++) {
-      items[i].isTouchMove = false //默认隐藏删除
-    }
-    that.setData({
-      admin: items
-    });
-    items = that.data.staff
-    for (var i = 0; i < items.length; i++) {
-      items[i].isTouchMove = false //默认隐藏删除
-    }
-    that.setData({
-      staff: items
-    });
+    // var items = that.data.admin
+    // for (var i = 0; i < items.length; i++) {
+    //   items[i].isTouchMove = false //默认隐藏删除
+    // }
+    // that.setData({
+    //   admin: items
+    // });
+    // items = that.data.staff
+    // for (var i = 0; i < items.length; i++) {
+    //   items[i].isTouchMove = false //默认隐藏删除
+    // }
+    // that.setData({
+    //   staff: items
+    // });
   },
 
 
@@ -541,7 +632,7 @@ Page({
     return {
       title: '自助注册',
       path: 'pages/perRegister/regForm/regForm?clientId=' + that.data.company.id + '&companyName=' + that.data.company.name,
-      imageUrl: '',
+      imageUrl: '/images/flower.jpg',
       success: function (res) {
         var shareTickets = res.shareTickets;
       },

@@ -112,7 +112,7 @@ function checkPhone(that) {
 function checkImage(that) {
   if (that.data.quality == 1) {
     wx.showToast({
-      title: '照片须为本人清晰头像',
+      title: '需添加本人清晰头像',
       icon: 'none',
       duration: 1000
     })
@@ -209,18 +209,16 @@ let isEmptyObject = (obj) => {
 }
 function checkStaffForm(that,name,phone){
   if(that.data.tag){
-    return checkAvatar(that) && checkName(name) && checkPhone01(phone)
+    return checkName(name) && checkPhone01(phone)
   }else{
-    return checkAvatar(that) && checkName(name) && checkPhone01(phone) && checkDevice(that)
+    return checkAvatar(that) && checkName(name) && checkDevice(that)
   }
-  
-  // return checkDevice(that)
 }
 //表单验证
 function checkForm(that,tag) {
   if(tag==0){
     // return true
-    if (checkPhone(that) && checkCode(that)) {
+    if (checkImage(that) && checkPhone(that) && checkCode(that)) {
       return true
     } else {
       return false
@@ -288,7 +286,7 @@ function login2getId() {
   // 登录
   wx.login({
     success: res => {
-      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      // 发送 res.code 到后台换取 openId, sessionKey, unio
       var code = res.code
 
       if (code) {
@@ -382,7 +380,6 @@ function login(isSubAdmin) {
               },
               method: 'post',
               success: function (res) {
-                console.log(res)
                 var openid = res.data.openid //返回openid
                 console.log("openid is: " + openid);
                 console.log("realopenid is: " + res.data.miniproId);
@@ -402,10 +399,11 @@ function login(isSubAdmin) {
                     },
                     method: 'post',
                     success: function (res) {
-                      console.log(res)
-                      if(typeof(res.data.admin)=='undefined'){
+                      console.log(res.data)
+                      if (typeof (res.data.admin) == 'undefined' || res.data.admin == null){
+                        app.globalData.sysWXUser = res.data.sysWXUser
                         wx.redirectTo({
-                          url: '/pages/authorize/authorize?tag=1',
+                          url: '/pages/index/index',
                         })
                       }else{
                         app.globalData.sysWXUser = res.data.sysWXUser
@@ -449,6 +447,7 @@ function formatDay(that) {
 module.exports = {
   formatTime: formatTime,
   getCode: getCode,
+  formatNumber: formatNumber,
   checkForm: checkForm,
   JsonToArray: JsonToArray,
   getCurrentTime: getCurrentTime,

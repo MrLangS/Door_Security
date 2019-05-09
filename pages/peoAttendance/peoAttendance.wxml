@@ -15,20 +15,61 @@
         <view class='title'>
           <view class='centerTitle'>考勤统计</view>
         </view>
-        <view class='content sub'>
+        <view class='content sub'> 
           <view class='item'>
             <view>
-              <view>{{item.devName||'考勤组'}}</view>
+              <view>时间</view>
             </view>
-            <view><input style='text-align:right' value='' placeholder='名称'></input>
+            <view catchtap='choose'>
+              <text space="ensp">{{month||'2019-03'}} ﹀</text>
             </view>
-          </view>  
+          </view> 
           <view class='item'>
             <view>
-              <view>{{item.devName||'出勤天数'}}</view>
+              <view>当月工作日数量(未除去节日)</view>
             </view>
             <view>
-              30天
+              {{data.workTime}}天
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>出勤次数</view>
+            </view>
+            <view>
+              {{data.attendanceTime}}次
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>缺勤次数</view>
+            </view>
+            <view>
+              {{data.absenteeismTime}}次
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>迟到次数</view>
+            </view>
+            <view>
+              {{data.beLateTime}}次
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>早退次数</view>
+            </view>
+            <view>
+              {{data.leaveEarlyTime}}次
+            </view>
+          </view> 
+          <view class='item'>
+            <view>
+              <view>缺卡次数</view>
+            </view>
+            <view>
+              {{data.forgetClockInTime}}次
             </view>
           </view> 
           
@@ -38,3 +79,7 @@
   </view>
   </view>
 </view>
+<!-- 日期弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="月份选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+  <view wx:for="{{months}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.val}}</view>
+</modal>

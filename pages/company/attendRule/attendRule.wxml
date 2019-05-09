@@ -13,7 +13,12 @@
     <view class='s'>
       <view class='t'>
         <view bindtap='newRule' hover-class='hover-class' class='title'>
-          <view class='centerTitle'>建立考勤组</view>
+          <view class='centerTitle'>
+            <view><text space="ensp">建立考勤组 </text></view>
+            <view class='more'>
+              <image src='/images/add01.png'></image>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -30,7 +35,7 @@
             <view>
               <view>考勤组</view>
             </view>
-            <view><input style='text-align:right' class='content-end {{hasPopped? "content-edit":""}}' value='{{groupName}}' bindinput='getGroupName' disabled='{{!hasPopped}}' placeholder='填写名称' placeholder-class='content-end'></input>
+            <view><input style='text-align:right' focus='true' class='content-end {{hasPopped? "content-edit":""}}' value='{{groupName}}' bindinput='getGroupName' disabled='{{!hasPopped}}' placeholder='填写名称' placeholder-class='content-end'></input>
             </view>
           </view>  
           <view class='item'>

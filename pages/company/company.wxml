@@ -17,7 +17,7 @@
           <image src='/images/profile_arrow.png'></image>
         </view>
       </view>
-      <view class="code" catchtap="config" data-index="{{index}}" catchtap='chooseDay'>考勤统计</view>
+      <view class="code" catchtap="config" data-index="{{index}}" catchtap='choose'>考勤统计</view>
       <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
     </view>
   </block>
@@ -26,7 +26,7 @@
 </view>
 <!-- margin-left:100rpx; -->
 <!-- 日期弹窗 -->
-  <modal hidden="{{hiddenmodal}}" title="选择相应日期" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+  <!-- <modal hidden="{{hiddenmodal}}" title="选择相应日期" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
     <picker-view indicator-style="height: 50px;" class='modalpicker' value="{{value}}" bindchange="bindChange">
       <picker-view-column>
         <view wx:for="{{years}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}年</view>
@@ -35,6 +35,10 @@
         <view wx:for="{{months}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}月</view>
       </picker-view-column>
     </picker-view>
-  </modal>
+  </modal> -->
+<!-- 日期弹窗 -->
+<modal hidden="{{hiddenmodal}}" title="月份选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+  <view wx:for="{{months}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.val}}</view>
+</modal>
 
 

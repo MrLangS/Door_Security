@@ -6,7 +6,7 @@
       <view class='progress' hidden='{{progress}}'>
         <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
       </view>
-      <view class='tip'>头像</view>
+      <view class='tip'>点击添加头像</view>
     </view>
     <form class='form' report-submit='true' bindsubmit='commit'>
       <view class='border'>

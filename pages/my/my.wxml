@@ -27,7 +27,7 @@
           <view class='profile {{isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" data-index='1'>
             <view class='profileitem'>
               <view class='info'>
-                <image class='avatar' src='{{user.photoURL?user.photoURL:"/images/empty_avatar_user.png"}}'></image>
+                <image class='avatar' bindtap='chooseImg' src='{{user.photoURL?user.photoURL:"/images/empty_avatar_user.png"}}'></image>
                 <view class='username'>{{user.username || '未知'}}</view>
               </view>
               
@@ -64,7 +64,7 @@
               <view class='infotitle'>
                 <view>点击跳转</view>
               </view>
-              <view class='count'>{{'人人访客小程序'}}</view>
+              <view class='count'>{{'Face访客小程序'}}</view>
             </view>
           </view>
 

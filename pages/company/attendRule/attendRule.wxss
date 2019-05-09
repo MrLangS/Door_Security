@@ -9,6 +9,15 @@
   align-items: center;
   overflow: hidden;
 }
+.more image{
+  width: 33rpx;
+  height: 33rpx;
+  margin-right: 0;
+}
+.more {
+  display: flex;
+  align-items: center;
+}
 .rightImg{
   position: absolute;
   right: 40rpx;
@@ -16,8 +25,11 @@
   height: 150rpx;
 }
 .centerTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   text-align: center;
-  color: #151e26;
+  color: #40a7e7;
 }
 .menus .menu {
   height: 40px;

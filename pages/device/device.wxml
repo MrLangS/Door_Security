@@ -21,7 +21,7 @@
             <view class='addr'>{{item.devAddr || '未知地址'}}</view>
         </view>
         <view class='more'>
-          <image src='/images/profile_arrow.png'></image>
+          <image src='{{item.devStatus=="01"?"/images/good.png":"/images/bad.png"}}'></image>
         </view>
       </view>
       <!-- <view class="code" catchtap="configDevice" data-index="{{index}}">配置wifi</view> -->

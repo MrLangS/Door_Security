@@ -75,24 +75,12 @@ Page({
     var size = this.setCanvasSize();//动态设置画布大小
     if(typeof(options.data)!='undefined'){
       this.createQrCode(options.data, "mycanvas", size.w, size.h);
-      console.log(options.data)
     }
     
-    // wx.showToast({
-    //   title: '生成中...',
-    //   icon: 'loading',
-    //   duration: 2000
-    // });
-    // var st = setTimeout(function () {
-    //   wx.hideToast()
-    //   var size = that.setCanvasSize();
-    //   //绘制二维码
-    //   that.createQrCode(options.data, "mycanvas", size.w, size.h);
-    //   that.setData({
-    //     maskHidden: true
-    //   });
-    //   clearTimeout(st);
-    // }, 2000)
+    this.setData({
+      clientId: getApp().globalData.admin.clientId,
+      regionId: getApp().globalData.admin.regionId,
+    })
   },
 
 })

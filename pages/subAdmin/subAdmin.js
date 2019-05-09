@@ -9,6 +9,7 @@ Page({
     authorizeTAG: false,
     subAdmin: {},
     phoneNumber: '',
+    quality: 1,
     disabled: false,
     code: '',
     iscode: '',//用于存放验证码接口里获取到的code
@@ -55,8 +56,6 @@ Page({
     let code = values.code || ''
     if (util.checkForm(this, 0)) {
       var subAdmin = this.data.subAdmin
-      console.log(phoneNumber)
-      console.log(subAdmin.phone)
       if (phoneNumber == subAdmin.phone){
         wx.request({
           url: getApp().globalData.server + '/UserAction!saveSubAdmin.do',
@@ -67,17 +66,11 @@ Page({
             clientId: parseInt(subAdmin.companyId),
             username: subAdmin.name,
             phoneNum: subAdmin.phone,
-            userPicId: subAdmin.picId,
+            userPicId: this.data.picId,
           },
           method: 'post',
           success: function (res) {
-            console.log(res)
-            app.globalData.sysWXUser = res.data.sysWXUser
-            app.globalData.isMajorUser = res.data.isMajorUser
-            app.globalData.admin = res.data.admin
-            wx.switchTab({
-              url: '../device/device',
-            })
+            util.login(true)
           }
         })
         wx.showToast({
@@ -121,7 +114,7 @@ Page({
         console.log(res)
         if (res.authSetting['scope.userInfo']) {
           //登录
-          util.login(subAdmin)
+          // util.login(subAdmin)
 
         } else {
           wx.navigateTo({
@@ -130,7 +123,75 @@ Page({
         }
       }
     })
-    //util.login(subAdmin)
+  },
+
+  chooseImg: function () {
+    var that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
+        var tempFilePaths = res.tempFilePaths
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
+            that.setData({
+              percent: 0,
+            })
+            that.setData({
+              percent: 100,
+              progressColor: '#1e304f',
+              active: true
+            })
+
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                personPhoto: res.data
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                console.log(res)
+                if (res.data.msg == 'ok') {
+                  that.setData({
+                    avatar: res.data.photoURL,
+                    picId: res.data.picId,
+                    quality: 0,
+                  })
+                } else {
+                  that.setData({
+                    progressColor: 'red',
+                  })
+                  wx.showToast({
+                    title: '上传失败,图片须为本人清晰头像',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
+                wx.showToast({
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
+                  duration: 1500
+                })
+              },
+              complete: (res) => {
+                that.setData({
+                  active: false,
+                })
+              }
+            })
+          }
+        })
+      },
+    })
   },
 
   onReady: function () {

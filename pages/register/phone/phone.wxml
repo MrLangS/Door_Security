@@ -24,7 +24,7 @@ bindcancel="cancel">
   <radio-group bindchange="radioChange">
     <label class="checkbox" wx:key wx:for="{{list}}">
       <view>
-        <radio value="{{item.id}}" checked="{{item.checked}}"/>{{item.userName}} | 所属单位·{{item.clientName}}
+        <radio value="{{item.id}}" checked="{{item.checked}}"/>{{item.userName || item.personName}} | 所属单位·{{item.clientName || item.personCompany}}
       </view>
     </label>
   </radio-group>

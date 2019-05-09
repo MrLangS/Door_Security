@@ -1,3 +1,77 @@
 <view>
-  {{time}}
+  <image src='../../images/top.jpg' class='header'></image>
+  <view class='menu'>
+    <view class='menu-content' bindtap='peoRecord'>
+      <view><image src='../../images/time.png' mode='aspectFit' class='menu-icon'></image></view>
+      <view><text>通行记录</text></view>
+    </view >
+    <view class='menu-content' bindtap='peoAttendance'>
+      <view><image src='../../images/plan.png' mode='aspectFit' class='menu-icon'></image></view>
+      <view><text>考勤统计</text></view>
+    </view>
+    <!-- <view class='menu-content'>
+      <view><image src='../../images/doc.png' mode='aspectFit' class='menu-icon'></image></view>
+      <view><text>我的消息</text></view>
+    </view>
+    <view class='menu-content'>
+      <view><image src='../../images/can.png' mode='aspectFit' class='menu-icon'></image></view>
+      <view><text>餐饮消费</text></view>
+    </view> -->
+  </view>
+  <view class='profile {{isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove">
+    <view class='item'  bindtouchstart="touchstart" bindtouchmove="touchmove">
+      <image class='avatar' src='{{user.photoURL}}' wx:if='{{user.photoURL}}'></image>
+      <image class='avatar' src='/images/device.png' wx:else></image>
+      <view class='info'>
+          <view class='info-title'>{{user.username}}</view>
+          <view class='info-addr'>所属单位：{{user.address}}</view>
+          <view class='info-addr'>当月考勤 | 出勤：{{monthAtt.attendanceTime || 0}}天，缺勤：{{monthAtt.absenteeismTime || 0}}天</view>
+      </view>
+    </view>
+    <view class="del" catchtap="logout" >注销</view>
+  </view>
+</view>
+<view class="container-fluid">
+  <view class="demo5">
+      <calendar        
+      cell-size="30" 
+      weeks-type="cn" 
+      show-more-days="{{true}}"
+      calendar-style="demo5-calendar" 
+      header-style="demo5-header" 
+      board-style="demo5-board" 
+      days-color="{{demo5_days_style}}"  
+      bindnextMonth="next" 
+      bindprevMonth="prev" 
+      binddateChange="dateChange" 
+      binddayClick="dayClick"
+      />
+  </view>
+</view>
+<view class="demo">
+  <view class="title-t">
+    <view class="left-title-t">
+      <p class="top-t"></p>
+      <p class="right-t"></p>
+    </view>
+    <view class="title-text">{{attdenceData.attendanceDevName ? '考勤设备：'+attdenceData.attendanceDevName : '该日无考勤记录'}}</view>
+  </view>
+  <view class="items-t" wx:if='{{attdenceData!=""}}'>
+    <view class="item-t">
+      <view class="left-t"><span class="line"></span><span class="dot"></span></view>
+      <view class="text-t">{{attdenceData.clockInTime ? '上班打卡：'+attdenceData.clockInTime : '上班打卡：无记录'}}</view>
+    </view>
+    <view class="item-t">
+      <view class="left-t"><span class="line"></span><span class="dot"></span></view>
+      <view class="text-t">{{attdenceData.clockInStatus ? '上班状态：'+attdenceData.clockInStatus : '上班状态：：无'}}</view>
+    </view>
+    <view class="item-t">
+      <view class="left-t"><span class="line"></span><span class="dot"></span></view>
+      <view class="text-t">{{attdenceData.clockOutTime ? '下班打卡：'+attdenceData.clockOutTime : '下班打卡：无记录'}}</view>
+    </view>
+    <view class="item-t">
+      <view class="left-t"><span class="line"></span><span class="dot"></span></view>
+      <view class="text-t">{{attdenceData.clockOutStatus ? '下班状态：'+attdenceData.clockOutStatus : '下班状态：无'}}</view>
+    </view>
+  </view>
 </view>

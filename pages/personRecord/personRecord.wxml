@@ -1,0 +1,11 @@
+<!-- 新样式 -->
+<view>
+  <view class='lists'>
+    <recordItem list='{{recordList}}'></recordItem>
+  </view>
+  <view class='no-box' wx:if="{{!recordList.length}}">
+    <view class='no-record'>
+      暂无记录！
+    </view>
+  </view>
+</view>

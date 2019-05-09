@@ -26,8 +26,6 @@ Page({
     this.setData({
       pre_devices: this.data.devices
     })
-    console.log("记录进入前的设备列表:")
-    console.log(this.data.pre_devices)
     pre_checkedDev = [].concat(this.data.checkedDev)
     pre_checkedId = [].concat(this.data.checkedId)
   },
@@ -85,11 +83,6 @@ Page({
       checkedDev: checkedDev,
       checkedId: checkedId
     })
-    console.log(this.data.checkedDev)
-    console.log("选择进行时的设备列表:")
-    console.log(this.data.devices)
-    console.log("选择进行时的过去设备列表:")
-    console.log(this.data.pre_devices)
   },
 
   onLoad: function (options) {
@@ -106,12 +99,18 @@ Page({
       method: 'post',
       success: (res) => {
         console.log(res)
-        this.setData({
-          devices: res.data
+        let devices= res.data.map(function (e) {
+          if (devs.indexOf(e.devId) >= 0){
+            e.checked = true
+          }
+
+          return e
         })
+        this.setData({
+          devices: devices
+        })
+
         var permisDEV = this.data.devices.filter((item) => { return devs.indexOf(item.devId) >= 0 })
-        console.log('删选后的数组')
-        console.log(permisDEV)
         var choosedId = []
         for (var i = 0; i < permisDEV.length; i++) {
           var itemId = permisDEV[i].devId

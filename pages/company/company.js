@@ -1,8 +1,5 @@
 var app = getApp()
 var util = require("../../utils/util.js")
-var year = util.getPicker('year')
-var month = util.getPicker('month')
-var value = util.getPicker('arr')
 
 Page({
   data: {
@@ -11,20 +8,31 @@ Page({
     startY: 0,
     isMajorUser: true,
     hiddenmodal: true,
-    value: value,
-    years: util.getPickerList('years'),
-    months: util.getPickerList('months'),
-    year: year,
-    month: month,
+    months: [],
+    month: '',
+    id4excel: 0
+  },
+
+  getMonths() {
+    var date = new Date()
+    var months = []
+    for (var i = 0; i < 9; i++) {
+      var month = date.getMonth() + 1;
+      month = month < 10 ? '0' + month : month
+      months.push({ val: date.getFullYear() + '-' + month })
+      date.setMonth(date.getMonth() - 1);
+    }
+    this.setData({ months: months })
   },
 
   //弹出框
-  chooseDay: function () {
+  choose: function (e) {
+    var that = this
+    var index = e.currentTarget.dataset.index
+    var id = this.data.companys[index].client.id
     this.setData({
-      value: value,
-      year: year,
-      month: month,
-      hiddenmodal: !this.data.hiddenmodal,
+      hiddenmodal: false,
+      id4excel: id
     })
   },
   cancel: function () {
@@ -32,13 +40,57 @@ Page({
       hiddenmodal: true,
     });
   },
+  //确认生成表格
   confirm: function () {
     this.setData({
       hiddenmodal: true
     })
+
+    wx.request({
+      url: app.globalData.server + '/ClockingIn/exportReport.do?unitId=' + this.data.id4excel + '&&searchMonth=' + this.data.month,
+      method: 'get',
+      success: res => {
+        wx.downloadFile({
+          url: res.data,
+          success(res){
+            wx.openDocument({
+              filePath: res.tempFilePath,
+              success(res){
+                console.log('打开文档成功')
+                wx.showToast({
+                  title: '正在加载...',
+                  icon: 'loading',
+                  duration: 1000
+                })
+              },
+              fail(res){
+                console.log(res)
+              }
+            })
+          }
+        })
+      }
+    })
     
-    console.log(this.data.year+"年"+this.data.month+"月")
   },
+
+  //多选
+  userCheck: function (e) {
+    let index = e.currentTarget.dataset.id;//获取用户当前选中的索引值
+    let checkBox = this.data.months;
+
+    if (!checkBox[index].checked) {
+      for (var one of checkBox) {
+        one.checked = false
+      }
+      checkBox[index].checked = true;
+      this.setData({
+        months: checkBox,
+        month: checkBox[index].val
+      })
+    }
+  },
+
   bindChange: function(e){
     console.log(e)
     this.setData({
@@ -172,6 +224,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getMonths()
+
     var that = this;
     var items = that.data.companys
     for (var i = 0; i < items.length; i++) {
@@ -190,7 +244,6 @@ Page({
       data: { id: app.globalData.admin.clientId},
       method: 'post',
       success: function(res){
-        console.log(res)
         that.setData({
           companys: res.data
         })

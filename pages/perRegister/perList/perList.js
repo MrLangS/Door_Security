@@ -58,6 +58,7 @@ Page({
         },
         method: 'post',
         success: function (res) {
+          console.log(res)
           var list=res.data
           if (list.length){
             wx.showToast({
@@ -77,7 +78,7 @@ Page({
                 data: {
                   openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
                   formId: one.formid,
-                  templateId: 'VM72gcZpduGU5gxLfySyPdr6o7_19n5OEzE-O1NrqhQ',
+                  templateId: 'fimyg1Txq4N9FTo42pj3CBgdU13MIArdC1gnYA3Y_WY',
                   Data: {
                     keyword1: { value: '抱歉，您的申请失败了' },
                     keyword2: { value: app.globalData.admin.userName },
@@ -138,9 +139,21 @@ Page({
   confirm: function () {
     var that=this
     this.setData({
-      hiddenmodal: true,
       choosedDEV: this.data.checkedDev,
       choosedId: this.data.checkedId
+    })
+
+    if (this.data.choosedId.length==0){
+      wx.showToast({
+        title: '请选择授权设备',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+
+    this.setData({
+      hiddenmodal: true,
     })
 
     //审核通过
@@ -175,7 +188,7 @@ Page({
               data: {
                 openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
                 formId: one.formid,
-                templateId: 'VM72gcZpduGU5gxLfySyPdr6o7_19n5OEzE-O1NrqhQ',
+                templateId: 'fimyg1Txq4N9FTo42pj3CBgdU13MIArdC1gnYA3Y_WY',
                 Data: {
                   keyword1: { value: '您的申请已通过' },
                   keyword2: { value: app.globalData.admin.userName },

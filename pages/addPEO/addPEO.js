@@ -40,7 +40,6 @@ Page({
     this.setData({
       hiddenmodal: false
     })
-    console.log('hello')
     this.setData({
       pre_devices: this.data.devices
     })
@@ -114,7 +113,6 @@ Page({
           },
           method: 'post',
           success: (res) => {
-            console.log(res)
             if (res.data) {
               //判断手机号
               wx.request({
@@ -125,7 +123,6 @@ Page({
                 },
                 method: 'post',
                 success: (res) => {
-                  console.log(res)
                   if (res.data) {
                     if (that.data.tag) {
 
@@ -328,12 +325,11 @@ Page({
       companyName: this.data.companyName,
       name: this.data.personName,
       phone: this.data.personPhone,
-      picId: this.data.picId,
     }
     return {
       title: '子管理员',
       path: '/pages/subAdmin/subAdmin?subAdmin=' + JSON.stringify(subAdmin),
-      // imageUrl: '../resource/images/inv.jpg',
+      imageUrl: '/images/admin.jpg',
       success: function (res) {
         console.log("转发成功:" + JSON.stringify(res));
         var shareTickets = res.shareTickets;

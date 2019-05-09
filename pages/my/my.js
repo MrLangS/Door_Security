@@ -12,6 +12,9 @@ Page({
     remind: '加载中',
     angle: 0,
     sum: 0,
+    avatar: '',
+    quality: 1,
+    picId: 0,
   },
   navigate2perList: function(){
     wx.navigateTo({
@@ -19,9 +22,72 @@ Page({
     })
   },
 
+  onLoad: function (options) {
+    var that = this
+    that.setData({
+      user: app.globalData.sysWXUser || '',
+      isMajorUser: app.globalData.isMajorUser
+    })
+
+  },
+
+  chooseImg: function () {
+    var that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
+        var tempFilePaths = res.tempFilePaths
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                personPhoto: res.data,
+                personId: app.globalData.sysWXUser.staffId
+              },
+              success: (res) => {
+                console.log('上传图片请求结果：')
+                console.log(res)
+                var user=that.data.user
+                if (res.data.msg == 'ok') {
+                  user.photoURL = res.data.photoURL,
+                  that.setData({
+                    user
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,图片须为本人清晰头像',
+                    icon: 'none',
+                    duration: 1500,
+                  })
+                }
+              },
+              fail: (res) => {
+                wx.showToast({
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
+                  duration: 1500
+                })
+              },
+              complete: (res) => {
+
+              }
+            })
+          }
+        })
+      },
+    })
+  },
+
   jump2visit: function(){
     wx.navigateToMiniProgram({
-      appId: 'wxab85b5facf961d5d',
+      appId: 'wx823d48bf0deffed9',
       path: '',
       extraData: {},
       envVersion: 'develop',
@@ -145,15 +211,6 @@ Page({
     
   },
 
-  onLoad: function (options) {
-    var that=this
-    
-    that.setData({
-      user: app.globalData.sysWXUser||'',
-      isMajorUser: app.globalData.isMajorUser
-    })
-
-  },
 
 
   onShow: function () {

@@ -84,10 +84,9 @@ Page({
             method: 'post',
             dataType: 'json',
             success: function (res) {
-              console.log(res)
-              app.globalData.sysWXUser = res.data.sysWXUser
-              app.globalData.admin = res.data.admin
-              app.globalData.isMajorUser = true
+              // app.globalData.sysWXUser = res.data.sysWXUser
+              // app.globalData.admin = res.data.admin
+              // app.globalData.isMajorUser = true
               wx.redirectTo({
                 url: '../result/result',
               })

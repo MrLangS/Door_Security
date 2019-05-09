@@ -1,6 +1,7 @@
 // pages/register/phone/phone.js
 var util=require("../../../utils/util.js")
 var app = getApp()
+const adminLength = 21
 Page({
 
   /**
@@ -27,10 +28,19 @@ Page({
   },
 
   radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    console.log('radio发生change事件')
+    
     this.setData({
       staffId: e.detail.value
     })
+
+  },
+  getItemById: function(arr,id){
+    for( var i = 0 ; i<arr.length ; i++){
+      if(arr[i].id==id){
+        return arr[i]
+      }
+    }
   },
   confirmTo: function(){
     this.setData({
@@ -64,22 +74,66 @@ Page({
       that.setData({
         modal: true
       })
-      //获取用户
-      wx.request({
-        url: getApp().globalData.server + '/SysWXUserAction/recoverUser.do',
-        data: {
-          userId: parseInt(that.data.staffId),
-          openId: app.globalData.openid,
-          miniproId: app.globalData.realOpenid,
-        },
-        method:'post',
-        success: (res)=>{
-          console.log(res)
-          if(res.data.msg=='ok'){
-            util.login()
+
+      console.log('恢复用户的信息')
+      var userinfo = this.getItemById(this.data.list, this.data.staffId)
+      var length = Object.getOwnPropertyNames(userinfo).length
+      console.log(userinfo)
+      console.log('length:'+length)
+      if (length != adminLength){
+        wx.request({
+          url: app.globalData.server + "/SysWXUserAction/registerWXUser.do",
+          data: {
+            wxOpenId: app.globalData.openid,
+            miniproId: app.globalData.realOpenid,
+            username: userinfo.personName,
+            address: userinfo.personCompany,
+            phonenum: userinfo.phoneNo,
+            photoURL: '',
+            staffId: parseInt(that.data.staffId),
+            picId: userinfo.picId,
+          },
+          method: 'post',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.msg == 'ok') {
+              util.login()
+            } else {
+              wx.showToast({
+                title: '恢复失败',
+                icon: 'none',
+                duration: 1500
+              })
+            }
+          },
+        })
+      }else{
+        //恢复用户
+        wx.request({
+          url: getApp().globalData.server + '/SysWXUserAction/recoverUser.do',
+          data: {
+            userId: parseInt(that.data.staffId),
+            openId: app.globalData.openid,
+            miniproId: app.globalData.realOpenid,
+          },
+          method: 'post',
+          success: (res) => {
+            console.log(res)
+            if (res.data.msg == 'ok') {
+              util.login()
+            } else {
+              wx.showToast({
+                title: '恢复失败',
+                icon: 'none',
+                duration: 1500
+              })
+            }
           }
-        }
-      })
+        })
+      }
+      
     }
   },
 
@@ -119,26 +173,34 @@ Page({
     let phoneNumber = values.phoneNumber || ''
     let code = values.code || ''
     if (util.checkForm(this,0)){
+    // if (true) {
       var userId=0
       wx.request({
         url: getApp().globalData.server + '/SysWXUserAction/checkAdminIsExist.do?phoneNum=' + phoneNumber,
         method: 'post',
         success: (res)=>{
-          console.log(res)
-          var memberList=res.data
-          if (typeof (memberList[0]) != "undefined"){
+          console.log('门禁')
+          console.log(res.data)
+          var admins = res.data.users
+          var staffs = res.data.persons
+          var list=admins.concat(staffs)
+          // for( var i=0;i<list.length;i++){
+          //   console.log(Object.getOwnPropertyNames(list[i]).length)
+          // }
+          if (typeof (list[0]) != "undefined") {
             this.setData({
-              list: memberList,
+              list: list,
               modalTo: false
             })
             that.setData({
               values: JSON.stringify(values)
             })
-          }else{
+          } else {
             wx.navigateTo({
               url: '../userInfo/userInfo?data=' + JSON.stringify(values),
             })
           }
+          
         }
       })
       
@@ -161,7 +223,6 @@ Page({
     // 查看是否授权
     wx.getSetting({
       success: function (res) {
-        console.log(res)
         if (res.authSetting['scope.userInfo']) {
           util.login()
         }else{

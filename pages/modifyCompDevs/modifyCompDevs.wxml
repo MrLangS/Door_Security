@@ -38,5 +38,13 @@
 </view>
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
-    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+  <view class='no-box' wx:if="{{!devices.length}}">
+    <view class='center'>
+      暂无设备!
+    </view> 
+  </view>
+  <view style='height:300rpx;overflow:auto'>
+    <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}
+    </view>
+  </view>
 </modal>

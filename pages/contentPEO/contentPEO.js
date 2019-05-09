@@ -30,8 +30,6 @@ Page({
     this.setData({
       pre_devices: this.data.devices
     })
-    console.log("记录进入前的设备列表:")
-    console.log(this.data.pre_devices)
     pre_checkedDev = [].concat(this.data.checkedDev)
     pre_checkedId = [].concat(this.data.checkedId)
   },
@@ -106,7 +104,7 @@ Page({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
-            // console.log('data:image/png;base64,' + res.data)
+
             console.log(res)
             wx.request({
               url: uploadUserUrl,
@@ -178,17 +176,24 @@ Page({
         dataArr: arr
       })
     }
+    var permission = this.data.peo.permission
     //获取所有设备信息
     wx.request({
       url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',
       success: (res) => {
-        this.setData({
-          devices: res.data
+        let devices = res.data.map(function (e) {
+          if (permission.indexOf(e.devId) >= 0) {
+            e.checked = true
+          }
+
+          return e
         })
-        var permisDEV = this.data.devices.filter((item) => { return this.data.peo.permission.indexOf(item.devId) >= 0 })
-        console.log('删选后的数组')
-        console.log(permisDEV)
+        this.setData({
+          devices: devices
+        })
+        var permisDEV = this.data.devices.filter((item) => { return permission.indexOf(item.devId) >= 0 })
+
         var choosedId = []
         for (var i = 0; i < permisDEV.length; i++) {
           var itemId = permisDEV[i].devId

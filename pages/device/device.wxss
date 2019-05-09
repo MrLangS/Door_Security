@@ -7,7 +7,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center; 
-  /* padding-left: 40rpx; */
   overflow: hidden
 }
 .profile .avatar {
@@ -54,7 +53,7 @@
   align-items: center;
 }
 .profile .more image {
-  width: 20rpx;
+  width: 40rpx;
   height: 40rpx;
 }
 .profile .more .reddot {
@@ -65,9 +64,9 @@
   margin-right: 10rpx;
 }
 .add{
-  height: 50rpx;
-  width: 50rpx;
-  margin-right: 10rpx;
+  height: 40rpx;
+  width: 40rpx;
+  margin-right: 5rpx;
 }
 .new{
   background: #fff;
@@ -85,19 +84,7 @@
   color: #3281ff;
   /* background: rgba(6, 69, 243, 0.1); */
 }
-/* .test{
-  position: fixed;
-  text-align:center;
-  right: 0;
-  top: 0;
-  left: 0;
-  height: 55px;
-  line-height: 55rpx;
-  background: -webkit-linear-gradient( rgba(50,129,255,1),rgba(255,0,0,0)); 
-  background: -o-linear-gradient( rgba(50,129,255,1),rgba(255,0,0,0)); 
-  background: -moz-linear-gradient(rgba(50,129,255,1),rgba(255,0,0,0)); 
-  background: linear-gradient(rgba(50,129,255,1),rgba(255,0,0,0));
-} */
+
 .item{
   padding: 0 40rpx;
   width: 100%;

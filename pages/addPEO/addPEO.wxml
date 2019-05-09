@@ -9,7 +9,7 @@
     <form class='form' bindsubmit='commit'>
       <view>
         <input name='name' bindinput='getName' placeholder='人员名称' focus></input>
-        <input name='phone' bindinput='getPhone' type='number' placeholder='手机号'></input>
+        <input name='phone' bindinput='getPhone' type='number' placeholder='手机号（普通员工可不填）'></input>
         <radio-group class='choose' name="role" bindchange="radioChange">
           <view><radio value="staff" checked="true"/>普通员工</view>
           <view><radio value="admin" />管理员工</view>
@@ -25,6 +25,8 @@
 </view>
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
+  <view style='height:300rpx;overflow:auto'>
     <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
+  </view>
     <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
 </modal>

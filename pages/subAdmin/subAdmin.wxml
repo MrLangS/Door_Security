@@ -2,7 +2,10 @@
   <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill'></image>
   <view class='top'>
     <view class='logo'>
-      <image src=''></image>
+      <image bindtap='chooseImg' src='{{avatar?avatar: "/images/empty_avatar_user.png"}}'></image>
+    </view>
+    <view class='progress'>
+      <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
