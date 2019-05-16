@@ -64,9 +64,10 @@
   margin-right: 10rpx;
 }
 .add{
-  height: 40rpx;
-  width: 40rpx;
+  height: 30rpx;
+  width: 30rpx;
   margin-right: 5rpx;
+  margin-top: 9rpx;
 }
 .new{
   background: #fff;

@@ -14,11 +14,39 @@ Page({
     isMajorUser: true,
   },
 
+  showToast: function(title,icon,duration){
+    wx.showToast({
+      title: title,
+      icon: icon,
+      duration: duration
+    })
+  },
+
   newDEV: function(){
     var that=this
-    wx.navigateTo({
-      url: '../devForm/devForm',
+    wx.scanCode({
+      success(res) {
+        try {
+          var result = JSON.parse(res.result)
+          if (typeof result == 'object' && result) {
+            var result = JSON.parse(res.result)
+            console.log(result)
+            if (res.scanType == 'QR_CODE' && result.devId) {
+              wx.navigateTo({
+                url: '../devForm/devForm?data='+res.result,
+              })
+            } else {
+              that.showToast('二维码错误', 'none', 1500)
+            }
+          } else {
+            that.showToast('二维码错误', 'none', 1500)
+          }
+        } catch (e) {
+          that.showToast('二维码错误','none',1500)
+        }
+      }
     })
+    
   },
 
   configDevice: function(e){

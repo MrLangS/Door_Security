@@ -3,19 +3,17 @@
   <view class='top'>
     <form class='form' bindsubmit='commit'>
       <view>
-        <!-- <view class='item'>
-          <label>服务器IP</label>
-          <input name='serverIp' placeholder='IP地址' disabled='true' value='{{serverIp}}'></input>
-        </view> -->
         <view class='item'>
-          <label>设备名称</label>
+          <label style='color:#a3a3a3'>设备名称</label>
           <input name='name' value='{{devName}}' placeholder='最好与详细地址相关联' focus></input>
+          <image class='activeBtn' src='/images/clear.png' bindtap='clearName'></image>
         </view>
         <view class='item'>
-          <label>详细地址</label>
+          <label style='color:#a3a3a3'>设备地址</label>
           <input value='{{address}}' name='address'></input>
+          <image class='activeBtn' src='/images/clear.png' bindtap='clearAddress'></image>
         </view>
-        <view class='item'>
+        <!-- <view class='item'>
           <label>激活码</label>
           <input value='{{activationCode}}' name='activationCode'></input>
           <image class='activeBtn' src='/images/scancode.png' bindtap='scancode'></image>
@@ -51,17 +49,16 @@
             <input name='checkPassword' password='true' value='{{password||""}}'></input>
           </view>
           </block>
-        </block>
+        </block> -->
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>
   </view>
   <view class='footer'>门禁管理</view>
 </view>
-<!-- 内部人员选择弹窗 -->
-<modal hidden="{{modal}}" title="wifi选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm01"
+
+<!-- <modal hidden="{{modal}}" title="wifi选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm01"
 bindcancel="cancel01">
-  <!-- <view class='modal'> -->
     <radio-group bindchange="wifiradioChange">
       <label class="checkrad" wx:key wx:for="{{wifiNameList}}">
         <view>
@@ -70,6 +67,4 @@ bindcancel="cancel01">
       </label>
     </radio-group>
     <view class='none' wx:if="{{!wifiNameList.length}}">未检测到wifi</view>
-  <!-- </view> -->
-  
-</modal>
+</modal> -->

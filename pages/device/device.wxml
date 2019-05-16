@@ -1,7 +1,7 @@
 <view class='{{isMajorUser? "wrapper":""}}'>
   
   <view class='new' hidden='{{!isMajorUser}}' hover-class='hover-class' catchtap='newDEV'>
-    <view><image class='add' src='/images/add.png'></image></view>
+    <view><image class='add' src='/images/scan.png'></image></view>
     <view>新增</view>
   </view>
   <view class='no-box' wx:if="{{!devices.length}}">

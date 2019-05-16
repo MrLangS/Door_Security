@@ -1,4 +1,5 @@
 var QR = require("../../utils/qrcode.js");
+var md5 = require("../../utils/md5.js")
 Page({
   data: {
     canvasHidden: false,
@@ -7,6 +8,8 @@ Page({
   },
 
   gotoDevice: function(){
+    // var token = md5.hexMD5("123")
+    // console.log(token)
     wx.showModal({
       title: '提示',
       content: '确认已完成设备对生成二维码的扫描？若未完成则会导致绑定失败',
