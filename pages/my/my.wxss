@@ -9,6 +9,28 @@ page{
   flex-direction: column;
   align-items: stretch;
 }
+
+.more-icon{
+  width: 20rpx !important;
+  height: 40rpx !important;
+}
+
+.left-row{
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* width: 200rpx; */
+  height: 90rpx;
+  font-size: 30rpx;
+}
+.left-row image {
+  position: relative;
+  margin-top: 10rpx;
+  width: 40rpx !important;
+  height: 40rpx !important;
+}
+
 .wordColor{
   color: #3281ff;
 }

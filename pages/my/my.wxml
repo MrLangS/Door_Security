@@ -50,9 +50,12 @@
             </view>
           </view>
 
-          <view class='box-shadow items'>
+          <view class='items' style='background: #fff;'>
             <view class='item' bindtap='navigate2perList' hover-class='hover-class'>
-              <view class='infotitle'>
+              <view class='left-row'>
+                <view>
+                  <image  mode='aspectFit' src='{{"/images/audit.png" }}' />
+                </view>
                 <view>待审核</view>
               </view>
               <view class='count {{sum==0 ? "" : "reddot"}}'>{{sum}}人</view>
@@ -60,11 +63,16 @@
           </view>
 
           <view class='box-shadow items'>
-            <view class='item' bindtap='jump2visit' hover-class='hover-class'>
-              <view class='infotitle'>
-                <view>点击跳转</view>
+            <!-- bindtap='jump2visit' -->
+            <view class='item' bindtap='gotoSet' hover-class='hover-class'>
+              <view class='left-row'>
+                <view>
+                  <image  mode='aspectFit' src='{{"/images/setting.png" }}' />
+                </view>
+                <view>设置</view>
               </view>
-              <view class='count'>{{'Face访客小程序'}}</view>
+              <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
+              
             </view>
           </view>
 

@@ -216,32 +216,27 @@ function checkStaffForm(that,name,phone){
 }
 //表单验证
 function checkForm(that,tag) {
-  if(tag==0){
-    // return true
-    if (checkImage(that) && checkPhone(that) && checkCode(that)) {
-      return true
-    } else {
-      return false
-    }
-  }else if(tag==2){
-    if (checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that)) {
-      return true
-    } else {
-      return false
-    }
-  }else{
-    if (checkImage(that) && checkUsername(that) && checkCompname(that)) {
-      return true
-    } else {
-      return false
-    }
+  var checked = false
+  switch(tag) {
+    case 0:
+      checked = checkImage(that) && checkPhone(that) && checkCode(that);
+      break;
+    case 1:
+      checked = checkPhone(that) && checkCode(that);
+      break;
+    case 2:
+      checked = checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that);
+      break;
+    default: 
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that);
+      break;
   }
-  
+  return checked
 }
 //获取验证码
 function getCode(that) {
-  var endPhone = that.data.phoneNumber.substr(7, 4)
   if (checkPhone(that)) {
+    var endPhone = that.data.phoneNumber.substr(7, 4)
     that.setData({
       disabled: true
     })

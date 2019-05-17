@@ -1,0 +1,39 @@
+<view class='content'>
+  <view class='admin-box' bindtap='goToAdminLogin'>
+    <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/tie.png' /></view>
+    <view class='box-title'>
+      <view>管理员</view>
+      <view>小明同学</view>
+      <view>单位名称单单单位名称单</view>
+    </view>
+  </view>
+
+  <view class='staff-box' bindtap='goToStaffLogin'>
+    <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/user.png' /></view>
+    <view class='box-title'>
+      <view>普通员工</view>
+      <view>小明同学</view>
+      <view>单位名称单单</view>
+    </view>
+  </view>
+
+  <view class='admin-box' bindtap='goToAdminLogin'>
+    <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/tie.png' /></view>
+    <view class='box-title'>
+      <view>管理员</view>
+      <view>小明同学</view>
+      <view>单位名称单单单位名称单</view>
+    </view>
+  </view>
+
+  <view class='staff-box' bindtap='goToStaffLogin'>
+    <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/user.png' /></view>
+    <view class='box-title'>
+      <view>普通员工</view>
+      <view>小明同学</view>
+      <view>单位名称单单</view>
+    </view>
+  </view>
+  
+</view>
+

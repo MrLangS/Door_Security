@@ -16,6 +16,11 @@ Page({
     quality: 1,
     picId: 0,
   },
+  gotoSet: function(){
+    wx.navigateTo({
+      url: '../setting/setting',
+    })
+  },
   navigate2perList: function(){
     wx.navigateTo({
       url: '../perRegister/perList/perList',

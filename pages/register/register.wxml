@@ -1,0 +1,45 @@
+<view class='content'>
+  <image  mode='aspectFit' class='animal' src='{{"/images/animal.png" }}' />
+  <image  mode='aspectFit' class='session' src='{{"/images/session.png" }}' />
+  <view class='register_bg'>
+    <image mode='aspectFit' class='avatar' src='{{"/images/default_avatar.png" }}' />
+  </view>
+  <view class='login_content'>
+    <!-- <view class='switch_view'>
+      <view class="stf_selected_title" bindtap='switchToPhone'>
+        基本信息
+      </view>
+    </view> -->
+
+    <view class='input_view'>
+      <view class='label_input'>
+        <label class='headlabel'>用户名：</label>
+        <input class='input_bar' name='username' placeholder='请输入用户名' />
+      </view>
+      <view class='label_input'>
+        <view class='headlabel'><label>单位名：</label></view>
+        <input class='input_bar' name='companyname' placeholder='请输入单位名'/>
+      </view>
+      <view class='label_input'>
+        <label class='headlabel'>手机号：</label>
+        <input class='input_bar' type='number' name='phoneNumber' 
+          bindinput='getPhoneValue' placeholder='请输入手机号' />
+      </view>
+      <view class='label_input'>
+        <label class='headlabel'>验证码：</label>
+        <button class='codeBtn {{isaPhoneNum?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
+        <input class='input_bar' type='number' name='code' 
+          bindinput='getCodeValue' placeholder='请输入验证码' />
+      </view>
+
+    </view>
+    <view class='login_button orange_bcg}}' bindtap='login'>
+      注册
+    </view>
+  </view>
+  <view class='info_view'>
+    <Text class='info_text'>
+      注册成功后会自动将人脸入库，之后可更改头像来进行更新
+    </Text>
+  </view>
+</view>
