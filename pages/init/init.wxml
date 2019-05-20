@@ -1,0 +1,3 @@
+<view>
+  <image mode='scaleToFill' class='init_bcg' src='/images/init.jpg'  />
+</view>

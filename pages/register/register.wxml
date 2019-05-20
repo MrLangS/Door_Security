@@ -2,26 +2,26 @@
   <image  mode='aspectFit' class='animal' src='{{"/images/animal.png" }}' />
   <image  mode='aspectFit' class='session' src='{{"/images/session.png" }}' />
   <view class='register_bg'>
-    <image mode='aspectFit' class='avatar' src='{{"/images/default_avatar.png" }}' />
+    <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}' bindtap='chooseImg' />
+  </view>
+  <view class='progress'>
+    <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
   </view>
   <view class='login_content'>
-    <!-- <view class='switch_view'>
-      <view class="stf_selected_title" bindtap='switchToPhone'>
-        基本信息
-      </view>
-    </view> -->
-
     <view class='input_view'>
       <view class='label_input'>
         <label class='headlabel'>用户名：</label>
-        <input class='input_bar' name='username' placeholder='请输入用户名' />
+        <input class='input_bar' name='username' bindinput='getUsername' placeholder='请输入用户名' />
       </view>
       <view class='label_input'>
         <view class='headlabel'><label>单位名：</label></view>
-        <input class='input_bar' name='companyname' placeholder='请输入单位名'/>
+        <input class='input_bar' name='companyname' bindinput='getCompname' placeholder='请输入单位名'/>
       </view>
       <view class='label_input'>
         <label class='headlabel'>手机号：</label>
+        <block wx:if='{{isaPhoneNum}}'>
+          <icon type='success' class='phone_check' size='15' />
+        </block>
         <input class='input_bar' type='number' name='phoneNumber' 
           bindinput='getPhoneValue' placeholder='请输入手机号' />
       </view>
@@ -33,7 +33,7 @@
       </view>
 
     </view>
-    <view class='login_button orange_bcg}}' bindtap='login'>
+    <view class='login_button orange_bcg}}' hover-class='click-class' bindtap='register'>
       注册
     </view>
   </view>

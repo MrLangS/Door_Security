@@ -40,7 +40,7 @@
       登录
     </view>
   </view>
-  <view class='info_view'>
+  <view class='info_view' hidden='{{!isAdmin}}'>
     <Text class='info_text'>
         未拥有账号或想注册新账号？<text class="{{isAdmin ? 'blue' : 'green'}}" bindtap='register'>点此注册</text>
     </Text>

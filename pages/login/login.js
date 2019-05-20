@@ -1,4 +1,5 @@
 var util = require("../../utils/util.js")
+var app = getApp()
 Page({
 
   data: {
@@ -10,17 +11,25 @@ Page({
   },
 
   register: function() {
-    console.log('注册')
     wx.navigateTo({
       url: '../register/register',
     })
   },
 
   login: function() {
-    if(util.checkForm(this,1)){
-      console.log('checked true')
+    if(util.checkForm(this,999)){
+      wx.request({
+        url: getApp().globalData.server + '/SysWXUserAction/checkAdminIsExist.do?phoneNum=' + this.data.phoneNumber,
+        method: 'post',
+        success: (res) => {
+          console.log(res)
+          app.globalData.userSet = res.data
+          wx.redirectTo({
+            url: '../account/account?isAdmin='+(this.data.isAdmin == 1 ? 1 : 0),
+          })
+        }
+      })
     }else{
-      console.log('checked false')
     }
   },
 

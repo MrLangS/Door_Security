@@ -227,6 +227,12 @@ function checkForm(that,tag) {
     case 2:
       checked = checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that);
       break;
+    case 3:
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that)/* && checkCode(that)*/;
+      break;
+    case 999:
+      checked = true;
+      break;
     default: 
       checked = checkImage(that) && checkUsername(that) && checkCompname(that);
       break;
@@ -380,46 +386,73 @@ function login(isSubAdmin) {
                 console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
                 app.globalData.realOpenid = res.data.miniproId
-                wx.setStorageSync('openid', openid);
-                var registed = res.data.registed
-                wx.setStorageSync('registed', registed)
-                console.log("registed:" + registed)
-
-                //已注册用户的处理
-                if (registed == 1) {
-                  wx.request({
-                    url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
-                    data: {
-                      openId: openid
-                    },
-                    method: 'post',
-                    success: function (res) {
-                      console.log(res.data)
-                      if (typeof (res.data.admin) == 'undefined' || res.data.admin == null){
-                        app.globalData.sysWXUser = res.data.sysWXUser
-                        wx.redirectTo({
-                          url: '/pages/index/index',
-                        })
-                      }else{
-                        app.globalData.sysWXUser = res.data.sysWXUser
+                var wxUser = res.data.sysWXUser
+                if(wxUser) {
+                  console.log('wxUser:')
+                  console.log(wxUser)
+                  app.globalData.sysWXUser = wxUser
+                  var userId = wx.getStorageSync('userId')
+                  if(userId) {
+                    wx.request({
+                      url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId+'&type='+wx.getStorageSync('isAdmin'),
+                      method: 'post',
+                      success: res=>{
+                        console.log('User:')
+                        console.log(res)
+                        app.globalData.admin = res.data.user
                         app.globalData.isMajorUser = res.data.isMajorUser
-                        app.globalData.admin = res.data.admin
-                        if (res.data.admin.valid != false) {
-                          if (isSubAdmin) {
-                            wx.switchTab({
-                              url: '../device/device',
-                            })
-                          } else {
-                            wx.switchTab({
-                              url: '../../device/device',
-                            })
-                          }
-                        }
                       }
-                      
-                    }
+                    })
+                    wx.switchTab({
+                      url: '../device/device',
+                    })
+                  }else{
+                    wx.redirectTo({
+                      url: '../role/role',
+                    })
+                  }
+                } else {
+                  console.log('未拥有微信用户')
+                  wx.redirectTo({
+                    url: '../role/role',
                   })
                 }
+
+                //已注册用户的处理
+                // if (registed == 1) {
+                //   wx.request({
+                //     url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
+                //     data: {
+                //       openId: openid
+                //     },
+                //     method: 'post',
+                //     success: function (res) {
+                //       console.log(res.data)
+                //       if (typeof (res.data.admin) == 'undefined' || res.data.admin == null){
+                //         app.globalData.sysWXUser = res.data.sysWXUser
+                //         wx.redirectTo({
+                //           url: '/pages/index/index',
+                //         })
+                //       }else{
+                //         app.globalData.sysWXUser = res.data.sysWXUser
+                //         app.globalData.isMajorUser = res.data.isMajorUser
+                //         app.globalData.admin = res.data.admin
+                //         if (res.data.admin.valid != false) {
+                //           if (isSubAdmin) {
+                //             wx.switchTab({
+                //               url: '../device/device',
+                //             })
+                //           } else {
+                //             wx.switchTab({
+                //               url: '../../device/device',
+                //             })
+                //           }
+                //         }
+                //       }
+                      
+                //     }
+                //   })
+                // }
               },
               fail: function () {
                 console.log("fail")

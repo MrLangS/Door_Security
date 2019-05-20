@@ -30,7 +30,7 @@
     <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
     
   </view>
-  <view class='item' hover-class='hover-class'>
+  <view class='item' hover-class='hover-class' bindtap='logout'>
     <view class='left-row'>
       <view>退出</view>
     </view>

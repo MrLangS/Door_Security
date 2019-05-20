@@ -1,12 +1,13 @@
 {
   "pages":[
-    "pages/setting/setting",
-    "pages/account/account",
-    "pages/my/my",
-    "pages/register/phone/phone",
+    "pages/init/init",
     "pages/register/register",
     "pages/role/role",
     "pages/login/login",
+    "pages/my/my",
+    "pages/setting/setting",
+    "pages/account/account",
+    "pages/register/phone/phone",
     "pages/subAdmin/subAdmin",
     "pages/peoAttendance/peoAttendance",
     "pages/perRegister/result/result",

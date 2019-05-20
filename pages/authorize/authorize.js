@@ -24,7 +24,7 @@ Page({
         wx.navigateBack()
       } else {
         wx.redirectTo({
-          url: '/pages/register/phone/phone',
+          url: '/pages/register/register',
         })
       }
       

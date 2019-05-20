@@ -7,6 +7,15 @@
   height: 400rpx;
   background-color: #eb4613;
 }
+.phone_check{
+  position: absolute;
+  right: 16%;
+  margin-top: 35rpx;
+}
+.click-class{
+  background: white !important;
+  color: #eb4613;
+}
 .orange_bcg{
   background: #eb4613;
 }
@@ -34,4 +43,9 @@
   height: 100rpx;
   left: 110rpx;
   margin-top: 40rpx;
+}
+.progress{
+  position: fixed;
+  top: 290rpx;
+  width: 80%;
 }
