@@ -401,11 +401,12 @@ function login(isSubAdmin) {
                         console.log(res)
                         app.globalData.admin = res.data.user
                         app.globalData.isMajorUser = res.data.isMajorUser
+                        wx.switchTab({
+                          url: '../device/device',
+                        })
                       }
                     })
-                    wx.switchTab({
-                      url: '../device/device',
-                    })
+                    
                   }else{
                     wx.redirectTo({
                       url: '../role/role',

@@ -24,7 +24,7 @@ Page({
         success: (res) => {
           console.log(res)
           app.globalData.userSet = res.data
-          wx.redirectTo({
+          wx.reLaunch({
             url: '../account/account?isAdmin='+(this.data.isAdmin == 1 ? 1 : 0),
           })
         }
