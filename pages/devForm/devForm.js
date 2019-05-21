@@ -18,29 +18,13 @@ Page({
     bcgImg: '/images/001.jpg',
     devName: '',
     address: '',
-    deviceData: {}
+    deviceData: {},
+    disabled: false
   },
-  /*
-  data: {
-    bcgImg: '/images/001.jpg',
-    devName:'',
-    address:'',
-    serverIp: getApp().globalData.server,
-    hidden: true,
-    array: ['WPA-PSK', 'WPA2-PSK','WEP','无密码'],
-    modal: true,
-    index: 0,
-    netType: 0,
-    wifiNameList: [],
-    wifiName: '',
-    disabled: false,
-    platform: '',
-  },*/
 
   commit(e) {
     var that=this
     let values = e.detail.value
-    console.log(e.detail.value)
     let name=values.name||''
     let address=values.address||''
     let deviceData = this.data.deviceData
@@ -58,6 +42,9 @@ Page({
       })
       return
     }
+    this.setData({
+      disabled: true
+    })
     //添加设备所需传输参数
     let device = {
       'clientId': app.globalData.admin.clientId,
@@ -72,7 +59,6 @@ Page({
     }
 
     let data = { 'device': device, 'licence': deviceData.licence}
-
     var token = md5Utils.md5(JSON.stringify(data) + app.globalData.key)
 
     wx.request({
@@ -98,72 +84,7 @@ Page({
         console.log(res)
       }
     })
-    /*var myreg = /[0-9a-zA-Z]{16}/;
-    if (!myreg.test(values.activationCode)){
-      wx.showToast({
-        title: '请输入16位字母或数字组合',
-        icon: 'none',
-      })
-      return
-    }
-    var insertStr = this.insertStr
-    var activationCode = insertStr(insertStr(insertStr(values.activationCode, 4, "-"), 9, "-"), 14, "-")
-    console.log(activationCode)
-    if (values.netType=='1'){
-      if (!values.wfName.replace(/\s+/g, '')) {
-        wx.showToast({
-          title: '请输入wifi名称',
-          icon: 'none',
-        })
-        return
-      }
-      if(!this.data.index==3){
-        if (!values.wfPassword.replace(/\s+/g, '')) {
-          wx.showToast({
-            title: '请输入wifi密码',
-            icon: 'none',
-          })
-          return
-        }
-        if (values.wfPassword != values.checkPassword) {
-          wx.showToast({
-            title: '密码不一致！请重新输入',
-            icon: 'none',
-          })
-          this.setData({
-            password: ''
-          })
-          return
-        }
-      }  
-    }
-    //二维码数据处理
-    var codeJD={
-      "serverIp": getApp().globalData.server,
-      "devName": values.name,
-      "devAddr": values.address,
-      "activationCode": activationCode,
-      "clientId": app.globalData.admin.clientId,
-      "regionId": app.globalData.admin.regionId,
-      "netType": values.netType,
-    }
-    if(values.netType=="1"){
-      codeJD.wfName = values.wfName
-      codeJD.wfPassword = values.wfPassword
-      codeJD.netSecurity = values.netSecurity
-      var formCache = new Object()
-      formCache.netType = codeJD.netType
-      formCache.wifiName = values.wfName
-      formCache.netSecurity = values.netSecurity
-      formCache.wfPassword = values.wfPassword
-      wx.setStorageSync('formCache', formCache)
-    }
     
-  
-    wx.reLaunch({
-      url: '../qrcode/qrcode?data=' + JSON.stringify(codeJD),
-    })
-    */
   },
 
   clearName: function(){
