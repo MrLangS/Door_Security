@@ -1,3 +1,4 @@
+var app = getApp()
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -225,7 +226,7 @@ function checkForm(that,tag) {
       checked = checkPhone(that) && checkCode(that);
       break;
     case 2:
-      checked = checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that);
+      checked = checkImage(that) && checkPhone(that) && checkCode(that) && checkUsername(that) && checkCompname(that);
       break;
     case 3:
       checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that)/* && checkCode(that)*/;
@@ -242,6 +243,14 @@ function checkForm(that,tag) {
 //获取验证码
 function getCode(that) {
   if (checkPhone(that)) {
+    if(!that.data.isEmpty){
+      wx.showToast({
+        title: '请修改手机号!',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
     var endPhone = that.data.phoneNumber.substr(7, 4)
     that.setData({
       disabled: true
@@ -309,17 +318,18 @@ function login2getId() {
               },
               method: 'post',
               success: function (res) {
-                console.log(res)
                 var openid = res.data.openid //返回openid
                 console.log("openid is: " + openid);
+                console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
                 app.globalData.realOpenid = res.data.miniproId
-                wx.setStorageSync('openid', openid);
-                var registed = res.data.registed
-                wx.setStorageSync('registed', registed)
-                console.log("registed:" + registed)
               },
               fail: function () {
+                wx.showToast({
+                  title: '网络异常!',
+                  icon: 'none',
+                  duration: 2000
+                })
                 console.log("fail")
               }
             })
@@ -393,17 +403,28 @@ function login(isSubAdmin) {
                   app.globalData.sysWXUser = wxUser
                   var userId = wx.getStorageSync('userId')
                   if(userId) {
+                    var type = wx.getStorageSync('isAdmin')
                     wx.request({
-                      url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId+'&type='+wx.getStorageSync('isAdmin'),
+                      url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
                       method: 'post',
                       success: res=>{
                         console.log('User:')
                         console.log(res)
-                        app.globalData.admin = res.data.user
-                        app.globalData.isMajorUser = res.data.isMajorUser
-                        wx.switchTab({
-                          url: '../device/device',
-                        })
+                        if(type == 1){// 1为管理员
+                          app.globalData.admin = res.data.user
+                          app.globalData.isAdmin = true
+                          app.globalData.isMajorUser = res.data.isMajorUser
+                          wx.switchTab({
+                            url: '../device/device',
+                          })
+                        } else {
+                          app.globalData.isAdmin = false
+                          app.globalData.staff = res.data.person
+                          wx.reLaunch({
+                            url: '../index/index',
+                          })
+                        }
+                        
                       }
                     })
                     
@@ -418,44 +439,13 @@ function login(isSubAdmin) {
                     url: '../role/role',
                   })
                 }
-
-                //已注册用户的处理
-                // if (registed == 1) {
-                //   wx.request({
-                //     url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
-                //     data: {
-                //       openId: openid
-                //     },
-                //     method: 'post',
-                //     success: function (res) {
-                //       console.log(res.data)
-                //       if (typeof (res.data.admin) == 'undefined' || res.data.admin == null){
-                //         app.globalData.sysWXUser = res.data.sysWXUser
-                //         wx.redirectTo({
-                //           url: '/pages/index/index',
-                //         })
-                //       }else{
-                //         app.globalData.sysWXUser = res.data.sysWXUser
-                //         app.globalData.isMajorUser = res.data.isMajorUser
-                //         app.globalData.admin = res.data.admin
-                //         if (res.data.admin.valid != false) {
-                //           if (isSubAdmin) {
-                //             wx.switchTab({
-                //               url: '../device/device',
-                //             })
-                //           } else {
-                //             wx.switchTab({
-                //               url: '../../device/device',
-                //             })
-                //           }
-                //         }
-                //       }
-                      
-                //     }
-                //   })
-                // }
               },
               fail: function () {
+                wx.showToast({
+                  title: '网络异常，请刷新重试!',
+                  icon:'none',
+                  duration: 2000
+                })
                 console.log("fail")
               }
             })
@@ -468,6 +458,62 @@ function login(isSubAdmin) {
     }
   })
   
+}
+function registerWxUser(userId,type){
+  wx.request({
+    url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
+    method: 'post',
+    success: res => {
+      console.log('User:')
+      console.log(res)
+      var admin = res.data.user
+      if (admin) {
+        app.globalData.admin = admin
+        app.globalData.isAdmin = true
+        app.globalData.isMajorUser = res.data.isMajorUser
+        //判断有没有微信用户，不存在的话重新注册
+        if (!app.globalData.sysWXUser) {
+          console.log('注册微信用户')
+          wx.request({
+            url: app.globalData.server + "/SysWXUserAction/recoverUser.do",
+            data: {
+              userId: admin.id,
+              openId: app.globalData.openid,
+              miniproId: app.globalData.realOpenid
+            },
+            method: 'post',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              if (res.data.msg == 'ok') {
+                app.globalData.sysWXUser = res.data.sysWXUser
+                wx.switchTab({
+                  url: '../device/device',
+                })
+              } else {
+                wx.showToast({
+                  title: '登录失败',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+            },
+          })
+        } else {
+          wx.switchTab({
+            url: '../device/device',
+          })
+        }
+      } else {
+        wx.showToast({
+          title: '该用户尚未注册!',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
+  })
 }
 function formatDay(that) {
   var date = that.data
@@ -487,5 +533,6 @@ module.exports = {
   getPicker: getPicker,
   getPickerList: getPickerList,
   redotListener: redotListener,
+  registerWxUser: registerWxUser,
   formatDay: formatDay
 }

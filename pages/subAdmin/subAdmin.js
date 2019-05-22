@@ -70,6 +70,9 @@ Page({
           },
           method: 'post',
           success: function (res) {
+            console.log(res)
+            wx.setStorageSync('userId', res.data.admin.id)
+            wx.setStorageSync('isAdmin', 1)//1为管理员
             util.login(true)
           }
         })
@@ -145,7 +148,7 @@ Page({
             })
             that.setData({
               percent: 100,
-              progressColor: '#1e304f',
+              progressColor: '#eb4613',
               active: true
             })
 

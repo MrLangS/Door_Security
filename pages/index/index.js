@@ -18,40 +18,10 @@ Page({
     demo5_days_style: [],
   },
 
-  logout: function () {
-    var that = this
-    wx.showModal({
-      title: '提示',
-      content: '确定注销吗？',
-      success: (res) => {
-        if (res.confirm) {
-          wx.request({
-            url: app.globalData.server + '/SysWXUserAction/logoutUser.do?wxUserId=' + app.globalData.sysWXUser.id + '&type=' + 3,
-            method: 'post',
-            success: function (res) {
-              console.log(res)
-              if (res.data = 'SUCCESS') {
-                wx.showToast({
-                  title: '注销成功',
-                  icon: 'success',
-                  duration: 1000,
-                })
-                wx.reLaunch({
-                  url: '../register/phone/phone',
-                })
-              } else {
-                wx.showToast({
-                  title: '注销失败',
-                  icon: 'none',
-                  duration: 1000,
-                })
-              }
-            }
-          })
-        }
-      }
+  setting(){
+    wx.navigateTo({
+      url: '../setting/setting',
     })
-
   },
 
   //手指触摸动作开始 记录起点X坐标
@@ -174,7 +144,7 @@ Page({
     console.log( [date.year,date.month,date.day].map(util.formatNumber).join('-') )
     var day = [date.year, date.month, date.day].map(util.formatNumber).join('-')
     wx.request({
-      url: app.globalData.server + '/ClockingIn/queryPersonOneDayClockingIn.do?personId=' + app.globalData.sysWXUser.staffId +'&searchDay='+day,
+      url: app.globalData.server + '/ClockingIn/queryPersonOneDayClockingIn.do?personId=' + app.globalData.staff.id +'&searchDay='+day,
       method: 'post',
       success: res => {
         console.log(res)
@@ -213,7 +183,7 @@ Page({
 
   peoAttendance: function () {
     wx.navigateTo({
-      url: '/pages/peoAttendance/peoAttendance?data=' + JSON.stringify(app.globalData.sysWXUser) + '&&isAdmin=staff',
+      url: '/pages/peoAttendance/peoAttendance?isAdmin=staff',
     })
   },
   peoRecord: function(){
@@ -230,7 +200,7 @@ Page({
     let day = [currentDay.year, currentDay.month, currentDay.day].map(util.formatNumber).join('-')
     //某日考勤记录的请求
     wx.request({
-      url: app.globalData.server + '/ClockingIn/queryPersonOneDayClockingIn.do?personId=' + app.globalData.sysWXUser.staffId + '&searchDay=' + day,
+      url: app.globalData.server + '/ClockingIn/queryPersonOneDayClockingIn.do?personId=' + app.globalData.staff.id + '&searchDay=' + day,
       method: 'post',
       success: res => {
         this.setData({
@@ -240,11 +210,10 @@ Page({
     })
     //当月考勤记录
     wx.request({
-      url: app.globalData.server + '/ClockingIn/queryPersonClockingIn.do?personId=' + app.globalData.sysWXUser.staffId
+      url: app.globalData.server + '/ClockingIn/queryPersonClockingIn.do?personId=' + app.globalData.staff.id
         + '&&searchMonth=' + util.getCurrentTime().substr(0, 7),
       method: 'post',
       success: res => {
-        console.log(res)
         this.setData({
           monthAtt: res.data
         })
@@ -255,9 +224,9 @@ Page({
       demo5_days_style
     });
 
-    console.log(app.globalData.sysWXUser)
     this.setData({
-      user: app.globalData.sysWXUser
+      user: app.globalData.staff,
+      wxUser: app.globalData.sysWXUser
     })
   },
 })

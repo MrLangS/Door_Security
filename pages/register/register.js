@@ -26,8 +26,22 @@ Page({
     this.setData({
       phoneNumber: e.detail.value
     })
+    var isaPhoneNum = this.bindPhoneChange(e.detail.value)
+    if (isaPhoneNum){
+      wx.request({
+        url: app.globalData.server + '/UserAction!isPhoneNumRepeated.do',
+        data: { phoneNum: this.data.phoneNumber },
+        method: 'post',
+        success: res => {
+          this.setData({
+            isEmpty: res.data
+          })
+        }
+      })
+    }
+    
     this.setData({
-      isaPhoneNum: this.bindPhoneChange(e.detail.value)
+      isaPhoneNum: isaPhoneNum
     })
   },
 
@@ -50,7 +64,13 @@ Page({
 
   register() {
     var that = this
+    if (!this.data.isEmpty) {
+      console.log(!this.data.isEmpty)
+    }
     if(util.checkForm(this,3)){
+      if(!this.data.isEmpty){
+        return
+      }
       // 查看是否授权
       wx.getSetting({
         success(res) {
@@ -95,7 +115,7 @@ Page({
               console.log(res)
               if(res.data.msg == 'ok') {
                 wx.setStorageSync('userId', res.data.admin.id)
-                wx.setStorageSync('isAdmin', 1)//1为主管理员
+                wx.setStorageSync('isAdmin', 1)//1为管理员
               }
               // wx.redirectTo({
               //   url: '../result/result',

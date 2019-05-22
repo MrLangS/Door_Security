@@ -4,12 +4,16 @@
   </view>
   <view class='login_content'>
     <view class='switch_view'>
-      <view class="{{current ? (isAdmin ? 'selected_title' : 'stf_selected_title') : 'normal_title'}}" bindtap='switchToPhone'>
+      <view wx:if='{{isAdmin}}' class="{{current ? 'selected_title' : 'normal_title'}}" bindtap='switchToPhone'>
         Phone
       </view>
-      <view class="{{!current ? (isAdmin ? 'selected_title' : 'stf_selected_title') : 'normal_title'}}" bindtap='switchToAccount'>
+      <view wx:if='{{isAdmin}}' class="{{!current ? 'selected_title' : 'normal_title'}}" bindtap='switchToAccount'>
         Account
       </view>
+      <view wx:if='{{!isAdmin}}' class="stf_selected_title" bindtap='switchToPhone'>
+        欢迎使用
+      </view>
+      
     </view>
     <view class='input_view' hidden='{{!current}}'>
       <view class='label_input'>
@@ -28,11 +32,11 @@
     <view class='input_view' hidden='{{current}}'>
       <view class='label_input'>
         <label class='headlabel'>账号：</label>
-        <input class='input_bar' name='username' placeholder='请输入账号' value='' />
+        <input class='input_bar' name='username' placeholder='请输入账号' bindinput='getAccount' />
       </view>
       <view class='label_input'>
         <view class='headlabel'><label>密码：</label></view>
-        <input class='input_bar' name='password' placeholder='请输入密码' value='' />
+        <input class='input_bar' name='password' password='true' placeholder='请输入密码' bindinput='getPassword' />
       </view>
 
     </view>

@@ -13,58 +13,9 @@
           <input value='{{address}}' name='address'></input>
           <image class='activeBtn' src='/images/clear.png' bindtap='clearAddress'></image>
         </view>
-        <!-- <view class='item'>
-          <label>激活码</label>
-          <input value='{{activationCode}}' name='activationCode'></input>
-          <image class='activeBtn' src='/images/scancode.png' bindtap='scancode'></image>
-        </view>
-        <view class='item'>
-          <label>网络类型</label>
-          <radio-group class='choose' name="netType" bindchange="radioChange">
-            <view><radio value="0" checked="{{netType=='0'}}"/>有线网络</view>
-            <view><radio value="1" checked="{{netType=='1'}}"/>无线网络</view>
-          </radio-group>
-        </view>
-        <block wx:if='{{netType=="1"}}'>
-          <view class='item'>
-            <label>wifi名称</label>
-            <input name='wfName' value='{{wifiName}}'></input> 
-            <image class='tipBtn' src='/images/filler.png' bindtap='showModal'></image>
-          </view>
-          <view class='item'>
-            <label>安全类型</label>
-            <picker class='pick' bindchange="bindPickerChange" name='netSecurity' value="{{index}}" range="{{array}}">
-              <view class="picker">
-                {{array[index]}}
-              </view>
-            </picker>
-          </view>
-          <block wx:if='{{index!=3}}'>
-          <view class='item'>
-            <label>wifi密码</label>
-            <input name='wfPassword' password='true' value='{{password||""}}'></input>
-          </view>
-          <view class='item'>
-            <label>确认密码</label>
-            <input name='checkPassword' password='true' value='{{password||""}}'></input>
-          </view>
-          </block>
-        </block> -->
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>
   </view>
   <view class='footer'>门禁管理</view>
 </view>
-
-<!-- <modal hidden="{{modal}}" title="wifi选择" confirm-text="确定" cancel-text="取消" bindconfirm="confirm01"
-bindcancel="cancel01">
-    <radio-group bindchange="wifiradioChange">
-      <label class="checkrad" wx:key wx:for="{{wifiNameList}}">
-        <view>
-          <radio value="{{item}}" checked="{{item.checked}}"/>{{item}}
-        </view>
-      </label>
-    </radio-group>
-    <view class='none' wx:if="{{!wifiNameList.length}}">未检测到wifi</view>
-</modal> -->

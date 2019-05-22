@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "navigationBarBackgroundColor": "#eb4613",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "自助注册"
 }

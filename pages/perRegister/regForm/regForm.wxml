@@ -1,4 +1,57 @@
-<view class='wrapper'>
+<view class='content'>
+  <image  mode='aspectFit' class='animal' src='{{"/images/animal.png" }}' />
+  <image  mode='aspectFit' class='session' src='{{"/images/session.png" }}' />
+  <view class='register_bg'>
+    <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}' bindtap='chooseImg' />
+  </view>
+  <view class='progress'>
+    <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
+  </view>
+  <view class='login_content'>
+    <view class='input_view'>
+      <view class='label_input'>
+        <label class='headlabel'>手机号：</label>
+        <input class='input_bar' type='number' name='phoneNumber' 
+          bindinput='getPhonenum' placeholder='请输入手机号' />
+        <block wx:if='{{isaPhoneNum}}'>
+          <icon type='{{isEmpty ? "success" : "warn"}}' class='phone_check' size='15' />
+          <text wx:if='{{!isEmpty}}' class='phone_tip'>该手机号账户已存在设备所属单位</text>
+        </block>
+      </view>
+      <view class='label_input'>
+        <label class='headlabel'>验证码：</label>
+        <button class='codeBtn {{isEmpty?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
+        <input class='input_bar' type='number' name='code' 
+          bindinput='getCodeValue' placeholder='请输入验证码' />
+      </view>
+      <view class='label_input'>
+        <label class='headlabel'>用户名：</label>
+        <input class='input_bar' name='username' bindinput='getUsername' placeholder='请输入用户名' />
+      </view>
+      <view class='label_input'>
+        <view class='headlabel'><label>单位名：</label></view>
+        <input class='input_bar' wx:if='{{tag}}' name='company' placeholder='公司名称' disabled='true' value='{{company||"未知单位"}}'/>
+        <picker class="picker" wx:else bindchange="bindPickerChange" name="picker" value="{{index}}" range="{{values}}">
+          <view>
+            {{array[index].clientName}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <form report-submit='true' bindsubmit='commit'>
+      <button class='register_button}}' hover-class='click-class' formType='submit' disabled='{{disabled}}'>注册</button>
+      <!-- <view class='login_button orange_bcg}}' hover-class='click-class' bindtap='register'>
+        注册
+      </view> -->
+    </form>
+  </view>
+  <view class='info_view'>
+    <Text class='info_text'>
+      此为普通员工自助注册，提交注册申请并得到申请单位管理员审核通过后即加入该单位成功。
+    </Text>
+  </view>
+</view>
+<!-- <view class='wrapper'>
   <image class='bcg' wx:if='{{bcgImg}}' src='{{bcgImg}}' mode='aspectFill' ></image>
   <view class='top'>
     <view class='avator'>
@@ -10,10 +63,10 @@
     </view>
     <form class='form' report-submit='true' bindsubmit='commit'>
       <view class='border'>
-        <input name='username' bindinput='getUsername' placeholder='姓名'></input>
+        <input name='phoneNumber' bindinput='getPhonenum' type='number' placeholder='手机号'></input>
       </view>
       <view class='border'>
-        <input name='phoneNumber' bindinput='getPhonenum' type='number' placeholder='手机号'></input>
+        <input name='username' bindinput='getUsername' placeholder='姓名'></input>
       </view>
       <view>
         <input wx:if='{{tag}}' name='company' placeholder='公司名称' disabled='true' value='{{company||"未知单位"}}'></input>
@@ -27,4 +80,4 @@
     </form>
   </view>
   <view class='footer'>自助注册</view>
-</view>
+</view> -->

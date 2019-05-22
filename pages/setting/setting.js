@@ -1,12 +1,20 @@
 var util = require("../../utils/util.js")
+var app = getApp()
 Page({
   data: {
-
+    isAdmin: false
   },
 
   switchAccount: function(){
-    wx.navigateTo({
-      url: '../account/account',
+    wx.request({
+      url: app.globalData.server + '/SysWXUserAction/getUserByPhoneNum.do?phoneNum=' + app.globalData.staff.phoneNo + '&type=' + 2,
+      method: 'post',
+      success: (res) => {
+        app.globalData.userSet = res.data.persons
+        wx.navigateTo({
+          url: '../account/account',
+        })
+      }
     })
   },
 
@@ -30,6 +38,9 @@ Page({
   },
 
   onLoad: function (options) {
-
+    console.log(app.globalData.isAdmin)
+    this.setData({
+      isAdmin: app.globalData.isAdmin
+    })
   },
 })

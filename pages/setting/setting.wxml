@@ -23,13 +23,15 @@
 
 <view class='box-shadow items'>
   <!-- bindtap='jump2visit' -->
-  <view class='item' bindtap='switchAccount' hover-class='hover-class'>
-    <view class='left-row'>
-      <view>切换账号</view>
+  <block wx:if='{{!isAdmin}}'>
+    <view class='item' bindtap='switchAccount' hover-class='hover-class'>
+      <view class='left-row'>
+        <view>切换账号</view>
+      </view>
+      <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
+      
     </view>
-    <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
-    
-  </view>
+  </block>
   <view class='item' hover-class='hover-class' bindtap='logout'>
     <view class='left-row'>
       <view>退出</view>

@@ -19,15 +19,16 @@
       </view>
       <view class='label_input'>
         <label class='headlabel'>手机号：</label>
-        <block wx:if='{{isaPhoneNum}}'>
-          <icon type='success' class='phone_check' size='15' />
-        </block>
         <input class='input_bar' type='number' name='phoneNumber' 
           bindinput='getPhoneValue' placeholder='请输入手机号' />
+        <block wx:if='{{isaPhoneNum}}'>
+          <icon type='{{isEmpty ? "success" : "warn"}}' class='phone_check' size='15' />
+          <text wx:if='{{!isEmpty}}' class='phone_tip'>该手机号已存在</text>
+        </block>
       </view>
       <view class='label_input'>
         <label class='headlabel'>验证码：</label>
-        <button class='codeBtn {{isaPhoneNum?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
+        <button class='codeBtn {{isEmpty?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
         <input class='input_bar' type='number' name='code' 
           bindinput='getCodeValue' placeholder='请输入验证码' />
       </view>

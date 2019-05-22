@@ -7,6 +7,13 @@
   height: 400rpx;
   background-color: #eb4613;
 }
+.phone_tip{
+  position: absolute;
+  right: 16%;
+  color: red;
+  font-size: 20rpx;
+  margin-top: 65rpx;
+}
 .phone_check{
   position: absolute;
   right: 16%;

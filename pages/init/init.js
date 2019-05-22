@@ -26,5 +26,19 @@ Page({
     })
     // util.login()
   },
+  onPullDownRefresh: function () {
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          util.login()
+        } else {
+          wx.redirectTo({
+            url: '/pages/authorize/authorize',
+          })
+        }
+      }
+    })
+  },
   
 })

@@ -7,6 +7,7 @@ App({
     openid: null,
     realOpenid: null,
     isMajorUser: false,
+    isAdmin: false,
     formIds: [],
     userSet: null,
     key: '68B3D28BEA8A34918EB9ECFB642DB979',
@@ -14,6 +15,7 @@ App({
     // server: 'https://doorcontrol.faceos.com',
     // server: 'http://192.168.0.161:8080/ebank',
     server: 'https://doortest.faceos.com',
-    admin: null
+    admin: null,
+    staff: null
   }
 })
