@@ -4,9 +4,9 @@
     <view class='logo'>
       <image bindtap='chooseImg' src='{{avatar?avatar: "/images/empty_avatar_user.png"}}'></image>
     </view>
-    <view class='progress'>
+    <!-- <view class='progress'>
       <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
-    </view>
+    </view> -->
     <form class='form' bindsubmit='commit'>
       <view>
         <input name='phoneNumber' bindinput='getPhoneValue' placeholder='手机号'></input>
@@ -15,7 +15,7 @@
           <button class='codeBtn {{isaPhoneNum? "blue-color" : ""}}' bindtap='getVerificationCode' disabled='{{disabled}}' >{{codename}}</button>
         </view>
       </view>
-      <button class='login' formType='submit'>确认</button>
+      <button class='login' formType='submit' disabled='{{regDisabled}}'>确认</button>
     </form>
   </view>
   <view class='footer'>门禁管理</view>

@@ -14,25 +14,24 @@
       <view class="bd">
          <!-- 信息部分 -->
         <view class='wrapper'>
-          <view class='box-shadow pro {{isCompanyTouch ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" data-index='0'>
+          <view class='box-shadow pro'>
             <view class='list'>
                 <view class='info'>
                     <view class='infotitle'>{{company.name || '未知单位'}}</view>
                     <view class='addr'>{{company.addr || '未知地址'}}</view>
                 </view>
             </view>
-            <!-- <view class="reco" catchtap="navigate2strange" >陌生抓拍记录</view> -->
           </view>
 
-          <view class='profile {{isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" data-index='1'>
+          <view class='profile'>
             <view class='profileitem'>
               <view class='info'>
                 <image class='avatar' bindtap='chooseImg' src='{{user.photoURL?user.photoURL:"/images/empty_avatar_user.png"}}'></image>
                 <view class='username'>{{user.username || '未知'}}</view>
+                <!-- <view class='username'>{{'小明'}}</view> -->
               </view>
-              
+
             </view>
-            <view class="del" catchtap="logout" >注销</view>
           </view>
 
           <view class='box-shadow items'>

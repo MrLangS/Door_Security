@@ -210,19 +210,6 @@ Page({
       }
     })
 
-    /*var formCache = wx.getStorageSync('formCache')
-    console.log(typeof (formCache))
-    if (typeof (formCache.wifiName)!='undefined'){
-      console.log('表单缓存数据：')
-      console.log(formCache)
-      that.setData({
-        wifiName: formCache.wifiName||'',
-        index: formCache.netSecurity,
-        netType: formCache.netType,
-        password: formCache.wfPassword||''
-      })
-    }
-    */
   },
 
   onShow: function () {

@@ -39,7 +39,7 @@
       </view>
     </view>
     <form report-submit='true' bindsubmit='commit'>
-      <button class='register_button}}' hover-class='click-class' formType='submit' disabled='{{disabled}}'>注册</button>
+      <button class='register_button}}' hover-class='click-class' formType='submit' disabled='{{regDisabled}}'>注册</button>
       <!-- <view class='login_button orange_bcg}}' hover-class='click-class' bindtap='register'>
         注册
       </view> -->

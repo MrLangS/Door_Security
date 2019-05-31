@@ -11,6 +11,7 @@ Page({
     phoneNumber: '',
     quality: 1,
     disabled: false,
+    regDisabled: false,
     code: '',
     iscode: '',//用于存放验证码接口里获取到的code
     codename: '发送验证码',
@@ -25,15 +26,10 @@ Page({
     this.setData({
       phoneNumber: e.detail.value
     })
-    if (this.bindPhoneChange(e.detail.value)) {
-      this.setData({
-        isaPhoneNum: true
-      })
-    } else {
-      this.setData({
-        isaPhoneNum: false
-      })
-    }
+
+    this.setData({
+      isaPhoneNum: this.bindPhoneChange(e.detail.value)
+    })
   },
   bindPhoneChange(num) {
     var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
@@ -54,7 +50,12 @@ Page({
     let values = e.detail.value
     let phoneNumber = values.phoneNumber || ''
     let code = values.code || ''
+
     if (util.checkForm(this, 0)) {
+
+      this.setData({
+        regDisabled: true
+      })
       var subAdmin = this.data.subAdmin
       if (phoneNumber == subAdmin.phone){
         wx.request({
@@ -117,7 +118,7 @@ Page({
         console.log(res)
         if (res.authSetting['scope.userInfo']) {
           //登录
-          // util.login(subAdmin)
+          util.login2getId(subAdmin)
 
         } else {
           wx.navigateTo({
@@ -143,14 +144,6 @@ Page({
           success: res => { //成功的回调
             // console.log('data:image/png;base64,' + res.data)
             console.log(res)
-            that.setData({
-              percent: 0,
-            })
-            that.setData({
-              percent: 100,
-              progressColor: '#eb4613',
-              active: true
-            })
 
             wx.request({
               url: uploadUserUrl,
@@ -168,9 +161,7 @@ Page({
                     quality: 0,
                   })
                 } else {
-                  that.setData({
-                    progressColor: 'red',
-                  })
+
                   wx.showToast({
                     title: '上传失败,图片须为本人清晰头像',
                     icon: 'none',
@@ -186,9 +177,6 @@ Page({
                 })
               },
               complete: (res) => {
-                that.setData({
-                  active: false,
-                })
               }
             })
           }
@@ -204,7 +192,7 @@ Page({
   onShow: function () {
     if (this.data.authorizeTAG) {
       //登录
-      util.login(true)
+      util.login2getId(true)
     }
   },
 

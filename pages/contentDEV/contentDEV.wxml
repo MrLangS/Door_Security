@@ -107,22 +107,32 @@
             <switch color='#40a7e7' bindchange='switchName' checked='{{nameStatus}}'></switch>
           </view>
 
-          <!-- 雷达开关 -->
-          <view class='subtitle'>雷达</view>
+          <!-- 活体开关 -->
+          <view class='subtitle'>活体检测</view>
           <view class='item'>
             <view>
-              <view>当前状态：{{radarStatus?'开':'关'}}</view>
-              <view class='tip'>开启时，黑暗情况下仍能检测目标</view>
+              <view>当前状态：{{alive?'开':'关'}}</view>
+              <view class='tip'>检测目标是否为活体，可提高安全性</view>
             </view>
-            <switch color='#40a7e7' bindchange='switchChange' checked='{{radarStatus}}'></switch>
+            <switch color='#40a7e7' bindchange='switchChange' checked='{{alive}}'></switch>
           </view>
 
-          <picker bindchange="bindDistancePicker" value="{{distanceIdx}}" range="{{distanceArr}}">
+          <!-- 二维码开关 -->
+          <view class='subtitle'>显示二维码</view>
+          <view class='item'>
+            <view>
+              <view>当前状态：{{showCode?'开':'关'}}</view>
+              <view class='tip'>控制设备上“自助注册”二维码的显示</view>
+            </view>
+            <switch color='#40a7e7' bindchange='switchCode' checked='{{showCode}}'></switch>
+          </view>
+
+          <picker bindchange="bindDistancePicker" disabled='{{alive}}' value="{{distanceIdx}}" range="{{distanceArr}}">
           <view class='subtitle'>检测距离</view>
           <view class='item'>
             <view>
               <view>当前距离</view>
-              <view class='tip'>推荐检测距离为1m</view>
+              <view class='tip'>推荐检测距离为1m，且活体开启时必须为1米</view>
             </view>
             <view class='count'>{{distanceArr[distanceIdx]}}</view>
           </view>

@@ -5,6 +5,18 @@ Page({
     isAdmin: false
   },
 
+  jump2visit: function () {
+    wx.navigateToMiniProgram({
+      appId: 'wx823d48bf0deffed9',
+      path: '',
+      extraData: {},
+      envVersion: 'develop',
+      success(res) {
+        console.log('跳转到人人访客')
+      }
+    })
+  },
+
   switchAccount: function(){
     wx.request({
       url: app.globalData.server + '/SysWXUserAction/getUserByPhoneNum.do?phoneNum=' + app.globalData.staff.phoneNo + '&type=' + 2,

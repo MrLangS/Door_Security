@@ -26,7 +26,7 @@ Page({
         
         //根据手机号获得管理员信息
         wx.request({
-          url: getApp().globalData.server + '/SysWXUserAction/getUserByPhoneNum.do?phoneNum=' + this.data.phoneNumber+'&type='+type,
+          url: getApp().globalData.server + '/SysWXUserAction/getUserByPhoneNum.do?phoneNum=' + this.data.phoneNumber + '&type=' + type + '&openId=' + app.globalData.openid,
           method: 'post',
           success: (res) => {
             if(type == 1){
@@ -86,7 +86,7 @@ Page({
       }
       
       wx.request({
-        url: getApp().globalData.server + '/LoginAction/loginFromWx.do?username=' + account + '&password=' + password,
+        url: getApp().globalData.server + '/LoginAction/loginFromWx.do?username=' + account + '&password=' + password + '&openId=' + app.globalData.openid,
         method: 'post',
         success: (res) => {
           console.log(res)

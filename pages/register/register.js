@@ -11,15 +11,15 @@ Page({
     disabled: false,
     quality: 1,
     picId: 0,
-    progress: true,
-    active: false,
-    percent: 0,
-    progressColor: '#eb4613',
+    // progress: true,
+    // active: false,
+    // percent: 0,
+    // progressColor: '#eb4613',
   },
 
   //获取验证码
   getVerificationCode() {
-    util.getCode(this)
+    util.getCode(this,true)
   },
 
   getPhoneValue: function (e) {
@@ -157,14 +157,6 @@ Page({
           success: res => { //成功的回调
             // console.log('data:image/png;base64,' + res.data)
             console.log(res)
-            that.setData({
-              percent: 0,
-            })
-            that.setData({
-              percent: 100,
-              progressColor: '#eb4613',
-              active: true
-            })
 
             wx.request({
               url: uploadUserUrl,
@@ -182,9 +174,6 @@ Page({
                     quality: 0,
                   })
                 } else {
-                  that.setData({
-                    progressColor: 'red',
-                  })
                   wx.showToast({
                     title: '上传失败,图片须为本人清晰头像',
                     icon: 'none',
@@ -200,9 +189,7 @@ Page({
                 })
               },
               complete: (res) => {
-                that.setData({
-                  active: false,
-                })
+
               }
             })
           }

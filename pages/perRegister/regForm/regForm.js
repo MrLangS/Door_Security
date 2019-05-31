@@ -20,6 +20,7 @@ Page({
     array: [],
     authorizeTAG: false,
     disabled: false,
+    regDisabled: false,
     index: 0
   },
 
@@ -32,7 +33,7 @@ Page({
         return
       }
       this.setData({
-        disabled: true
+        regDisabled: true
       })
       wx.request({
         url: app.globalData.server + '/TransitPerson/indepregistered.do',
@@ -58,8 +59,8 @@ Page({
                   url: app.globalData.server + '/SysWXUserAction/sendUniMsg.do',
                   data: {
                     openId: one.openId,
-                    miniAppid: 'wx218bf8cb1afb43a2',
-                    templateId: 'yQRbgCf5pQ6zypI4ZNyNBj6stF7wV93w8O0Yt-ryDYw',
+                    miniAppid: app.globalData.config.miniAppid,
+                    templateId: app.globalData.config.joinTemplateId,
                     dto: {
                       first: { value: '申请加入' + that.data.company },
                       keyword1: { value: that.data.username },
@@ -227,7 +228,7 @@ Page({
   },
   //获取验证码
   getVerificationCode() {
-    util.getCode(this)
+    util.getCode(this,true)
   },
   chooseImg: function () {
     var that = this

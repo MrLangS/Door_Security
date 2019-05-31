@@ -5,7 +5,6 @@ Page({
   data: {
     remind: '加载中',
     angle: 0,
-    tip: false,
     tag: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
@@ -24,7 +23,7 @@ Page({
         wx.navigateBack()
       } else {
         wx.redirectTo({
-          url: '/pages/register/register',
+          url: '/pages/init/init',
         })
       }
       
@@ -34,11 +33,7 @@ Page({
   },
 
   onLoad: function (options) {
-    if(typeof(options.tag)!='undefined'){
-      this.setData({
-        tip:true
-      })
-    }
+
     if (options.authortag == '1') {
       this.setData({
         tag: true

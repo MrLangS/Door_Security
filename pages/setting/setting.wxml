@@ -10,7 +10,7 @@
   </view>
 </view>
 
-<view class='box-shadow items'>
+<view class='box-shadow items' bindtap='jump2visit'>
   <!-- bindtap='jump2visit' -->
   <view class='item' hover-class='hover-class'>
     <view class='left-row'>

@@ -123,7 +123,7 @@ function checkImage(that) {
   }
 }
 function checkUsername(that) {
-  if (that.data.username == "") {
+  if (that.data.username.trim() == "") {
     wx.showToast({
       title: '用户名不能为空',
       icon: 'none',
@@ -241,9 +241,9 @@ function checkForm(that,tag) {
   return checked
 }
 //获取验证码
-function getCode(that) {
+function getCode(that,isExist) {
   if (checkPhone(that)) {
-    if(!that.data.isEmpty){
+    if (isExist && !that.data.isEmpty){
       wx.showToast({
         title: '请修改手机号!',
         icon: 'none',
@@ -290,7 +290,7 @@ function getCode(that) {
   }
 }
 
-function login2getId() {
+function login2getId(isSubAdmin) {
   var encryptedData = null
   var iv = null
   // 登录
@@ -323,6 +323,36 @@ function login2getId() {
                 console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
                 app.globalData.realOpenid = res.data.miniproId
+                var wxUser = res.data.sysWXUser
+                
+                if (isSubAdmin){
+                  if (wxUser) {
+                    console.log('wxUser:')
+                    console.log(wxUser)
+                    app.globalData.sysWXUser = wxUser
+                    var type = wx.getStorageSync('isAdmin')
+                    if (1 == type){
+                      var userId = wx.getStorageSync('userId')
+                      
+                      wx.request({
+                        url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
+                        method: 'post',
+                        success: res => {
+                          console.log('User:')
+                          console.log(res)
+
+                          app.globalData.admin = res.data.user
+                          app.globalData.isAdmin = true
+                          app.globalData.isMajorUser = res.data.isMajorUser
+                          wx.switchTab({
+                            url: '../device/device',
+                          })
+                        }
+                      })
+                    }
+                    
+                  }
+                }
               },
               fail: function () {
                 wx.showToast({

@@ -21,7 +21,7 @@
   <view class='profile'>
     <view class='item'>
       <image class='avatar' src='{{wxUser.photoURL}}' wx:if='{{wxUser.photoURL}}'></image>
-      <image class='avatar' src='/images/device.png' wx:else></image>
+      <image class='avatar' src='/images/user_background.png' wx:else></image>
       <view class='info'>
           <view class='info-title'>{{user.personName}}</view>
           <view class='info-addr'>所属单位：{{user.personCompany || user.company}}</view>

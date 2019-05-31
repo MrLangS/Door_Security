@@ -5,10 +5,10 @@
   <view class='login_content'>
     <view class='switch_view'>
       <view wx:if='{{isAdmin}}' class="{{current ? 'selected_title' : 'normal_title'}}" bindtap='switchToPhone'>
-        Phone
+        验证码登录
       </view>
       <view wx:if='{{isAdmin}}' class="{{!current ? 'selected_title' : 'normal_title'}}" bindtap='switchToAccount'>
-        Account
+        账号登录
       </view>
       <view wx:if='{{!isAdmin}}' class="stf_selected_title" bindtap='switchToPhone'>
         欢迎使用

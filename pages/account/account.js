@@ -30,6 +30,7 @@ Page({
               wxOpenId: app.globalData.openid,
               miniproId: app.globalData.realOpenid,
               username: userinfo.personName,
+              company: userinfo.personCompany,
               address: userinfo.personCompany,
               phonenum: userinfo.phoneNo,
               photoURL: '',

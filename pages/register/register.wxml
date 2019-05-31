@@ -4,9 +4,9 @@
   <view class='register_bg'>
     <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}' bindtap='chooseImg' />
   </view>
-  <view class='progress'>
+  <!-- <view class='progress'>
     <progress bindactiveend="progressIsOk" percent="{{percent}}" color='{{progressColor}}' active="{{active}}"/>
-  </view>
+  </view> -->
   <view class='login_content'>
     <view class='input_view'>
       <view class='label_input'>
