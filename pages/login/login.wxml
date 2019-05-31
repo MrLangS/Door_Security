@@ -1,0 +1,52 @@
+<view class='content'>
+  <view class='logo_bg {{isAdmin?"" : "green_bcg"}}'>
+    <image mode='aspectFit' class='logo' src='{{isAdmin?"/images/dolphin.png" : "/images/rat.png" }}' />
+  </view>
+  <view class='login_content'>
+    <view class='switch_view'>
+      <view wx:if='{{isAdmin}}' class="{{current ? 'selected_title' : 'normal_title'}}" bindtap='switchToPhone'>
+        验证码登录
+      </view>
+      <view wx:if='{{isAdmin}}' class="{{!current ? 'selected_title' : 'normal_title'}}" bindtap='switchToAccount'>
+        账号登录
+      </view>
+      <view wx:if='{{!isAdmin}}' class="stf_selected_title" bindtap='switchToPhone'>
+        欢迎使用
+      </view>
+      
+    </view>
+    <view class='input_view' hidden='{{!current}}'>
+      <view class='label_input'>
+        <label class='headlabel'>手机号：</label>
+        <input class='input_bar' type='number' name='phoneNumber' 
+          bindinput='getPhoneValue' placeholder='请输入手机号' />
+      </view>
+      <view class='label_input'>
+        <label class='headlabel'>验证码：</label>
+        <button class='codeBtn {{isaPhoneNum?  (isAdmin ? "blueBtn" : "greenBtn"): ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
+        <input class='input_bar' type='number' name='code' 
+          bindinput='getCodeValue' placeholder='请输入验证码' />
+      </view>
+    </view>
+
+    <view class='input_view' hidden='{{current}}'>
+      <view class='label_input'>
+        <label class='headlabel'>账号：</label>
+        <input class='input_bar' name='username' placeholder='请输入账号' bindinput='getAccount' />
+      </view>
+      <view class='label_input'>
+        <view class='headlabel'><label>密码：</label></view>
+        <input class='input_bar' name='password' password='true' placeholder='请输入密码' bindinput='getPassword' />
+      </view>
+
+    </view>
+    <view class='login_button {{isAdmin?"blue_bcg" : "green_bcg"}}' bindtap='login'>
+      登录
+    </view>
+  </view>
+  <view class='info_view' hidden='{{!isAdmin}}'>
+    <Text class='info_text'>
+        未拥有账号或想注册新账号？<text class="{{isAdmin ? 'blue' : 'green'}}" bindtap='register'>点此注册</text>
+    </Text>
+  </view>
+</view>

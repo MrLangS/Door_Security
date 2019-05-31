@@ -12,23 +12,22 @@
     <!-- <view class='menu-content'>
       <view><image src='../../images/doc.png' mode='aspectFit' class='menu-icon'></image></view>
       <view><text>我的消息</text></view>
-    </view>
-    <view class='menu-content'>
-      <view><image src='../../images/can.png' mode='aspectFit' class='menu-icon'></image></view>
-      <view><text>餐饮消费</text></view>
     </view> -->
+    <view class='menu-content' bindtap='setting'>
+      <view><image src='../../images/setting.png' mode='aspectFit' class='menu-icon'></image></view>
+      <view><text>设置</text></view>
+    </view>
   </view>
-  <view class='profile {{isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove">
-    <view class='item'  bindtouchstart="touchstart" bindtouchmove="touchmove">
-      <image class='avatar' src='{{user.photoURL}}' wx:if='{{user.photoURL}}'></image>
-      <image class='avatar' src='/images/device.png' wx:else></image>
+  <view class='profile'>
+    <view class='item'>
+      <image class='avatar' src='{{wxUser.photoURL}}' wx:if='{{wxUser.photoURL}}'></image>
+      <image class='avatar' src='/images/user_background.png' wx:else></image>
       <view class='info'>
-          <view class='info-title'>{{user.username}}</view>
-          <view class='info-addr'>所属单位：{{user.address}}</view>
+          <view class='info-title'>{{user.personName}}</view>
+          <view class='info-addr'>所属单位：{{user.personCompany || user.company}}</view>
           <view class='info-addr'>当月考勤 | 出勤：{{monthAtt.attendanceTime || 0}}天，缺勤：{{monthAtt.absenteeismTime || 0}}天</view>
       </view>
     </view>
-    <view class="del" catchtap="logout" >注销</view>
   </view>
 </view>
 <view class="container-fluid">

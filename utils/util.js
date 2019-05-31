@@ -1,3 +1,4 @@
+var app = getApp()
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -122,7 +123,7 @@ function checkImage(that) {
   }
 }
 function checkUsername(that) {
-  if (that.data.username == "") {
+  if (that.data.username.trim() == "") {
     wx.showToast({
       title: '用户名不能为空',
       icon: 'none',
@@ -216,32 +217,41 @@ function checkStaffForm(that,name,phone){
 }
 //表单验证
 function checkForm(that,tag) {
-  if(tag==0){
-    // return true
-    if (checkImage(that) && checkPhone(that) && checkCode(that)) {
-      return true
-    } else {
-      return false
-    }
-  }else if(tag==2){
-    if (checkImage(that) && checkUsername(that) && checkPhone(that) && checkCompname(that)) {
-      return true
-    } else {
-      return false
-    }
-  }else{
-    if (checkImage(that) && checkUsername(that) && checkCompname(that)) {
-      return true
-    } else {
-      return false
-    }
+  var checked = false
+  switch(tag) {
+    case 0:
+      checked = checkImage(that) && checkPhone(that) && checkCode(that);
+      break;
+    case 1:
+      checked = checkPhone(that) && checkCode(that);
+      break;
+    case 2:
+      checked = checkImage(that) && checkPhone(that) && checkCode(that) && checkUsername(that) && checkCompname(that);
+      break;
+    case 3:
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that)/* && checkCode(that)*/;
+      break;
+    case 999:
+      checked = true;
+      break;
+    default: 
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that);
+      break;
   }
-  
+  return checked
 }
 //获取验证码
-function getCode(that) {
-  var endPhone = that.data.phoneNumber.substr(7, 4)
+function getCode(that,isExist) {
   if (checkPhone(that)) {
+    if (isExist && !that.data.isEmpty){
+      wx.showToast({
+        title: '请修改手机号!',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    var endPhone = that.data.phoneNumber.substr(7, 4)
     that.setData({
       disabled: true
     })
@@ -280,7 +290,7 @@ function getCode(that) {
   }
 }
 
-function login2getId() {
+function login2getId(isSubAdmin) {
   var encryptedData = null
   var iv = null
   // 登录
@@ -308,17 +318,48 @@ function login2getId() {
               },
               method: 'post',
               success: function (res) {
-                console.log(res)
                 var openid = res.data.openid //返回openid
                 console.log("openid is: " + openid);
+                console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
                 app.globalData.realOpenid = res.data.miniproId
-                wx.setStorageSync('openid', openid);
-                var registed = res.data.registed
-                wx.setStorageSync('registed', registed)
-                console.log("registed:" + registed)
+                var wxUser = res.data.sysWXUser
+                
+                if (isSubAdmin){
+                  if (wxUser) {
+                    console.log('wxUser:')
+                    console.log(wxUser)
+                    app.globalData.sysWXUser = wxUser
+                    var type = wx.getStorageSync('isAdmin')
+                    if (1 == type){
+                      var userId = wx.getStorageSync('userId')
+                      
+                      wx.request({
+                        url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
+                        method: 'post',
+                        success: res => {
+                          console.log('User:')
+                          console.log(res)
+
+                          app.globalData.admin = res.data.user
+                          app.globalData.isAdmin = true
+                          app.globalData.isMajorUser = res.data.isMajorUser
+                          wx.switchTab({
+                            url: '../device/device',
+                          })
+                        }
+                      })
+                    }
+                    
+                  }
+                }
               },
               fail: function () {
+                wx.showToast({
+                  title: '网络异常!',
+                  icon: 'none',
+                  duration: 2000
+                })
                 console.log("fail")
               }
             })
@@ -385,48 +426,56 @@ function login(isSubAdmin) {
                 console.log("realopenid is: " + res.data.miniproId);
                 app.globalData.openid = openid
                 app.globalData.realOpenid = res.data.miniproId
-                wx.setStorageSync('openid', openid);
-                var registed = res.data.registed
-                wx.setStorageSync('registed', registed)
-                console.log("registed:" + registed)
-
-                //已注册用户的处理
-                if (registed == 1) {
-                  wx.request({
-                    url: getApp().globalData.server + '/SysWXUserAction/getAdminMsgByOpenId.do?openId=' + openid,
-                    data: {
-                      openId: openid
-                    },
-                    method: 'post',
-                    success: function (res) {
-                      console.log(res.data)
-                      if (typeof (res.data.admin) == 'undefined' || res.data.admin == null){
-                        app.globalData.sysWXUser = res.data.sysWXUser
-                        wx.redirectTo({
-                          url: '/pages/index/index',
-                        })
-                      }else{
-                        app.globalData.sysWXUser = res.data.sysWXUser
-                        app.globalData.isMajorUser = res.data.isMajorUser
-                        app.globalData.admin = res.data.admin
-                        if (res.data.admin.valid != false) {
-                          if (isSubAdmin) {
-                            wx.switchTab({
-                              url: '../device/device',
-                            })
-                          } else {
-                            wx.switchTab({
-                              url: '../../device/device',
-                            })
-                          }
+                var wxUser = res.data.sysWXUser
+                if(wxUser) {
+                  console.log('wxUser:')
+                  console.log(wxUser)
+                  app.globalData.sysWXUser = wxUser
+                  var userId = wx.getStorageSync('userId')
+                  if(userId) {
+                    var type = wx.getStorageSync('isAdmin')
+                    wx.request({
+                      url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
+                      method: 'post',
+                      success: res=>{
+                        console.log('User:')
+                        console.log(res)
+                        if(type == 1){// 1为管理员
+                          app.globalData.admin = res.data.user
+                          app.globalData.isAdmin = true
+                          app.globalData.isMajorUser = res.data.isMajorUser
+                          wx.switchTab({
+                            url: '../device/device',
+                          })
+                        } else {
+                          app.globalData.isAdmin = false
+                          app.globalData.staff = res.data.person
+                          wx.reLaunch({
+                            url: '../index/index',
+                          })
                         }
+                        
                       }
-                      
-                    }
+                    })
+                    
+                  }else{
+                    wx.redirectTo({
+                      url: '../role/role',
+                    })
+                  }
+                } else {
+                  console.log('未拥有微信用户')
+                  wx.redirectTo({
+                    url: '../role/role',
                   })
                 }
               },
               fail: function () {
+                wx.showToast({
+                  title: '网络异常，请刷新重试!',
+                  icon:'none',
+                  duration: 2000
+                })
                 console.log("fail")
               }
             })
@@ -439,6 +488,62 @@ function login(isSubAdmin) {
     }
   })
   
+}
+function registerWxUser(userId,type){
+  wx.request({
+    url: getApp().globalData.server + '/SysWXUserAction/checkPersonStatus.do?id=' + userId + '&type=' + type,
+    method: 'post',
+    success: res => {
+      console.log('User:')
+      console.log(res)
+      var admin = res.data.user
+      if (admin) {
+        app.globalData.admin = admin
+        app.globalData.isAdmin = true
+        app.globalData.isMajorUser = res.data.isMajorUser
+        //判断有没有微信用户，不存在的话重新注册
+        if (!app.globalData.sysWXUser) {
+          console.log('注册微信用户')
+          wx.request({
+            url: app.globalData.server + "/SysWXUserAction/recoverUser.do",
+            data: {
+              userId: admin.id,
+              openId: app.globalData.openid,
+              miniproId: app.globalData.realOpenid
+            },
+            method: 'post',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              if (res.data.msg == 'ok') {
+                app.globalData.sysWXUser = res.data.sysWXUser
+                wx.switchTab({
+                  url: '../device/device',
+                })
+              } else {
+                wx.showToast({
+                  title: '登录失败',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+            },
+          })
+        } else {
+          wx.switchTab({
+            url: '../device/device',
+          })
+        }
+      } else {
+        wx.showToast({
+          title: '该用户尚未注册!',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
+  })
 }
 function formatDay(that) {
   var date = that.data
@@ -458,5 +563,6 @@ module.exports = {
   getPicker: getPicker,
   getPickerList: getPickerList,
   redotListener: redotListener,
+  registerWxUser: registerWxUser,
   formatDay: formatDay
 }

@@ -32,7 +32,7 @@ Page({
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][6].id, key: data[3][6].key, keyValue: that.data.nameStatus ? '1' : '0' }],
+        { devId: data[1], id: data[3][4].id, key: data[3][4].key, keyValue: that.data.nameStatus ? '1' : '0' }],
       method: 'post',
       success: (res) => {
 
@@ -40,20 +40,45 @@ Page({
     })
   },
 
-  // 雷达控制
+  // 活体检测
   switchChange: function(e){
     var that = this
     var data = that.data.dataArr
     this.setData({
-      radarStatus: e.detail.value
+      alive: e.detail.value,
+      distanceIdx: 1
     })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: that.data.radarStatus? '1' : '0' }],
+        { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: '0.3' }],
       method: 'post',
       success: (res) => {
-        
+      }
+    })
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: data[3][2].id, key: data[3][2].key, keyValue: that.data.alive? '2' : '1' }],
+      method: 'post',
+      success: (res) => {
+      }
+    })
+  },
+
+  // 二维码显示控制
+  switchCode: function (e) {
+    var that = this
+    var data = that.data.dataArr
+    this.setData({
+      showCode: e.detail.value
+    })
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: data[3][6].id, key: data[3][6].key, keyValue: that.data.showCode ? '1' : '0' }],
+      method: 'post',
+      success: (res) => {
       }
     })
   },
@@ -141,7 +166,7 @@ Page({
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][4].id, key: data[3][4].key, keyValue: that.data.distanceIdx == '0' ? '0.1' : '0.3' }],
+        { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: that.data.distanceIdx == '0' ? '0.1' : '0.3' }],
       method: 'post',
       success: (res) => {
         console.log(res)
@@ -247,6 +272,7 @@ Page({
     var that = this;
     if (typeof (options.data) != "undefined") {
       var json = JSON.parse(options.data)
+      console.log(json)
       // var arr = util.JsonToArray(JSON.parse(options.data))
       var arr = [json.devName, json.devId, json.devAddr, json.deviceParameters, json.devStatus, json.doorStatus, json.id, json.swVersion, json.swVersionName]
 
@@ -269,9 +295,11 @@ Page({
         dataArr: arr,
         currentVolume: arr[3][0].keyValue,
         voiceIdx: arr[3][1].keyValue,
-        distanceIdx: arr[3][4].keyValue == '0.1' ? '0':'1',
-        radarStatus: arr[3][3].keyValue == '1' ? true : false,
-        nameStatus: arr[3][6].keyValue == '1' ? true : false,
+        alive: arr[3][2].keyValue=='2' ? true : false,
+        distanceIdx: arr[3][3].keyValue == '0.1' ? '0':'1',
+        // radarStatus: arr[3][3].keyValue == '1' ? true : false,
+        nameStatus: arr[3][4].keyValue == '1' ? true : false,
+        showCode: arr[3][6].keyValue == '1' ? true : false,
         autoStatus: arr[5]=='03'?true:false,
         netStatus: arr[4]=='01'?true:false
       })

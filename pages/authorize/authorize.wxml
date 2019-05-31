@@ -13,17 +13,12 @@
       </view>
       <view class="bd">
          <!-- <image class="smalltitle" src="/images/more/confirm-word1.png"></image> -->
-        <block wx:if="{{tip}}">
-          <view class='tip'>检测到您已注册且为普通用户，暂无权限访问，抱歉！</view>
-        </block>
-        <block wx:else>
           <view class="confirm-btn">
             
             <!-- <text >授权登录</text> -->
             <button wx:if="{{canIUse}}" class='authorize-btn' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">同意授权</button>
             <view wx:else>请先升级微信版本</view>
           </view>
-        </block>
         
         <text class="copyright">FaceOS</text>
       </view>

@@ -1,13 +1,17 @@
-@import "/pages/register/userInfo/userInfo.wxss";
+@import "/pages/register/register.wxss";
 .picker{
-  width: 100%;
-  padding-left: 30rpx;
-  box-sizing: border-box;
-  height: 100rpx;
-  border-radius: 4rpx;
-  border-bottom: 1rpx solid #efefef;
-  line-height: 100rpx;
-  -webkit-font-smoothing: antialiased;
-  font-family: "PingHei","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
-  font-size: 28rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  flex: 2;
+  z-index:1;
+}
+.register_button{
+  margin-top: 50rpx;
+  margin-bottom: 40rpx;
+  width: 300rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
+  color: #ffffff;
+  font-size: 34rpx;
+  background: #eb4613;
 }

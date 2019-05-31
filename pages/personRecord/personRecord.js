@@ -40,14 +40,14 @@ Page({
       })
     }
     var page = that.data.pageNum - 1
-    var personId = app.globalData.sysWXUser.staffId
+    var personId = app.globalData.staff.id
     //通行记录get
     wx.request({
       url: getApp().globalData.server + '/AccessRecords/getOnepersonAR.do?pageIndex=' + page
         + '&personId=' + personId +'&pageSize=20',
       data: {
         pageIndex: that.data.pageNum - 1,
-        personId: app.globalData.sysWXUser.staffId
+        personId: personId
       },
       method: 'post',
       success: (res) => {

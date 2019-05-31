@@ -1,18 +1,22 @@
 {
   "pages":[
-    "pages/register/phone/phone",
+    "pages/init/init",
+    "pages/login/login",
+    "pages/index/index",
+    "pages/register/register",
+    "pages/perRegister/regForm/regForm",
+    "pages/role/role",
+    "pages/my/my",
     "pages/subAdmin/subAdmin",
+    "pages/setting/setting",
+    "pages/account/account",
     "pages/peoAttendance/peoAttendance",
     "pages/perRegister/result/result",
     "pages/personRecord/personRecord",
     "pages/devForm/devForm",
     "pages/device/device",
     "pages/addCMP/addCMP",
-    "pages/index/index",
-    "pages/perRegister/regForm/regForm",
-    "pages/qrcode/qrcode",
     "pages/perRegister/perList/perList",
-    "pages/register/userInfo/userInfo",
     "pages/authorize/authorize",
     "pages/company/company",
     "pages/addPEO/addPEO",
@@ -25,8 +29,7 @@
     "pages/contentCMP/contentCMP",
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/contentPEO/contentPEO",
-    "pages/modify/modify",
-    "pages/my/my"
+    "pages/modify/modify"
   ],
   "permission": {
     "scope.userLocation": {

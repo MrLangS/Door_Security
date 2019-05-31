@@ -16,6 +16,11 @@ Page({
     quality: 1,
     picId: 0,
   },
+  gotoSet: function(){
+    wx.navigateTo({
+      url: '../setting/setting',
+    })
+  },
   navigate2perList: function(){
     wx.navigateTo({
       url: '../perRegister/perList/perList',
@@ -38,7 +43,7 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
-        var uploadUserUrl = getApp().globalData.server + "/TransitPerson/uploadPhotoFromWx.do"
+        var uploadUserUrl = getApp().globalData.server + "/SysWXUserAction/uploadPhoto.do"
         var tempFilePaths = res.tempFilePaths
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
@@ -49,13 +54,13 @@ Page({
               method: 'post',
               data: {
                 personPhoto: res.data,
-                personId: app.globalData.sysWXUser.staffId
+                openId: app.globalData.sysWXUser.wxOpenid
               },
               success: (res) => {
                 console.log('上传图片请求结果：')
                 console.log(res)
                 var user=that.data.user
-                if (res.data.msg == 'ok') {
+                if (res.data.quality == 0) {
                   user.photoURL = res.data.photoURL,
                   that.setData({
                     user
@@ -175,44 +180,6 @@ Page({
     return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
   },
 
-  logout: function(){
-    var that = this
-    wx.showModal({
-      title: '提示',
-      content: '确定注销吗？',
-      success: (res)=>{
-        if(res.confirm){
-          wx.request({
-            url: app.globalData.server + '/SysWXUserAction/logoutUser.do?wxUserId=' + app.globalData.sysWXUser.id +'&type='+3,
-            method: 'post',
-            success: function (res) {
-              console.log(res)
-              if (res.data = 'SUCCESS') {
-                wx.showToast({
-                  title: '注销成功',
-                  icon: 'success',
-                  duration: 1000,
-                })
-                wx.reLaunch({
-                  url: '../register/phone/phone',
-                })
-              } else {
-                wx.showToast({
-                  title: '注销失败',
-                  icon: 'none',
-                  duration: 1000,
-                })
-              }
-            }
-          })
-        }
-      }
-    })
-    
-  },
-
-
-
   onShow: function () {
     var that = this
 
@@ -253,7 +220,7 @@ Page({
       that.setData({
         remind: ''
       });
-    }, 1000);
+    }, 300);
     wx.onAccelerometerChange(function (res) {
       var angle = -(res.x * 30).toFixed(1);
       if (angle > 14) { angle = 14; }
@@ -270,7 +237,4 @@ Page({
 
   },
 
-  onShareAppMessage: function () {
-
-  }
 })

@@ -8,21 +8,33 @@ Page({
     quality: 1,
     username: '',//姓名
     company: '',
+    code: '',
+    iscode: '',//用于存放验证码接口里获取到的code
+    codename: '发送验证码',
     tag: true,
     picId: 0,
     progress: true,
     active: false,
     percent: 0,
-    progressColor: '#3281ff',
+    progressColor: '#eb4613',
     array: [],
     authorizeTAG: false,
+    disabled: false,
+    regDisabled: false,
     index: 0
   },
 
   commit: function(e) {
     var that = this
     var formId = e.detail.formId
+    
     if(util.checkForm(this,2)){
+      if (!this.data.isEmpty) {
+        return
+      }
+      this.setData({
+        regDisabled: true
+      })
       wx.request({
         url: app.globalData.server + '/TransitPerson/indepregistered.do',
         data: {
@@ -47,8 +59,8 @@ Page({
                   url: app.globalData.server + '/SysWXUserAction/sendUniMsg.do',
                   data: {
                     openId: one.openId,
-                    miniAppid: 'wx218bf8cb1afb43a2',
-                    templateId: 'yQRbgCf5pQ6zypI4ZNyNBj6stF7wV93w8O0Yt-ryDYw',
+                    miniAppid: app.globalData.config.miniAppid,
+                    templateId: app.globalData.config.joinTemplateId,
                     dto: {
                       first: { value: '申请加入' + that.data.company },
                       keyword1: { value: that.data.username },
@@ -110,6 +122,7 @@ Page({
 
     if (options.scene) {
       let scene = decodeURIComponent(options.scene);
+      that.setData({devId: scene})
       let head = { clientId: 0, clientName: "选择单位" }
       wx.request({
         url: getApp().globalData.server + '/DoorDevice/getRelevanceUnits.do?devId=' + scene,
@@ -134,22 +147,12 @@ Page({
       })
     }
 
-    //设置导航栏背景色
-    wx.setNavigationBarColor({
-      frontColor: '#ffffff',
-      backgroundColor: '#0e122b',
-      animation: {
-        duration: 50,
-        timingFunc: 'easeIn'
-      }
-    })
-
     // 查看是否授权
     wx.getSetting({
       success: function (res) {
         if (res.authSetting['scope.userInfo']) {
           //登录
-          util.login()
+          util.login2getId()
         } else {
           wx.navigateTo({
             url: '/pages/authorize/authorize?authortag=1',
@@ -160,6 +163,7 @@ Page({
   },
 
   bindPickerChange: function(e){
+    console.log('picker')
     var clientId = this.data.array[e.detail.value].clientId
     this.setData({
       index: e.detail.value,
@@ -178,6 +182,53 @@ Page({
     this.setData({
       phoneNumber: e.detail.value
     })
+    var isaPhoneNum = this.bindPhoneChange(e.detail.value)
+    if (isaPhoneNum) {
+      if(this.data.devId){
+        wx.request({
+          url: app.globalData.server + '/TransitPerson/isExistThisUnit.do?devId='+this.data.devId+'&phoneNum='+this.data.phoneNumber,
+          method: 'post',
+          success: res => {
+            this.setData({
+              isEmpty: !res.data.isExist
+            })
+          }
+        })
+      } else{
+        wx.request({
+          url: app.globalData.server + '/TransitPerson/isExistThisUnit.do?clientId=' + this.data.clientId + '&phoneNum=' + this.data.phoneNumber,
+          method: 'post',
+          success: res => {
+            this.setData({
+              isEmpty: !res.data.isExist
+            })
+          }
+        })
+      }
+    }
+
+    this.setData({
+      isaPhoneNum: isaPhoneNum
+    })
+  },
+  getCodeValue: function (e) {
+    this.setData({
+      code: e.detail.value
+    })
+  },
+  bindPhoneChange(num) {
+    var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+    if (num == "") {
+      return false;
+    } else if (!myreg.test(num)) {
+      return false;
+    } else {
+      return true
+    }
+  },
+  //获取验证码
+  getVerificationCode() {
+    util.getCode(this,true)
   },
   chooseImg: function () {
     var that = this
@@ -192,11 +243,17 @@ Page({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
+            // console.log('data:image/png;base64,' + res.data)
+            console.log(res)
             that.setData({
-              progress: false,
+              percent: 0,
+            })
+            that.setData({
               percent: 100,
+              progressColor: '#eb4613',
               active: true
             })
+
             wx.request({
               url: uploadUserUrl,
               method: 'post',
@@ -204,6 +261,8 @@ Page({
                 personPhoto: res.data
               },
               success: (res) => {
+                console.log('上传图片请求结果：')
+                console.log(res)
                 if (res.data.msg == 'ok') {
                   that.setData({
                     avatar: res.data.photoURL,
@@ -217,7 +276,7 @@ Page({
                   wx.showToast({
                     title: '上传失败,图片须为本人清晰头像',
                     icon: 'none',
-                    duration: 1500,
+                    duration: 1500
                   })
                 }
               },
@@ -230,10 +289,7 @@ Page({
               },
               complete: (res) => {
                 that.setData({
-                  progress: true,
-                  percent: 0,
                   active: false,
-                  progressColor: '#3281ff'
                 })
               }
             })
@@ -246,7 +302,7 @@ Page({
   onShow: function () {
     if (this.data.authorizeTAG) {
       //登录
-      util.login()
+      util.login2getId()
     }
   },
 

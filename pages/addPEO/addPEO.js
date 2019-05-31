@@ -201,9 +201,9 @@ Page({
               })
             }else{
               wx.showToast({
-                title: '抱歉！该手机号重复，添加失败',
+                title: '抱歉！该手机号用户已为管理员',
                 icon: 'none',
-                duration: 1500
+                duration: 2000
               })
             }
           }

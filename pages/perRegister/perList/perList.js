@@ -78,7 +78,7 @@ Page({
                 data: {
                   openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
                   formId: one.formid,
-                  templateId: 'fimyg1Txq4N9FTo42pj3CBgdU13MIArdC1gnYA3Y_WY',
+                  templateId: app.globalData.config.auditTemplateId,
                   Data: {
                     keyword1: { value: '抱歉，您的申请失败了' },
                     keyword2: { value: app.globalData.admin.userName },
@@ -188,7 +188,7 @@ Page({
               data: {
                 openId: one.openid, // oxBGp5U9n8kT8wxhxCI59XqNg9hw
                 formId: one.formid,
-                templateId: 'fimyg1Txq4N9FTo42pj3CBgdU13MIArdC1gnYA3Y_WY',
+                templateId: app.globalData.config.auditTemplateId,
                 Data: {
                   keyword1: { value: '您的申请已通过' },
                   keyword2: { value: app.globalData.admin.userName },

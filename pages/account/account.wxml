@@ -1,0 +1,25 @@
+<view class='content'>
+  <!-- <block wx:for="{{admins}}" wx:key>
+    <view class='admin-box' bindtap='goToAdminLogin' data-index='{{index}}'>
+      <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/tie.png' /></view>
+      <view class='box-title'>
+        <view>管理员</view>
+        <view>{{item.userName}}</view>
+        <view>{{item.clientName}}</view>
+      </view>
+    </view>
+  </block> -->
+  
+  <block wx:for="{{staffs}}" wx:key>
+    <view class='staff-box' bindtap='goToStaffLogin' data-index='{{index}}'>
+      <view style='margin-left: 30rpx;'><image mode='aspectFit' class='logo' src='/images/user.png' /></view>
+      <view class='box-title'>
+        <view>普通员工</view>
+        <view>{{item.personName}}</view>
+        <view>{{item.personCompany}}</view>
+      </view>
+    </view>
+  </block>
+  
+</view>
+

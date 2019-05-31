@@ -1,0 +1,7 @@
+.more-icon{
+  width: 20rpx !important;
+  height: 40rpx !important;
+}
+.items{
+  font-size: 30rpx;
+}
