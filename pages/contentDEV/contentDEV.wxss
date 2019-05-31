@@ -54,21 +54,21 @@
 .button {
   display: inline-block;
   /* padding: 15px 25px; */
-  /* font-size: 24px; */
+  font-size: 48rpx;
   cursor: pointer;
   height: 80rpx;
+  line-height:80rpx;
   width: 80rpx;
   text-align: center;   
+  vertical-align:middle ;
   text-decoration: none;
   outline: none;
   color: #fff;
-  background-color: #40a7e7;
   border: none;
   border-radius: 50%;
   box-shadow: 0 6px 5px #999;
 }
 .active {
-  background-color: #6db5eb;
   box-shadow: 0 2px 5px #666;
   transform: translateY(4px);
 }

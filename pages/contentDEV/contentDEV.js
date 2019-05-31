@@ -48,14 +48,14 @@ Page({
       alive: e.detail.value,
       distanceIdx: 1
     })
-    wx.request({
-      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
-      data: [
-        { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: '0.3' }],
-      method: 'post',
-      success: (res) => {
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+    //   data: [
+    //     { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: '0.3' }],
+    //   method: 'post',
+    //   success: (res) => {
+    //   }
+    // })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
@@ -81,6 +81,47 @@ Page({
       success: (res) => {
       }
     })
+  },
+
+  //重启
+  restart: function(){
+    var that = this
+    that.setData({
+      reStartBtn: true
+    })
+    wx.showModal({
+      title: '提示',
+      content: '确定要重启该设备吗？',
+      success: res => {
+        if(res.confirm) {
+          wx.request({
+            url: app.globalData.server + '/DoorDevice/reboot.do?devId=' + this.data.dataArr[1],
+            method: 'post',
+            success: (res) => {
+              if (res.data == 'SUCCESS') {
+                wx.showToast({
+                  title: '已通知设备重启',
+                  icon: 'none',
+                  duration: 1000,
+                })
+              } else {
+                wx.showToast({
+                  title: '出现故障',
+                  icon: 'none',
+                  duration: 500,
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+    
+    setTimeout(function () {
+      that.setData({
+        reStartBtn: false
+      })
+    }, 500)
   },
 
   //开门按钮点击事件

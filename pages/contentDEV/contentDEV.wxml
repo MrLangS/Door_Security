@@ -48,7 +48,19 @@
           <view>门控制</view>
           <view class='tip'>点击右侧按钮即可开门</view>
         </view>
-        <view><button class="button {{activeBtn? 'active' : ''}}" catchtap='activeBtn'>P</button></view>
+        <view><button style='background-color: #40a7e7;' class="button {{activeBtn? 'active' : ''}}" catchtap='activeBtn'>o</button></view>
+      </view>
+    </view>
+  </view>
+  <!-- 重启通知 -->
+  <view class='t'>
+    <view class='content'>
+      <view class='item'>
+        <view>
+          <view>设备重启</view>
+          <view class='tip'>点击右侧按钮通知设备重启</view>
+        </view>
+        <view><button style='background-color: #ff5959;' class="button {{reStartBtn? 'active' : ''}}" catchtap='restart'>o</button></view>
       </view>
     </view>
   </view>
@@ -77,13 +89,6 @@
           </view>
 
           <view class='subtitle'>语音提示</view>
-          <!-- <view class='item'>
-            <view>
-              <view>当前状态：{{volumeTip?'开':'关'}}</view>
-              <view class='tip'>蓝色开关表示打开，白色开关表示关闭</view>
-            </view>
-            <switch color='#40a7e7' bindchange='switchChange' checked='{{volumeTip}}'></switch>
-          </view> -->
           <!-- 语音选择 -->
           <picker bindchange="bindVoicePicker" value="{{voiceIdx}}" range="{{voiceArr}}">
           <view class='item'>
@@ -126,17 +131,6 @@
             </view>
             <switch color='#40a7e7' bindchange='switchCode' checked='{{showCode}}'></switch>
           </view>
-
-          <picker bindchange="bindDistancePicker" disabled='{{alive}}' value="{{distanceIdx}}" range="{{distanceArr}}">
-          <view class='subtitle'>检测距离</view>
-          <view class='item'>
-            <view>
-              <view>当前距离</view>
-              <view class='tip'>推荐检测距离为1m，且活体开启时必须为1米</view>
-            </view>
-            <view class='count'>{{distanceArr[distanceIdx]}}</view>
-          </view>
-          </picker>
 
           <view class='subtitle'>软件更新</view>
           <view class='item'>

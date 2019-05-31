@@ -199,14 +199,29 @@ Page({
   onShow: function () {
     var that = this;
     wx.request({
-      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
+      url: app.globalData.server + '/DoorDevice/checkDeviceStatus.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',
       success: (res) => {
-        that.setData({
-          devices: res.data
-        })
+        if(res.data == 'SUCCESS') {
+          wx.request({
+            url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
+            method: 'post',
+            success: (res) => {
+              that.setData({
+                devices: res.data
+              })
+            }
+          })
+        } else{
+          wx.showToast({
+            title: '网络在开小差',
+            icon: 'none',
+            duration: 1500
+          })
+        }
       }
     })
+    
     var items = that.data.devices
     for (var i = 0; i < items.length; i++) {
       items[i].isTouchMove = false //默认隐藏删除
