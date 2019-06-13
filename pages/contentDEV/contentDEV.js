@@ -18,21 +18,20 @@ Page({
     activeBtn: false,
     voiceArr: ['姓名语音','验证语音','滴声'],
     voiceIdx: 0,
-    distanceArr: ['2m', '1m'],
-    distanceIdx: 0,
   },
 
   //人名显示控制
   switchName: function(e){
     var that = this
     var data = that.data.dataArr
+    var param = that.data.param
     this.setData({
       nameStatus: e.detail.value
     })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][4].id, key: data[3][4].key, keyValue: that.data.nameStatus ? '1' : '0' }],
+        { devId: data[1], id: param.isHintName.id, key: param.isHintName.key, keyValue: that.data.nameStatus ? '1' : '0' }],
       method: 'post',
       success: (res) => {
 
@@ -44,22 +43,15 @@ Page({
   switchChange: function(e){
     var that = this
     var data = that.data.dataArr
+    var param = that.data.param
     this.setData({
       alive: e.detail.value,
       distanceIdx: 1
     })
-    // wx.request({
-    //   url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
-    //   data: [
-    //     { devId: data[1], id: data[3][3].id, key: data[3][3].key, keyValue: '0.3' }],
-    //   method: 'post',
-    //   success: (res) => {
-    //   }
-    // })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][2].id, key: data[3][2].key, keyValue: that.data.alive? '2' : '1' }],
+        { devId: data[1], id: param.livenessType.id, key: param.livenessType.key, keyValue: that.data.alive? '2' : '1' }],
       method: 'post',
       success: (res) => {
       }
@@ -70,13 +62,14 @@ Page({
   switchCode: function (e) {
     var that = this
     var data = that.data.dataArr
+    var param = that.data.param
     this.setData({
       showCode: e.detail.value
     })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][6].id, key: data[3][6].key, keyValue: that.data.showCode ? '1' : '0' }],
+        { devId: data[1], id: param.isShowQR.id, key: param.isShowQR.key, keyValue: that.data.showCode ? '1' : '0' }],
       method: 'post',
       success: (res) => {
       }
@@ -156,6 +149,31 @@ Page({
     }, 500)
   },
 
+  //人脸识别设置
+  detectBindChanging: function (e) {
+    this.setData({
+      detectDistance: e.detail.value
+    })
+  },
+  detectBindChange: function (e) {
+    var that = this
+    console.log("一次拖动完成!")
+    that.setData({
+      detectDistance: e.detail.value
+    })
+    var data = this.data.dataArr
+    var param = that.data.param
+    wx.request({
+      url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
+      data: [
+        { devId: data[1], id: param.detectDistance.id, key: param.detectDistance.key, keyValue: that.data.detectDistance }],
+      method: 'post',
+      success: (res) => {
+        console.log(res)
+      }
+    })
+  },
+
   //设备音量设置
   volumeBindChanging: function(e){
     this.setData({
@@ -169,11 +187,11 @@ Page({
       currentVolume: e.detail.value
     })
     var data=this.data.dataArr
-    console.log(data)
+    var param = that.data.param
     wx.request({
       url: app.globalData.server +'/DeviceInfoAction!saveDoorDevParameter.do',
       data:[
-        { devId: data[1], id: data[3][0].id, key: data[3][0].key, keyValue: that.data.currentVolume}],
+        { devId: data[1], id: param.volume.id, key: param.volume.key, keyValue: that.data.currentVolume}],
       method: 'post',
       success: (res)=>{
         console.log(res)
@@ -184,13 +202,14 @@ Page({
   bindVoicePicker: function(e){
     var that = this
     var data = this.data.dataArr
+    var param = that.data.param
     this.setData({
       voiceIdx: e.detail.value
     })
     wx.request({
       url: app.globalData.server + '/DeviceInfoAction!saveDoorDevParameter.do',
       data: [
-        { devId: data[1], id: data[3][1].id, key: data[3][1].key, keyValue: that.data.voiceIdx}],
+        { devId: data[1], id: param.voice.id, key: param.voice.key, keyValue: that.data.voiceIdx}],
       method: 'post',
       success: (res) => {
         console.log(res)
@@ -314,9 +333,16 @@ Page({
     if (typeof (options.data) != "undefined") {
       var json = JSON.parse(options.data)
       console.log(json)
-      // var arr = util.JsonToArray(JSON.parse(options.data))
-      var arr = [json.devName, json.devId, json.devAddr, json.deviceParameters, json.devStatus, json.doorStatus, json.id, json.swVersion, json.swVersionName]
 
+      var arr = [json.devName, json.devId, json.devAddr, json.deviceParameters, json.devStatus, json.doorStatus, json.id, json.swVersion, json.swVersionName]
+      var paramArr=json.deviceParameters
+      var param={}
+      for(var item of paramArr){
+        param[item.key] = { "key": item.key,"keyValue" : item.keyValue,"id" : item.id}
+      }
+      that.setData({
+        param: param
+      })
       wx.request({
         url: app.globalData.server + '/DoorDevice/isNewestVersion.do?currentVersion=' + arr[7],
         method: 'post',
@@ -334,15 +360,14 @@ Page({
       this.setData({
         isMajorUser: app.globalData.isMajorUser,
         dataArr: arr,
-        currentVolume: arr[3][0].keyValue,
-        voiceIdx: arr[3][1].keyValue,
-        alive: arr[3][2].keyValue=='2' ? true : false,
-        distanceIdx: arr[3][3].keyValue == '0.1' ? '0':'1',
-        // radarStatus: arr[3][3].keyValue == '1' ? true : false,
-        nameStatus: arr[3][4].keyValue == '1' ? true : false,
-        showCode: arr[3][6].keyValue == '1' ? true : false,
-        autoStatus: arr[5]=='03'?true:false,
-        netStatus: arr[4]=='01'?true:false
+        currentVolume: param.volume.keyValue,
+        detectDistance: param.detectDistance.keyValue,
+        voiceIdx: param.voice.keyValue,
+        alive: param.livenessType.keyValue == '2' ? true : false,
+        nameStatus: param.isHintName.keyValue == '1' ? true : false,
+        showCode: param.isShowQR.keyValue == '1' ? true : false,
+        autoStatus: arr[5] == '03' ? true : false,
+        netStatus: arr[4] == '01' ? true : false
       })
       if(!this.data.autoStatus){
         this.setData({

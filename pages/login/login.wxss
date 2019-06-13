@@ -92,6 +92,7 @@
 .label_input {
   display: flex;
   flex-direction: row;
+  position: relative;
   justify-content: space-between;
   justify-items: center;
   border-bottom: 1rpx solid #efefef;

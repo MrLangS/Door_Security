@@ -31,6 +31,7 @@ Page({
     var that = this
     that.setData({
       user: app.globalData.sysWXUser || '',
+      admin: app.globalData.admin || '',
       isMajorUser: app.globalData.isMajorUser
     })
 

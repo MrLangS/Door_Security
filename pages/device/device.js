@@ -54,18 +54,7 @@ Page({
     this.initBlue()
   },
 
-  /**
-   * 初始化蓝牙设备
-   */
-  initBlue: function () {
-    var that = this;
-    wx.navigateTo({
-      url: '../connectedBlueTooth/connectedBlueTooth',
-    })
-  },
-
   navigatItem: function (e) {
-    console.log(e.currentTarget.dataset.index)
     wx.navigateTo({
       url: '../contentDEV/contentDEV?data=' + JSON.stringify(this.data.devices[e.currentTarget.dataset.index]),
     })
@@ -199,26 +188,12 @@ Page({
   onShow: function () {
     var that = this;
     wx.request({
-      url: app.globalData.server + '/DoorDevice/checkDeviceStatus.do?clientId=' + app.globalData.admin.clientId,
+      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
       method: 'post',
       success: (res) => {
-        if(res.data == 'SUCCESS') {
-          wx.request({
-            url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
-            method: 'post',
-            success: (res) => {
-              that.setData({
-                devices: res.data
-              })
-            }
-          })
-        } else{
-          wx.showToast({
-            title: '网络在开小差',
-            icon: 'none',
-            duration: 1500
-          })
-        }
+        that.setData({
+          devices: res.data
+        })
       }
     })
     

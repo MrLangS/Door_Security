@@ -229,7 +229,7 @@ function checkForm(that,tag) {
       checked = checkImage(that) && checkPhone(that) && checkCode(that) && checkUsername(that) && checkCompname(that);
       break;
     case 3:
-      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that)/* && checkCode(that)*/;
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that) && checkCode(that);
       break;
     case 999:
       checked = true;

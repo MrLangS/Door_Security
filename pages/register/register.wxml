@@ -27,10 +27,12 @@
         </block>
       </view>
       <view class='label_input'>
+      
         <label class='headlabel'>验证码：</label>
-        <button class='codeBtn {{isEmpty?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button>
+        
         <input class='input_bar' type='number' name='code' 
           bindinput='getCodeValue' placeholder='请输入验证码' />
+        <view class='codebox'><button class='code_btn {{isEmpty?  "orangeBtn" : ""}}' bindtap='getVerificationCode' hover-class='hover-class' disabled='{{disabled}}'>{{codename}}</button></view>
       </view>
 
     </view>

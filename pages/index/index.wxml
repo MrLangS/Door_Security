@@ -20,7 +20,7 @@
   </view>
   <view class='profile'>
     <view class='item'>
-      <image class='avatar' src='{{wxUser.photoURL}}' wx:if='{{wxUser.photoURL}}'></image>
+      <image class='avatar' src='{{photoUrl}}' wx:if='{{photoUrl}}'></image>
       <image class='avatar' src='/images/user_background.png' wx:else></image>
       <view class='info'>
           <view class='info-title'>{{user.personName}}</view>

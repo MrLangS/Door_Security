@@ -81,9 +81,9 @@
             </view>
             <view>{{currentVolume}}</view>
           </view>
-          <view class='item' catchtap='setScreenBrightness'>
+          <view class='item'>
             <view style='width:100%'>
-              <view>设置音量</view>
+              <!-- <view>设置音量</view> -->
               <slider value='{{currentVolume}}' min='0' max='100' step='1' block-size='12' block-color='#40a7e7' activeColor='#40a7e7' bindchange='volumeBindChange' bindchanging='volumeBindChanging'></slider>
             </view>
           </view>
@@ -131,12 +131,27 @@
             </view>
             <switch color='#40a7e7' bindchange='switchCode' checked='{{showCode}}'></switch>
           </view>
+          <!-- 人脸识别大小设置 -->
+          <view class='subtitle'>识别人脸大小设置</view>
+          <view class='item'>
+            <view>
+              <view>当前大小</view>
+              <view class='tip'>该值越大识别距离越短 32-150</view>
+            </view>
+            <view>{{detectDistance}}</view>
+          </view>
+          <view class='item'>
+            <view style='width:100%'>
+              <!-- <view>设置音量</view> -->
+              <slider value='{{detectDistance}}' min='32' max='150' step='1' disabled='{{alive}}' block-size='12' block-color='{{alive? "#939393" : "#40a7e7"}}' activeColor='{{alive? "#939393" : "#40a7e7"}}' bindchange='detectBindChange' bindchanging='detectBindChanging'></slider>
+            </view>
+          </view>
 
           <view class='subtitle'>软件更新</view>
           <view class='item'>
             <view>
               <view>当前版本</view>
-              <view class='tip'>{{dataArr[8]||'未置版本'}}</view>
+              <view class='tip'>{{dataArr[8]||'未知版本'}}</view>
             </view>
             <view class='updateSoft' hover-class='hover-class' bindtap='updateSoft'>通知更新</view>
           </view>

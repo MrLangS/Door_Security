@@ -192,6 +192,7 @@ Page({
     })
   },
   onLoad: function () {
+    var that=this
     const days_count = new Date(this.data.year, this.data.month, 0).getDate();
 
     demo5_days_style.push({ month: 'current', day: this.data.day, color: 'white', background: '#46c4f3' });
@@ -227,6 +228,18 @@ Page({
     this.setData({
       user: app.globalData.staff,
       wxUser: app.globalData.sysWXUser
+    })
+
+    //获取人员头像
+    wx.request({
+      url: app.globalData.server + '/CompareListAction!getById.do?id=' + app.globalData.staff.picId,
+      method: 'post',
+      success: res => {
+        console.log(res)
+        that.setData({
+          photoUrl: res.data.photoURL
+        })
+      }
     })
   },
 })
