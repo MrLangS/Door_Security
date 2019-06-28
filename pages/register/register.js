@@ -140,6 +140,7 @@ Page({
     this.setData({
       username: e.detail.value
     })
+    console.log(this.data.username)
   },
   getCompname: function (e) {
     this.setData({
