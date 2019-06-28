@@ -3,14 +3,161 @@ var util = require("../../utils/util.js")
 
 Page({
   data: {
+    // companys: [{ client: { name: '测试1', addr: '地址1' } }, { client: { name: '测试2', addr: '地址2' } }],
     companys: [],
     startX: 0, //开始坐标
     startY: 0,
     isMajorUser: true,
     hiddenmodal: true,
+    show: false,
     months: [],
+    init: true,
     month: '',
+    modIndex: 0,
     id4excel: 0
+  },
+
+  gotoDevice:function() {
+    wx.switchTab({
+      url: '../device/device',
+    })
+  }, 
+
+  gotoRecord: function() {
+    wx.switchTab({
+      url: '../record/record',
+    })
+  },
+
+  chooseImg: function (e) {
+    var that = this
+    var index = e.currentTarget.dataset.index
+    var company = that.data.company
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var uploadUserUrl = getApp().globalData.server + "/ClientInfoAction!uploadPhoto.do"
+        var tempFilePaths = res.tempFilePaths
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+            wx.request({
+              url: uploadUserUrl,
+              method: 'post',
+              data: {
+                logoPhoto: res.data
+              },
+              success: (res) => {
+                var data = res.data
+                if (typeof (data.photoURL) != "undefined") {
+                  wx.request({
+                    url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
+                    data: {
+                      id: company.id,
+                      clientLogoURL: data.photoURL,
+                      name: company.name,
+                      addr: company.addr
+                    },
+                    method: 'post',
+                    success: function (res) {
+                      console.log(res)
+                      company.clientLogoURL = data.photoURL
+                      that.setData({
+                        company: company
+                      })
+                    }
+                  })
+                  wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                    duration: 1500
+                  })
+                } else {
+                  wx.showToast({
+                    title: '上传失败,请重试!',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                }
+              },
+              fail: (res) => {
+                wx.showToast({
+                  title: '网络开小差，请稍后再试',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+            })
+          }
+        })
+      },
+    })
+
+  },
+
+  toggleDialog(e) {
+    this.setData({
+      companyName: this.data.company.name,
+      address: this.data.company.addr,
+      init: false,
+      show: true
+    })
+  },
+
+  toggleCancel(){
+    this.toggle()
+  },
+  toggleSure() {
+    var that = this
+    this.toggle()
+    wx.request({
+      url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
+      data: {
+        id: this.data.company.id,
+        clientLogoURL: this.data.company.clientLogoURL,
+        name: this.data.companyName,
+        addr: this.data.address
+      },
+      method: 'post',
+      success: function (res) {
+        if(res.data=='SUCCESS') {
+          wx.showToast({
+            title: '修改成功',
+            icon: 'success',
+            duration: 1500
+          })
+          wx.request({
+            url: app.globalData.server + '/ClientInfoAction!getAllSubordinateClient.do?id=' + app.globalData.admin.clientId,
+            data: { id: app.globalData.admin.clientId },
+            method: 'post',
+            success: function (res) {
+              that.setData({
+                company: res.data.client
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  toggle(){
+    var that = this
+    that.setData({
+      show: !that.data.show
+    })
+  },
+  inName(e) {
+    this.setData({
+      companyName: e.detail.value
+    })
+  },
+  inAddr(e) {
+    this.setData({
+      address: e.detail.value
+    })
   },
 
   getMonths() {
@@ -20,7 +167,7 @@ Page({
       var month = date.getMonth() + 1;
       month = month < 10 ? '0' + month : month
       months.push({ val: date.getFullYear() + '-' + month })
-      date.setMonth(date.getMonth() - 1);
+      date.setMonth(date.getMonth() - 1)
     }
     this.setData({ months: months })
   },
@@ -28,8 +175,7 @@ Page({
   //弹出框
   choose: function (e) {
     var that = this
-    var index = e.currentTarget.dataset.index
-    var id = this.data.companys[index].client.id
+    var id = this.data.company.id
     this.setData({
       hiddenmodal: false,
       id4excel: id
@@ -106,69 +252,9 @@ Page({
   },
 
   navigatItem:function(e){
-    console.log(e.currentTarget.dataset.index)
     wx.navigateTo({
-      url: '../contentCMP/contentCMP?data=' + JSON.stringify(this.data.companys[e.currentTarget.dataset.index]),
+      url: '../contentCMP/contentCMP',
     })
-  },
-
-  //手指触摸动作开始 记录起点X坐标
-  touchstart: function (e) {
-    //开始触摸时 重置所有删除
-    this.data.companys.forEach(function (v, i) {
-      if (v.isTouchMove) //只操作为true的
-        v.isTouchMove = false;
-    })
-    this.setData({
-      startX: e.changedTouches[0].clientX,
-      startY: e.changedTouches[0].clientY,
-      companys: this.data.companys
-    })
-  },
-
-  //滑动事件处理
-  touchmove: function (e) {
-    var that = this,
-      index = e.currentTarget.dataset.index, //当前索引
-      startX = that.data.startX, //开始X坐标
-      startY = that.data.startY, //开始Y坐标
-      touchMoveX = e.changedTouches[0].clientX, //滑动变化坐标
-      touchMoveY = e.changedTouches[0].clientY, //滑动变化坐标
-      //获取滑动角度
-      angle = that.angle({
-        X: startX,
-        Y: startY
-      }, {
-          X: touchMoveX,
-          Y: touchMoveY
-        });
-    that.data.companys.forEach(function (v, i) {
-      v.isTouchMove = false
-      //滑动超过30度角 return
-      if (Math.abs(angle) > 30) return;
-      if (i == index) {
-        if (touchMoveX > startX) //右滑
-          v.isTouchMove = false
-        else //左滑
-          v.isTouchMove = true
-      }
-    })
-    //更新数据
-    that.setData({
-      companys: that.data.companys
-    })
-  },
-
-  /**
-  * 计算滑动角度
-  * @param {Object} start 起点坐标
-  * @param {Object} end 终点坐标
-  */
-  angle: function (start, end) {
-    var _X = end.X - start.X,
-      _Y = end.Y - start.Y
-    //返回角度 /Math.atan()返回数字的反正切值
-    return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
   },
 
   //删除事件
@@ -225,28 +311,25 @@ Page({
    */
   onLoad: function (options) {
     this.getMonths()
-
     var that = this;
-    var items = that.data.companys
-    for (var i = 0; i < items.length; i++) {
-      items[i].isTouchMove = false //默认隐藏删除
-    }
+
     that.setData({
       isMajorUser: app.globalData.isMajorUser,
-      companys: items
     });
   },
 
   onShow: function () {
     var that=this
+    var arr = []
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!getAllSubordinateClient.do?id=' + app.globalData.admin.clientId,
       data: { id: app.globalData.admin.clientId},
       method: 'post',
       success: function(res){
         that.setData({
-          companys: res.data
+          company: res.data.client,
         })
+        app.globalData.companySet = res.data
       }
     })
 
@@ -254,15 +337,4 @@ Page({
     
   },
 
-  onPullDownRefresh: function () {
-
-  },
-
-  onReachBottom: function () {
-
-  },
-
-  onShareAppMessage: function () {
-
-  }
 })

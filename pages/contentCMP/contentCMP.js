@@ -12,17 +12,21 @@ Page({
    * 页面的初始数据
    */
   data: {
+    roots: [],
     company: {},
     dataArr:[],
     admin: [],
     staff: [],
     devs: [],
+    departments: [],
     noResult: false,
     pageNum: 1,
     startX: 0, //开始坐标
     startY: 0,
+    rootIndex: -1,
     hideSearch: true,
     isModify: false,
+    isNew: false,
     isAdd: false,
     isMajorUser: true,
     hiddenmodal: true,
@@ -32,6 +36,65 @@ Page({
     year: year,
     month: month,
     peoInfo: '',
+  },
+
+  newDepartment: function() {
+    this.setData({
+      isModify: false,
+      isNew: false
+    })
+    wx.navigateTo({
+      url: '/pages/addCMP/addCMP?id=' + this.data.company.id + '&type=' + this.data.company.unitType,
+    })
+  },
+
+  navRoot: function(e) {
+    let index = e.currentTarget.dataset.index
+    let roots = this.data.roots.splice(0, index + 1)
+    if(roots.length == 0 || roots == null){
+      let companySet = app.globalData.companySet
+      this.setData({
+        roots: roots,
+        company: companySet.client,
+        departments: companySet.children,
+        devs: companySet.permission,
+        rootIndex: index
+      })
+    } else {
+      let item = roots[roots.length - 1]
+      this.setData({
+        roots: roots,
+        company: item.client,
+        departments: item.children,
+        devs: item.permission,
+        rootIndex: index
+      })
+    }
+    console.log('rootIndex:'+this.data.rootIndex)
+    /**
+     * 更新管理员和普通员工列表
+     */
+    this.reload(true)
+    this.updateAdminList()
+    
+  },
+  navHead: function (e) {
+    let roots = this.data.roots
+    let item = this.data.departments[e.currentTarget.dataset.index]
+    roots.push(item)
+    this.setData({
+      roots: roots,
+      company: item.client,
+      departments: item.children,
+      devs: item.permission,
+      rootIndex: this.data.rootIndex+1
+    })
+    console.log('rootIndex:' + this.data.rootIndex)
+    /**
+     * 更新管理员和普通员工列表
+     */
+    this.reload(true)
+    this.updateAdminList()
   },
 
   peoAttendance: function (e) {
@@ -44,7 +107,10 @@ Page({
       data = this.data.staff[e.currentTarget.dataset.index]
       isAdmin = false
     }
-    
+    this.setData({
+      isModify: false,
+      isNew: false
+    })
     wx.navigateTo({
       url: '/pages/peoAttendance/peoAttendance?data=' + JSON.stringify(data) + '&&isAdmin=' + isAdmin,
     })
@@ -163,123 +229,30 @@ Page({
   },
 
   search: function () {
+    this.setData({
+      isModify: false,
+      isNew: false
+    })
     wx.navigateTo({
       url: '/pages/searchRes/searchRes?tag='+0+'&id='+this.data.company.id,
     })
   },
   //拨打电话
   makeCall: function(e){
-    console.log(e)
+    this.setData({
+      isModify: false,
+      isNew: false
+    })
     wx.makePhoneCall({
       phoneNumber: this.data.admin[e.currentTarget.dataset.index].phoneNum
     })
   },
-  chooseImg: function(){
-    var that = this
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        var uploadUserUrl = getApp().globalData.server + "/ClientInfoAction!uploadPhoto.do"
-        var tempFilePaths = res.tempFilePaths
-        wx.getFileSystemManager().readFile({
-          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
-          encoding: 'base64', //编码格式
-          success: res => { //成功的回调
-            wx.request({
-              url: uploadUserUrl,
-              method: 'post',
-              data: {
-                logoPhoto: res.data
-              },
-              success: (res) => {
-                var data = res.data
-                var dataArr=that.data.dataArr
-                if (typeof (data.photoURL) != "undefined") {
-                  dataArr[0] = data.photoURL
-                  that.setData({
-                    dataArr: dataArr,
-                  })
-                  wx.request({
-                    url: getApp().globalData.server + '/ClientInfoAction!updateClient.do',
-                    data: {
-                      id: that.data.company.id,
-                      clientLogoURL: that.data.dataArr[0],
-                      name: that.data.dataArr[1],
-                      addr: that.data.dataArr[2]
-                    },
-                    method: 'post',
-                    success: function (res) {
-                      console.log(res)
-                    }
-                  })
-                  wx.showToast({
-                    title: '上传成功',
-                    icon: 'success',
-                    duration: 1500
-                  })
-                } else {
-                  wx.showToast({
-                    title: '上传失败,请重试!',
-                    icon: 'none',
-                    duration: 1500
-                  })
-                }
-              },
-              fail: (res) => {
-                wx.showToast({
-                  title: '网络开小差，请稍后再试',
-                  icon: 'none',
-                  duration: 1500
-                })
-              }
-            })
-          }
-        })
-      },
-    })
-    
-  },
-  preview: function(){
-    var that = this
-    var imgURL = this.data.dataArr[0]
-    if (imgURL==""){
-      wx.showToast({
-        title: '尚未添加公司logo',
-        icon: 'none',
-        duration: 1500,
-      })
-    }else{
-      wx.getImageInfo({
-        src: imgURL,
-        success: (res)=>{
-          wx.previewImage({
-            current: res.path,
-            urls: [res.path],
-          })
-        }
-      })
-      
-    } 
-  },
-  //页面滚动监听
-  onPageScroll: function (e) {
-    if (typeof (timeoutID) != "undefined") {
-      clearTimeout(timeoutID)
-    }
-    var that = this
-    // console.log(e);
-    that.setData({
-      hideSearch: false
-    })
-    timeoutID = setTimeout(function () {
-      that.setData({
-        hideSearch: true
-      })
-    }, 2000)
-  },
+
   newCMP:function(){
+    this.setData({
+      isModify: false,
+      isNew: false
+    })
     wx.navigateTo({
       url: '../addPEO/addPEO?id=' + this.data.company.id + '&name=' + this.data.company.name,
     })
@@ -288,6 +261,7 @@ Page({
   navigateItem:function(e){
     this.setData({
       isModify: false,
+      isNew: false
     })
     wx.navigateTo({
       url: e.currentTarget.dataset.url,
@@ -295,6 +269,9 @@ Page({
   },
   //人员部分
   navigatItem:function(e){
+    this.setData({
+      isNew: false
+    })
     var data={}
     if(typeof(e.currentTarget.dataset.flag)=="undefined"){
       data = this.data.admin[e.currentTarget.dataset.index]
@@ -557,15 +534,14 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    if (typeof(options.data)!="undefined"){
-      var jsonAll=JSON.parse(options.data)
-      var json = jsonAll.client
-      var arr = [json.clientLogoURL, json.name, json.addr]
+    var companySet = app.globalData.companySet
+    console.log(companySet)
+    if (companySet.client){
       this.setData({
-        dataArr: arr,
-        company: json,
-        isMajorUser: app.globalData.isMajorUser,
-        devs: jsonAll.permission
+        topName: companySet.client.name,
+        company: companySet.client,
+        departments: companySet.children,
+        devs: companySet.permission
       })
     }
 
@@ -592,6 +568,7 @@ Page({
 
   //生命周期函数--监听页面显示
   onShow: function () {
+    var that = this
     if(this.data.isModify){
       console.log('保存修改信息')
       wx.request({
@@ -608,8 +585,65 @@ Page({
         }
       })
     }
-    // if (this.data.isAdd){
+
+    if(this.data.isNew) {
+      wx.request({
+        url: app.globalData.server + '/ClientInfoAction!getAllSubordinateClient.do?id=' + app.globalData.admin.clientId,
+        data: { id: app.globalData.admin.clientId },
+        method: 'post',
+        success: function (res) {
+          app.globalData.companySet = res.data
+          that.updateRoots()
+        }
+      })
+    }
+    
     this.reload(true)
+    
+  },
+
+  updateRoots: function(){
+    var that = this
+    let roots = that.data.roots
+    let dataset = app.globalData.companySet
+    if (roots.length == 0 || roots == null) {
+      this.setData({
+        roots: roots,
+        company: dataset.client,
+        departments: dataset.children,
+        devs: dataset.permission,
+      })
+    } else {
+      
+      for (let i = 0; i < roots.length; i++) {
+        this.findLeaf(roots, dataset, i)
+      }
+      console.log(roots)
+      let item = roots[roots.length-1]
+      that.setData({
+        roots: roots,
+        company: item.client,
+        departments: item.children,
+        devs: item.permission,
+      })
+    }
+    
+  },
+  findLeaf: function(roots,dataset,i){
+    var that = this
+    if (roots[i].client.id == dataset.client.id){
+      roots[i] = dataset
+      console.log('leaf')
+      console.log(roots[i])
+      return
+    }
+    var children = dataset.children
+    if(children == null || children.length == 0) {
+      return
+    }
+    for(let j = 0; j< children.length; j++) {
+      that.findLeaf(roots,children[j],i)
+    }
   },
   
 

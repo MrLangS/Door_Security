@@ -1,28 +1,112 @@
-<view class='{{isMajorUser? "wrapper":""}}'>
-  <view class='new' hidden='{{!isMajorUser}}' hover-class='hover-class' catchtap='newCMP'>
+<image src='../../images/catu01.jpg' class='header'></image>
+<view class='nomodal'>
+<!-- <view class='{{isMajorUser? "wrapper":""}} nomodal'> -->
+  <!-- <view class='new' hidden='{{!isMajorUser}}' hover-class='hover-class' catchtap='newCMP'>
     <view><image class='add' src='/images/add.png'></image></view>
     <view>新增</view>
-  </view>
+  </view> -->
   <view>
-  <block wx:for="{{companys}}" wx:for-item="company" wx:key>
-    <view class='box-shadow profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class' catchtap='navigatItem' data-index="{{index}}">
-      <view class='item'>
-        <image class='avatar' src='{{company.client.clientLogoURL}}' wx:if='{{company.client.clientLogoURL}}'></image>
-        <image class='avatar' src='/images/cmpany.png' wx:else></image>
-        <view class='info'>
-            <view class='title'>{{company.client.name || '未知单位'}}</view>
-            <view class='addr'>{{company.client.addr || '未知地址'}}</view>
+    <!-- <block wx:for="{{companys}}" wx:for-item="company" wx:key> -->
+      <view class='unit-card'>
+        <view class=' profile'>
+        <!-- <view class=' profile {{company.isTouchMove ? "touch-move-active" : ""}}' bindtouchstart="touchstart" bindtouchmove="touchmove" hover-class='hover-class'  data-index="{{index}}"> -->
+          <view class='item'>
+            <image class='avatar' src='{{company.clientLogoURL}}' catchtap='chooseImg' wx:if='{{company.clientLogoURL}}'></image>
+            <image class='avatar' src='/images/cmpany.png' catchtap='chooseImg' wx:else></image>
+            <view class='info'>
+              <view class='title'>{{company.name || '未知单位'}}</view>
+              <view class='addr'>{{company.addr || '未知地址'}}</view>
+            </view>
+            <!-- <view class='more'>
+              <image src='/images/profile_arrow.png'></image>
+            </view> -->
+          </view>
+          <!-- <view class="code" data-index="{{index}}" catchtap='choose'>考勤统计</view> -->
+          <!-- <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view> -->
         </view>
-        <view class='more'>
-          <image src='/images/profile_arrow.png'></image>
+        <view>
+          <view class='card-item' hover-class='hover-class' catchtap='navigatItem'>
+            <view class='left-row'>
+              <image  mode='aspectFit' src='{{"/images/menu-one.png" }}' />
+              <view>组织架构</view>
+            </view>
+            <image mode='aspectFit' class='mo-icon' src='{{"/images/profile_arrow.png" }}' />
+          </view>
+          <view class='card-item' hover-class='hover-class' catchtap='choose'>
+            <view class='left-row'>
+              <image  mode='aspectFit' src='{{"/images/menu-six.png" }}' />
+              <view>考勤统计</view>
+            </view>
+            <image mode='aspectFit' class='mo-icon' src='{{"/images/profile_arrow.png" }}' />
+          </view>
+          <view class='card-item' hover-class='hover-class' catchtap='toggleDialog'>
+            <view class='left-row'>
+              <image  mode='aspectFit' src='{{"/images/edit.png" }}' />
+              <view>修改或完善信息</view>
+            </view>
+            <image mode='aspectFit' class='mo-icon' src='{{"/images/profile_arrow.png" }}' />
+          </view>
         </view>
       </view>
-      <view class="code" catchtap="config" data-index="{{index}}" catchtap='choose'>考勤统计</view>
-      <view class="del" catchtap="del" hidden='{{!isMajorUser}}' data-index="{{index}}">删除</view>
-    </view>
-  </block>
+    <!-- </block> -->
   </view>
   
+</view>
+
+<view class='head'>常用应用</view>
+<view class='menu'>
+  <view class='menu-content' catchtap='navigatItem'>
+    <view><image src='../../images/menu-one.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>组织架构</text></view>
+  </view >
+  <view class='menu-content' catchtap='choose'>
+    <view><image src='../../images/menu-six.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>考勤统计</text></view>
+  </view>
+  <!-- <view class='menu-content' bindtap='setting'>
+    <view><image src='../../images/menu-three.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>角色管理</text></view>
+  </view> -->
+</view>
+<view class='menu'>
+  <view class='menu-content' bindtap='gotoDevice'>
+    <view><image src='../../images/menu-four.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>设备管理</text></view>
+  </view >
+  <!-- <view class='menu-content' bindtap='peoAttendance'>
+    <view><image src='../../images/menu-five.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>签到详情</text></view>
+  </view> -->
+  <view class='menu-content' bindtap='gotoRecord'>
+    <view><image src='../../images/menu-two.png' mode='aspectFit' class='menu-icon'></image></view>
+    <view><text>通行记录</text></view>
+  </view>
+</view>
+
+<view class="{{show? 'dialog-face slipUp' : 'dialog-face slipBottom' }}">
+</view>
+<view hidden='{{init}}' class="{{show? 'dialog-root slipUp' : 'dialog-root slipBottom' }}">
+    <view class="{{show? 'dialog-wrapper slipUp' : 'dialog-wrapper slipBottom' }}">
+        <view class="dialog-header">
+            <text>单位信息修改</text>
+        </view>
+        <view class="dialog-content">
+          <view class='input_view'>
+            <view class='label_input'>
+              <label class='headlabel'>名称：</label>
+              <input class='input_bar' name='companyName' value='{{companyName}}' bindinput='inName' placeholder='请输入名称' />
+            </view>
+            <view class='label_input'>
+              <view class='headlabel'><label>地址：</label></view>
+              <input class='input_bar' name='address' value='{{address}}' bindinput='inAddr' placeholder='请输入地址' />
+            </view>
+          </view>
+        </view>
+        <view class="dialog-footer">
+            <button class='modal-button' bindtap="toggleCancel" style='background:#b2b2b2'>取消</button>
+            <button class='modal-button' bindtap="toggleSure" style='background:#3281ff'>确认</button>
+        </view>
+    </view>
 </view>
 <!-- margin-left:100rpx; -->
 <!-- 日期弹窗 -->

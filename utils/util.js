@@ -141,7 +141,7 @@ function checkCompname(that) {
       icon: 'none',
       duration: 1000
     })
-    return false;
+    return false
   } else {
     return true
   }
@@ -202,17 +202,29 @@ function checkDevice(that) {
     return true
   }
 }
+function checkEmail(email) {
+  var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/
+  if (email!='' && !reg.test(email)) {
+    wx.showToast({
+      title: '邮箱格式不正确',
+      icon: 'none',
+      duration: 1500,
+    })
+    return false
+  }
+  return true
+}
 let isEmptyObject = (obj) => {
   for (let i in obj) {
     return false
   }
   return true
 }
-function checkStaffForm(that,name,phone){
+function checkStaffForm(that,name,phone,email){
   if(that.data.tag){
     return checkName(name) && checkPhone01(phone)
   }else{
-    return checkAvatar(that) && checkName(name) && checkDevice(that)
+    return checkAvatar(that) && checkName(name) && checkEmail(email) && checkDevice(that)
   }
 }
 //表单验证
@@ -227,9 +239,10 @@ function checkForm(that,tag) {
       break;
     case 2:
       checked = checkImage(that) && checkPhone(that) && checkCode(that) && checkUsername(that) && checkCompname(that);
+      checked =checkUsername(that);
       break;
     case 3:
-      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that)/* && checkCode(that)*/;
+      checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that) && checkCode(that);
       break;
     case 999:
       checked = true;
@@ -345,7 +358,7 @@ function login2getId(isSubAdmin) {
                           app.globalData.isAdmin = true
                           app.globalData.isMajorUser = res.data.isMajorUser
                           wx.switchTab({
-                            url: '../device/device',
+                            url: '../company/company',
                           })
                         }
                       })
@@ -445,7 +458,7 @@ function login(isSubAdmin) {
                           app.globalData.isAdmin = true
                           app.globalData.isMajorUser = res.data.isMajorUser
                           wx.switchTab({
-                            url: '../device/device',
+                            url: '../company/company',
                           })
                         } else {
                           app.globalData.isAdmin = false
@@ -519,7 +532,7 @@ function registerWxUser(userId,type){
               if (res.data.msg == 'ok') {
                 app.globalData.sysWXUser = res.data.sysWXUser
                 wx.switchTab({
-                  url: '../device/device',
+                  url: '../company/company',
                 })
               } else {
                 wx.showToast({
@@ -532,7 +545,7 @@ function registerWxUser(userId,type){
           })
         } else {
           wx.switchTab({
-            url: '../device/device',
+            url: '../company/company',
           })
         }
       } else {
@@ -554,6 +567,7 @@ module.exports = {
   getCode: getCode,
   formatNumber: formatNumber,
   checkForm: checkForm,
+  checkEmail: checkEmail,
   JsonToArray: JsonToArray,
   getCurrentTime: getCurrentTime,
   login: login,

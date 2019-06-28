@@ -22,7 +22,7 @@ Page({
     var type = (this.data.isAdmin ? 1 : 2)
     if(this.data.current){
       //手机号登录
-      if(util.checkForm(this,999)){
+      if(util.checkForm(this,1)){
         
         //根据手机号获得管理员信息
         wx.request({

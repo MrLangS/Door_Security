@@ -27,7 +27,7 @@
             <view class='profileitem'>
               <view class='info'>
                 <image class='avatar' bindtap='chooseImg' src='{{user.photoURL?user.photoURL:"/images/empty_avatar_user.png"}}'></image>
-                <view class='username'>{{user.username || '未知'}}</view>
+                <view class='username'>{{admin.userName || '未知'}}</view>
                 <!-- <view class='username'>{{'小明'}}</view> -->
               </view>
 
@@ -45,7 +45,7 @@
               <view class='infotitle'>
                 <view>手机号</view>
               </view>
-              <view class='count'>{{ user.phonenum|| '未知'}}</view>
+              <view class='count'>{{ admin.phoneNum|| '未知'}}</view>
             </view>
           </view>
 
@@ -77,7 +77,7 @@
 
         </view>
         
-        <text class="copyright">FaceOS</text>
+        <!-- <text class="copyright">FaceOS</text> -->
       </view>
     </view>
   </block>

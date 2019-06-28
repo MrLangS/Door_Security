@@ -4,6 +4,66 @@
     margin-bottom: 10px;
     display: block;
 }
+.custom-box{
+  background: #fff;
+  padding-bottom: 20rpx;
+}
+.custom-month{
+  margin: 30rpx 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 90rpx;
+}
+.right{
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left: 10px solid #1dceff;
+  margin-left: 50rpx;
+}
+.left{
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right: 10px solid #1dceff;
+  margin-right: 50rpx;
+}
+.middle-menu{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30rpx 30rpx 0 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.left-menu{
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 40rpx;
+}
+.more-icon{
+  width: 20rpx !important;
+  height: 40rpx !important;
+  margin-top: 20rpx;
+}
+.check{
+  background: #1dceff;
+  color: #fff;
+   z-index: 2;
+}
+.right-menu{
+  display: flex;
+  flex-direction: row;
+}
+.select{
+  width: 190rpx;
+  text-align: center;
+  border-radius: 40rpx;
+  z-index: 1;
+}
 .menu-icon{
   width: 50rpx;
   height: 50rpx;
@@ -123,7 +183,7 @@
 /* 底部 */
 
 .demo {
-  /* background: white; */
+  /* background: red; */
   /* width: 300px; */
   margin: 0rpx 35rpx 50rpx 35rpx;
 }

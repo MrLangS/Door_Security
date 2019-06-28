@@ -8,6 +8,28 @@
   background: #fff;
   margin-bottom: 20rpx;
 }
+.more-icon{
+  width: 20rpx !important;
+  height: 40rpx !important;
+  position: absolute;
+  top: 27rpx;
+  right: -25rpx;
+}
+.left-row{
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* width: 200rpx; */
+  height: 90rpx;
+  font-size: 30rpx;
+}
+.left-row image {
+  position: relative;
+  margin-top: 10rpx;
+  width: 40rpx !important;
+  height: 40rpx !important;
+}
 .toast .t {
   font-size: 28rpx;
   color: #40a7e7;
@@ -27,6 +49,8 @@
   justify-content: space-between;
   align-items: center;
   height: 100rpx;
+  position: relative;
+
 }
 .title {
   font-size: 32rpx;

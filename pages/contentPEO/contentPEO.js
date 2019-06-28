@@ -26,7 +26,6 @@ Page({
     this.setData({
       hiddenmodal: false
     })
-    console.log('hello')
     this.setData({
       pre_devices: this.data.devices
     })
@@ -53,6 +52,8 @@ Page({
         personId: this.data.peo.person.id + '',
         personName: this.data.dataArr[1],
         phoneNo: this.data.dataArr[2],
+        duty: this.data.dataArr[3],
+        email: this.data.dataArr[4],
         devices: this.data.choosedId
       },
       method: 'post',
@@ -91,7 +92,6 @@ Page({
   },
   chooseImg: function () {
     var that = this
-    console.log(that.data.peo.person.picId)
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
@@ -170,7 +170,7 @@ Page({
   onLoad: function (options) {
     if (typeof (options.data) != "undefined") {
       var json = JSON.parse(options.data)
-      var arr = [json.person.photoURL, json.person.personName, json.person.phoneNo]
+      var arr = [json.person.photoURL, json.person.personName, json.person.phoneNo,json.person.duty,json.person.email]
       this.setData({
         peo: json,
         dataArr: arr
@@ -208,24 +208,18 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
     if (this.data.isModify) {
+      console.log('duty:' + this.data.dataArr[3])
+      console.log('email:' + this.data.dataArr[4])
       wx.request({
         url: getApp().globalData.server + '/TransitPerson/updatePersonFromWx.do',
         data: {
           personId: this.data.peo.person.id+'',
           personName: this.data.dataArr[1],
           phoneNo: this.data.dataArr[2],
+          duty: this.data.dataArr[3],
+          email: this.data.dataArr[4],
           devices: this.data.peo.permission
         },
         method: 'post',
@@ -236,9 +230,6 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },

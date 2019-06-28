@@ -1,11 +1,51 @@
+
 .wrapper {
   padding-top: 110rpx !important;
+}
+.nomodal{
+  z-index: 1;
+}
+.header{
+  width: 100%;
+  height: 200rpx;
+}
+.card-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40rpx;
+  border-bottom: 1rpx solid #efefef;
+  background: #fff;
+}
+.unit-card{
+  display: flex;
+  background: #fff;
+  flex-direction: column;
+  margin-bottom: 20rpx;
+}
+.left-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 90rpx;
+  font-size: 30rpx;
+}
+.left-row image {
+  margin-right: 40rpx;
+  width: 40rpx !important;
+  height: 40rpx !important;
+}
+.mo-icon{
+  width: 20rpx !important;
+  height: 40rpx !important;
 }
 .profile {
   height: 180rpx;
   display: flex;
   justify-content: space-between;
   align-items: center; 
+  border-bottom: 1rpx solid #efefef;
   overflow: hidden
 }
 .checkbox{
@@ -18,6 +58,31 @@
 .checkedActive{
   background:#40a7e7;
   color:#fff;
+}
+
+.head{
+  margin: 40rpx 0rpx 40rpx 50rpx;
+}
+.menu-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "PingHei","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+  font-size: 25rpx;
+  color: #abb4bf;
+}
+.menu-icon{
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 30rpx;
+  margin-bottom: 10rpx;
+}
+.menu{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-bottom: 20rpx;
 }
 
 .modalpicker{
@@ -106,9 +171,9 @@
   margin-right: 0;
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
-  -webkit-transform: translateX(180px);
-  transform: translateX(180px);
-  margin-left: -180px;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  margin-left: -90px;
 }
 .code {
   background-color: #d3d3d3;
@@ -143,4 +208,298 @@
 .touch-move-active .item, .touch-move-active .del, .touch-move-active .code {
   -webkit-transform: translateX(0);
   transform: translateX(0);
+}
+
+
+/* 弹窗部分 */
+
+.input_view {
+  display: flex;
+  margin-top: 10rpx;
+  flex-direction: column;
+  width: 100%;
+  
+}
+
+.input_view  .input_bar {
+  height: 90rpx;
+  line-height: 90rpx;
+  /* flex: 2; */
+}
+
+.headlabel{
+  height: 90rpx;
+  line-height: 90rpx;
+  /* flex: 1 */
+}
+
+.label_input {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: start;
+  justify-items: center;
+  border-bottom: 1rpx solid #efefef;
+  padding: 20rpx 0;
+}
+
+button:hover, button:active, button:focus{
+  border: none;
+}
+.modal-button{
+  border: none;
+  height: 70rpx;
+  width: 25%;
+  line-height: 70rpx;
+  font-size: 34rpx;
+  margin-top: 30rpx;
+  border-radius: 10rpx;
+  color: #fff;
+}
+
+/* ---------------------弹窗样式 -------------------*/
+.dialog-face{
+    position: fixed;
+    background: #b2b2b2;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+
+    -webkit-animation-duration: 500ms;
+    -moz-animation-duration:500ms;
+    -o-animation-duration:500ms;
+    animation-duration: 500ms;
+}
+
+.dialog-face.slipBottom[opacity="0"]{
+    display: none;
+}
+
+.dialog-face.slipUp{
+    opacity: 0.7;
+    -webkit-animation-name: dialogFaceSlipToUp;
+    -moz-animation-name: dialogFaceSlipToUp;
+    -o-animation-name: dialogFaceSlipToUp;
+    animation-name: dialogFaceSlipToUp;
+}
+
+.dialog-face.slipBottom{
+    opacity: 0;
+    visibility: hidden;
+    -webkit-animation-name: dialogFaceSlipToBottom;
+    -moz-animation-name: dialogFaceSlipToBottom;
+    -o-animation-name: dialogFaceSlipToBottom;
+    animation-name: dialogFaceSlipToBottom;
+}
+
+.dialog-root{
+    position: fixed;
+    z-index: 2000;
+    width: 80%;
+    left: 50%;
+
+    -webkit-animation-duration: 500ms;
+    -moz-animation-duration: 500ms;
+    -o-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-perspective: 1300;
+    -moz-perspective: 1300;
+    perspective: 1300;
+}
+
+.dialog-root.slipUp{
+    top: 50%;
+    opacity: 1;
+
+    -webkit-animation-name: dialogSlipToUp;
+    -moz-animation-name: dialogSlipToUp;
+    -o-animation-name: dialogSlipToUp;
+    animation-name: dialogSlipToUp;
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.dialog-root.slipBottom{
+    top: 100%;
+    opacity: 0.3;
+    -webkit-animation-duration: 500ms;
+    -moz-animation-duration: 500ms;
+    -o-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-animation-name: dialogSlipToBottom;
+    -moz-animation-name: dialogSlipToBottom;
+    -o-animation-name: dialogSlipToBottom;
+    animation-name: dialogSlipToBottom;
+    -webkit-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.dialog-wrapper{
+    background: #fff;
+    width: 100%;
+    height: 275px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    -webkit-animation-duration: 500ms;
+    -moz-animation-duration: 500ms;
+    -o-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-transform-origin: 50% 100%;
+    -moz-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    -o-transform-origin:50% 100%;
+    transform-origin: 50% 100%;
+}
+
+.dialog-wrapper.slipUp{
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-animation-name: contentSlipToUp;
+    -moz-animation-name: contentSlipToUp;
+    -o-animation-name: contentSlipToUp;
+    animation-name: contentSlipToUp;
+}
+
+.dialog-wrapper.slipBottom{
+    -webkit-transform: rotateX(90deg);
+    -moz-transform: rotateX(90deg);
+    -ms-transform: rotateX(90deg);
+    -o-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    -webkit-animation-name: contentSlipToBottom;
+    -moz-animation-name: contentSlipToBottom;
+    -o-animation-name: contentSlipToBottom;
+    animation-name: contentSlipToBottom;
+}
+
+.dialog-header{
+    height: 75rpx;
+    background: #3281ff;
+    text-align: center;
+}
+
+.dialog-header text{
+    font-size: 28rpx;
+    line-height: 75rpx;
+    color:#F6CBC6;
+}
+
+.dialog-content{
+  font-weight: 300;
+  font-size: 30rpx;
+  padding: 15rpx 40rpx 20rpx 40rpx;
+}
+
+.dialog-footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+/* ---------------------动画关键帧 -------------------*/
+
+@keyframes dialogFaceSlipToUp  {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0.7;
+    }
+}
+
+@keyframes dialogFaceSlipToBottom {
+    0%{
+        opacity: 0.7;
+        visibility:visible;
+    }
+    100%{
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+@keyframes dialogSlipToUp  {
+    0%{
+        top: 100%;
+        opacity: 0.3;
+    }
+    100%{
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+@keyframes dialogSlipToBottom  {
+    0%{
+        top: 50%;
+        opacity: 1;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    100%{
+        top: 100%;
+        opacity: 0.3;
+        -webkit-transform: translate(-50%, 0);
+        -moz-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+        -o-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes contentSlipToUp  {
+    0%{
+        -webkit-transform: rotateX(90deg);
+        -moz-transform: rotateX(90deg);
+        -ms-transform: rotateX(90deg);
+        -o-transform: rotateX(90deg);
+        transform: rotateX(90deg);
+    }
+    100%{
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        -ms-transform: rotateX(0deg);
+        -o-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes contentSlipToBottom  {
+    0%{
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        -ms-transform: rotateX(0deg);
+        -o-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+    }
+    60%{
+        -webkit-transform: rotateX(60deg);
+        -moz-transform: rotateX(60deg);
+        -ms-transform: rotateX(60deg);
+        -o-transform: rotateX(60deg);
+        transform: rotateX(60deg);
+    }
+    100%{
+        -webkit-transform: rotateX(90deg);
+        -moz-transform: rotateX(90deg);
+        -ms-transform: rotateX(90deg);
+        -o-transform: rotateX(90deg);
+        transform: rotateX(90deg);
+    }
 }

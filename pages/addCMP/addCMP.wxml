@@ -8,19 +8,23 @@
     </view>
     <form class='form' bindsubmit='commit'>
       <view>
-        <input name='cmpname' placeholder='单位名称' focus></input>
+        <input name='cmpname' placeholder='名称' focus></input>
         <input name='address' placeholder='详细地址'></input>
         <input name='device' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
+        <radio-group class='choose' name="role" wx:if='{{type == 1}}'>
+          <view><radio value="dapart" checked="true"/>部门</view>
+          <view><radio value="child" />子单位</view>
+        </radio-group>
       </view>
       <button class='login' formType='submit'>确认</button>
     </form>
   </view>
-  <view class='footer'>添加单位</view>
+  <view class='footer'>{{type == 1 ? '添加子单位或部门' : '添加部门'}}</view>
 </view>
 <!-- 设备弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="设备选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
   <view style='height:300rpx;overflow:auto'>
     <view wx:for="{{devices}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.devName}}</view>
   </view>
-    <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
+  <view class='none' wx:if="{{!devices.length}}">尚未添加设备</view>
 </modal>

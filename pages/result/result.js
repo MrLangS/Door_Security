@@ -1,4 +1,4 @@
-var util = require("../../../utils/util.js")
+var util = require("../../utils/util.js")
 Page({
 
   data: {
@@ -11,7 +11,7 @@ Page({
 
   onLoad: function (options) {
     this.setData({
-      username: getApp().globalData.admin.loginName
+      username: options.username
     })
   },
 

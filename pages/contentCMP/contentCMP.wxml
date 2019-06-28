@@ -1,33 +1,40 @@
-<view hidden='{{hideSearch}}' class='search' wx:if='{{!bcgImgAreaShow}}' catchtap='search' style='background:#3281ff'>
-  <view class='wrapper'>
-    <image src='/images/search.png'></image>
-    <view class='placeholderClass'>搜索人员</view>
+<view class='search-peo'>
+  <view class='search-con' catchtap='search'>
+    <image src='/images/search-gray.png'></image>
+    <view>搜索人员</view>
   </view>
+  <view class='root'><text data-index='{{-1}}' class='final' catchtap='navRoot'>{{topName}}</text><text wx:for='{{roots}}' wx:key class='final' data-index='{{index}}' catchtap='navRoot'>->{{item.client.name}} </text></view>
 </view>
 <view class='wrapper'>
+  <!-- 子部门列表 -->
+  
   <view class='card items'>
-    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
-      <view class='title'>
-        <view>单位logo</view>
-      </view>  
-      <image catchtap='preview' class='rightImg' src='{{dataArr[0]?dataArr[0]:"/images/cmpany.png"}}'></image>
-    </view>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=单位名称&content={{dataArr[1]}}&index=1' hover-class='hover-class'>
-      <view class='title'>
-        <view>单位名称</view>
+    <block wx:for="{{departments}}" wx:for-item="department" wx:key>
+      <view class='item' catchtap='navHead' data-index='{{index}}' hover-class='hover-class'>
+        <view class='title'>
+          <view><text space='ensp'>{{department.client.name}} <text style='color:#b2b2b2'>{{department.children.length == 0 ? '': '('+department.children.length+')'}}</text></text></view>
+        </view>
+        <view class='more'>
+          <image src='/images/profile_arrow.png'></image>
+        </view>
       </view>
-      <view class='count longText'>{{dataArr[1] || '未知'}}</view>
-    </view>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=详细地址&content={{dataArr[2]}}&index=2' hover-class='hover-class'>
-      <view class='title'>
-        <view>详细地址</view>
+    </block>
+
+  </view>
+
+  <!-- 添加子级 -->
+  <view class='card items'>
+    <view class='item' bindtap='newDepartment' hover-class='hover-class'>
+      <view class='add-depart'>
+        <image class='left-image' src='/images/add01.png'></image>
+        <view class='title'>新增子级</view>
       </view>
-      <view class='count longText'>{{dataArr[2] || '未知'}}</view>
     </view>
+    
   </view>
   <!-- 查看设备权限部分 -->
   <view class='card items'>
-    <view class='item' catchtap='navigateItem' data-url='/pages/modifyCompDevs/modifyCompDevs?devs={{devs}}&id={{company.id}}&img={{dataArr[0]}}&name={{dataArr[1]}}' hover-class='hover-class'>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modifyCompDevs/modifyCompDevs?devs={{devs}}&id={{company.id}}&img={{company.clientLogoURL}}&name={{company.name}}' hover-class='hover-class'>
       <view class='title'>
         <view>设备权限</view>
       </view>
@@ -41,7 +48,7 @@
 
   <!-- 修改考勤规则 -->
   <view class='card items'>
-    <view class='item' catchtap='navigateItem' data-url='/pages/company/attendRule/attendRule?id={{company.id}}&img={{dataArr[0]}}&name={{dataArr[1]}}' hover-class='hover-class'>
+    <view class='item' catchtap='navigateItem' data-url='/pages/company/attendRule/attendRule?id={{company.id}}&img={{company.clientLogoURL}}&name={{company.name}}' hover-class='hover-class'>
       <view class='title'>
         <view>考勤规则</view>
       </view>
@@ -57,7 +64,7 @@
   <view class='card items'>
     <view class='item'>
       <view class='title'>
-        <view style='color:#40a7e7;'>管理员</view>
+        <view style='color:#40a7e7;'>{{rootIndex == -1 ? '超级管理员' : '管理员'}}</view>
       </view> 
       <view style='color:#40a7e7;' class='count'>{{admin.length || 0}}人</view> 
     </view>

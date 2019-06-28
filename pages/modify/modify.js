@@ -21,6 +21,18 @@ Page({
     //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
     var index=this.data.index
     var dataArr = prevPage.data.dataArr
+    if(index == 4) {
+      var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/
+      if(!reg.test(this.data.value.trim())){
+        wx.showToast({
+          title: '请输入正确的邮箱',
+          icon: 'none',
+          duration: 1500,
+        })
+        return
+      }
+      
+    }
     if(this.data.value.trim()==''){
       wx.showToast({
         title: '信息不能为空',

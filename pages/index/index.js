@@ -10,6 +10,9 @@ Page({
     day: new Date().getDate(),
     str: MONTHS[new Date().getMonth()],  // 月份字符串
     isTouchMove: false,
+    records: [1,2,3],
+    select: true,
+    selectMonth: '2019-07',
     currentDay: {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
@@ -17,6 +20,46 @@ Page({
     },
     demo5_days_style: [],
   },
+  showCalendar: function(){
+    this.setData({
+      select: true
+    })
+  },
+  showList: function () {
+    this.setData({
+      select: false
+    })
+  },
+  toPrev: function() {
+    var arr = this.data.selectMonth.split('-')
+    if(arr[1] == 1) {
+      arr[0] = parseInt(arr[0]) - 1
+      arr[1] = 12
+    } else {
+      arr[1] = parseInt(arr[1]) - 1
+    }
+    this.setData({
+      selectMonth: arr.map(util.formatNumber).join('-')
+    })
+  },
+  toNext: function () {
+    var arr = this.data.selectMonth.split('-')
+    if (arr[1] == 12) {
+      arr[0] = parseInt(arr[0]) + 1
+      arr[1] = 1
+    } else {
+      arr[1] = parseInt(arr[1]) + 1
+    }
+    this.setData({
+      selectMonth: arr.map(util.formatNumber).join('-')
+    })
+  },
+  bindMonth: function(e) {
+    this.setData({
+      selectMonth: e.detail.value
+    })
+  },
+
 
   setting(){
     wx.navigateTo({
@@ -192,6 +235,7 @@ Page({
     })
   },
   onLoad: function () {
+    var that=this
     const days_count = new Date(this.data.year, this.data.month, 0).getDate();
 
     demo5_days_style.push({ month: 'current', day: this.data.day, color: 'white', background: '#46c4f3' });
@@ -227,6 +271,18 @@ Page({
     this.setData({
       user: app.globalData.staff,
       wxUser: app.globalData.sysWXUser
+    })
+
+    //获取人员头像
+    wx.request({
+      url: app.globalData.server + '/CompareListAction!getById.do?id=' + app.globalData.staff.picId,
+      method: 'post',
+      success: res => {
+        console.log(res)
+        that.setData({
+          photoUrl: res.data.photoURL
+        })
+      }
     })
   },
 })

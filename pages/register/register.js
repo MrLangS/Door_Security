@@ -38,6 +38,10 @@ Page({
           })
         }
       })
+    } else{
+      this.setData({
+        isEmpty: false
+      })
     }
     
     this.setData({
@@ -117,9 +121,9 @@ Page({
                 wx.setStorageSync('userId', res.data.admin.id)
                 wx.setStorageSync('isAdmin', 1)//1为管理员
               }
-              // wx.redirectTo({
-              //   url: '../result/result',
-              // })
+              wx.redirectTo({
+                url: '../result/result?username=' + that.data.phoneNumber,
+              })
             },
             fail: function (res) { },
           })

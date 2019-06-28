@@ -1,0 +1,67 @@
+<view>
+  <form bindsubmit='submit'>
+  <view class='box'>
+    <view class='head-line'>
+      <view class='label'>补考勤日期：</view>
+      <view><text space='ensp'>06月03日 星期一</text></view>
+    </view>
+    <view class='head-line'>
+      <view class='label'>签到时间：</view>
+      <view>08:59</view>
+    </view>
+  </view>
+
+  <view class='box'>
+    <view class='head-line'>
+      <view>补考勤类型</view>
+      <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
+    </view>
+  </view>
+
+  <view class='box'>
+    <view class='head-line'>
+      <view>起始时间</view>
+      <view class='right-end'>
+        <picker mode="time" name='starttime' value="{{starttime}}" start="00:00" end="23:59" bindchange="bindTimeChange">
+          <view style='margin-right:15rpx;color:#1e90ff'>{{starttime}}</view>
+        </picker>
+        <view style='width:20rpx'>
+          <image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' />
+        </view>
+      </view>
+    </view>
+    <view class='head-line'>
+      <view>截止时间</view>
+      <view class='right-end'>
+        <picker mode="time" name='endtime' value="{{endtime}}" start="00:00" end="23:59" bindchange="bindEndTimeChange">
+          <view style='margin-right:15rpx;color:#1e90ff'>{{endtime}}</view>
+        </picker>
+        <view style='width:20rpx'>
+          <image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='box'>
+    <view class='head-line'>
+      <view>审批人</view>
+      <view class='right-end'>
+        <picker value="{{index}}" name='peoIndex'  bindchange="bindPersonChange" range='{{peos}}'>
+          <view style='margin-right:15rpx;color:#1e90ff'>{{peos[index]}}</view>
+        </picker>
+        <view style='width:20rpx'>
+          <image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='textarea'>
+    <textarea class='content' name='reason' value='' placeholder='请填写补考勤理由'></textarea>
+  </view>
+  <view>
+    <button form-type='submit'>提交</button>
+  </view>
+  </form>
+</view>

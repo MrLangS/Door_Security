@@ -8,6 +8,9 @@ Page({
     quality: 1,
     username: '',//姓名
     company: '',
+    duty: '',
+    email: '',
+    phoneNumber: '',
     code: '',
     iscode: '',//用于存放验证码接口里获取到的code
     codename: '发送验证码',
@@ -27,9 +30,12 @@ Page({
   commit: function(e) {
     var that = this
     var formId = e.detail.formId
-    
+    console.log('验证')
     if(util.checkForm(this,2)){
       if (!this.data.isEmpty) {
+        return
+      }
+      if(!util.checkEmail(this.data.email)){
         return
       }
       this.setData({
@@ -41,6 +47,8 @@ Page({
           clientId: parseInt(this.data.clientId + ''),
           personName: this.data.username,
           phoneNo: this.data.phoneNumber,
+          duty: this.data.duty,
+          email: this.data.email,
           picId: this.data.picId,
           openId: app.globalData.realOpenid,
           unionId: app.globalData.openid,
@@ -177,6 +185,16 @@ Page({
       username: e.detail.value
     })
   },
+  getDuty: function (e) {
+    this.setData({
+      duty: e.detail.value
+    })
+  },
+  getEmail: function (e) {
+    this.setData({
+      email: e.detail.value
+    })
+  },
 
   getPhonenum: function(e){
     this.setData({
@@ -205,6 +223,10 @@ Page({
           }
         })
       }
+    } else{
+      this.setData({
+        isEmpty: false
+      })
     }
 
     this.setData({

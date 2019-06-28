@@ -1,34 +1,37 @@
 {
   "pages":[
+    "pages/perRegister/regForm/regForm",
     "pages/init/init",
+    "pages/contentCMP/contentCMP",
+    "pages/addCMP/addCMP",
+    "pages/company/company",
+    "pages/perRegister/result/result",
+    "pages/setPassword/setPassword",
+    "pages/contentDEV/contentDEV",
     "pages/login/login",
     "pages/index/index",
+    "pages/supplement/supplement",
     "pages/register/register",
-    "pages/perRegister/regForm/regForm",
-    "pages/role/role",
     "pages/my/my",
+    "pages/test/test",
+    "pages/contentPEO/contentPEO",
+    "pages/role/role",
     "pages/subAdmin/subAdmin",
     "pages/setting/setting",
     "pages/account/account",
     "pages/peoAttendance/peoAttendance",
-    "pages/perRegister/result/result",
     "pages/personRecord/personRecord",
     "pages/devForm/devForm",
     "pages/device/device",
-    "pages/addCMP/addCMP",
     "pages/perRegister/perList/perList",
     "pages/authorize/authorize",
-    "pages/company/company",
     "pages/addPEO/addPEO",
     "pages/company/attendRule/attendRule",
     "pages/searchRes/searchSta/searchSta",
     "pages/record/record",
-    "pages/register/result/result",
+    "pages/result/result",
     "pages/searchRes/searchRes",
-    "pages/contentDEV/contentDEV",
-    "pages/contentCMP/contentCMP",
     "pages/modifyCompDevs/modifyCompDevs",
-    "pages/contentPEO/contentPEO",
     "pages/modify/modify"
   ],
   "permission": {
@@ -55,16 +58,16 @@
     "backgroundColor": "#fff",
     "list": [
       {
+        "pagePath": "pages/company/company",
+        "text": "首页",
+        "iconPath": "images/tab_home_normal.png",
+        "selectedIconPath": "images/tab_home.png"
+      },
+      {
         "pagePath": "pages/device/device",
         "text": "设备",
         "iconPath": "images/device.png",
         "selectedIconPath": "images/deviceBlue.png"
-      },
-      {
-        "pagePath": "pages/company/company",
-        "text": "单位",
-        "iconPath": "images/cmpany.png",
-        "selectedIconPath": "images/cmpanyBlue.png"
       },
       {
         "pagePath": "pages/record/record",
@@ -79,8 +82,5 @@
         "selectedIconPath": "images/my_blue.png"
       }
     ]
-  },
-  "navigateToMiniProgramAppIdList": [
-    "wx823d48bf0deffed9"
-  ]
+  }
 }

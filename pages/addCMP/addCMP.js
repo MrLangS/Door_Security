@@ -4,9 +4,6 @@ var pre_checkedId = []
 var app = getApp()
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     photo: '',
     devices: [],
@@ -19,13 +16,14 @@ Page({
     active: false,
     percent: 0,
     progressColor: '#3281ff',
+    showType: true
   },
   chooseDev: function () {
     var that = this
     this.setData({
       hiddenmodal: false
     })
-    console.log('hello')
+
     this.setData({
       pre_devices: this.data.devices
     })
@@ -76,13 +74,8 @@ Page({
       checkedDev: checkedDev,
       checkedId: checkedId
     })
-    console.log(this.data.checkedDev)
-    console.log("选择进行时的设备列表:")
-    console.log(this.data.devices)
-    console.log("选择进行时的过去设备列表:")
-    console.log(this.data.pre_devices)
   },
-  //上传公司图片
+  //上传单位图片
   chooseImg: function () {
     var that = this
     wx.chooseImage({
@@ -159,8 +152,11 @@ Page({
   commit:function(e){
     var that=this
     let values = e.detail.value
+    console.log(values)
     let cmpname = values.cmpname || ''
     let address = values.address || ''
+    let type = (values.role == 'child') ? 1 : 2
+    console.log(type)
     if (!cmpname.replace(/\s+/g, '')) {
       wx.showToast({
         title: '请输入单位名称',
@@ -175,19 +171,19 @@ Page({
       })
       return
     }
-    console.log(values)
-    console.log(that.data.choosedId)
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!addCompany.do',
       data:{
         name: values.cmpname,
         addr: values.address,
+        unitType: type,
         clientLogoURL: that.data.photo,
-        superiorClientId: app.globalData.admin.clientId,
+        superiorClientId: parseInt(that.data.higherId),
         devices: that.data.choosedId
       },
       method: 'post',
       success: function(res){
+        console.log('添加成功')
         console.log(res)
         if(res.data=="SUCCESS"){
           wx.showToast({
@@ -195,9 +191,13 @@ Page({
             icon: 'success',
             duration: 1500
           })
-          wx.switchTab({
-            url: '../company/company',
+          var pages = getCurrentPages();
+          var currPage = pages[pages.length - 1];   //当前页面
+          var prevPage = pages[pages.length - 2];  //上一个页面
+          prevPage.setData({
+            isNew: true
           })
+          wx.navigateBack({})
         }else{
           wx.showToast({
             title: '添加失败，请重试',
@@ -209,68 +209,35 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
+    console.log('type:'+options.type)
+    var that = this
+    let type = 0
+    if (options.type == 'null' || options.type == '1'){
+      type = 1
+    } else {
+      type = 2
+    }
+    that.setData({
+      higherId: options.id,
+      type: type
+    })
     wx.request({
-      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + app.globalData.admin.clientId,
+      url: app.globalData.server + '/DoorDevice/getClientDevices.do?clientId=' + options.id,
       method: 'post',
       success: (res) => {
         console.log(res)
-        this.setData({
+        that.setData({
           devices: res.data
         })
       }
     })
+
+    
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

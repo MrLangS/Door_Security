@@ -5,4 +5,5 @@
     <label class='lab'>欢迎使用门禁管理</label> 
     <label class='lab'>请您耐心等待管理员审核</label>
   </view>
+  <button type='primary' bindtap='intoIndex' class='btn' size='default'>确认</button>
 </view>

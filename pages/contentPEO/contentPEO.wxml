@@ -19,6 +19,18 @@
       </view>
       <view class='count'>{{dataArr[2] || '未知'}}</view>
     </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=职务&content={{dataArr[3]}}&index=3' hover-class='hover-class'>
+      <view class='title'>
+        <view>职务</view>
+      </view>
+      <view class='count'>{{dataArr[3] || '未知'}}</view>
+    </view>
+    <view class='item' catchtap='navigateItem' data-url='/pages/modify/modify?title=邮箱&content={{dataArr[4]}}&index=4' hover-class='hover-class'>
+      <view class='title'>
+        <view>邮箱</view>
+      </view>
+      <view class='count'>{{dataArr[4] || '未知'}}</view>
+    </view>
   </view>
 
   <!-- 设备部分 -->

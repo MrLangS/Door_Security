@@ -14,6 +14,8 @@
           <view><radio value="staff" checked="true"/>普通员工</view>
           <view><radio value="admin" />管理员工</view>
         </radio-group>
+        <input name='duty' placeholder='职务（仅普通员工）' hidden='{{tag}}'></input>
+        <input name='email' placeholder='邮箱（仅普通员工）' hidden='{{tag}}'></input>
         <input name='device' hidden='{{tag}}' placeholder='设备名称' disabled='true' value='{{choosedDEV}}' catchtap='chooseDev'></input>
         
       </view>

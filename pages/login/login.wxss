@@ -92,7 +92,9 @@
 .label_input {
   display: flex;
   flex-direction: row;
+  position: relative;
   justify-content: space-between;
+  align-items: center;
   justify-items: center;
   border-bottom: 1rpx solid #efefef;
   padding: 20rpx 0;
@@ -116,6 +118,7 @@
   flex-direction: column;
   margin-top: 50rpx;
   width: 85%;
+  margin-bottom: 50rpx;
 }
 
 .info_text {

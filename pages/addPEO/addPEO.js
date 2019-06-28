@@ -101,10 +101,10 @@ Page({
     let values = e.detail.value
     let name = values.name || ''
     let phone = values.phone || ''
-    console.log(values)
-    
-    if (util.checkStaffForm(this,name,phone)){
+    let email = values.email.trim()
+    if (util.checkStaffForm(this, name, phone, email)){
       if(this.data.tag==false){
+        
         wx.request({
           url: app.globalData.server + '/TransitPerson/isNameRepeated.do',
           data: {
@@ -134,6 +134,8 @@ Page({
                             personName: name,
                             phoneNo: phone,
                             clientId: this.data.companyId,
+                            duty: values.duty,
+                            email: values.email,
                             personCompany: this.data.companyName,
                             picId: this.data.picId
                           },

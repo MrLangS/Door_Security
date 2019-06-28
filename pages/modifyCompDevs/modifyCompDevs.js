@@ -134,7 +134,8 @@ Page({
     var currPage = pages[pages.length - 1];   //当前页面
     var prevPage = pages[pages.length - 2];  //上一个页面
     prevPage.setData({
-      devs: this.data.choosedId
+      devs: this.data.choosedId,
+      isNew: true
     })
   },
 

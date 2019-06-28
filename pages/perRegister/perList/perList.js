@@ -60,17 +60,16 @@ Page({
         success: function (res) {
           console.log(res)
           var list=res.data
+          wx.showToast({
+            title: '拒绝成功',
+            icon: 'none',
+            duration: 2000
+          })
+          that.setData({
+            arr: []
+          })
+          that.reload(true)
           if (list.length){
-            wx.showToast({
-              title: '拒绝成功',
-              icon: 'none',
-              duration: 2000
-            })
-            that.setData({
-              arr: []
-            })
-            that.reload(true)
-            
             for(var one of list){
               //发送模版消息
               wx.request({
@@ -169,17 +168,17 @@ Page({
       success: function (res) {
         console.log(res)
         var list = res.data
-
+        wx.showToast({
+          title: '接受成功',
+          icon: 'success',
+          duration: 1500
+        })
+        that.setData({
+          arr: []
+        })
+        that.reload(true)
         if (list.length) {
-          wx.showToast({
-            title: '接受成功',
-            icon: 'success',
-            duration: 1500
-          })
-          that.setData({
-            arr: []
-          })
-          that.reload(true)
+          
           
           for (var one of list) {
             //发送模版消息

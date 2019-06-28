@@ -1,10 +1,10 @@
 <view class='wrapper'>
   <view class='card items'>
-    <view catchtap='chooseImg' class='logo-height' hover-class='hover-class'>
+    <view class='logo-height' hover-class='hover-class'>
       <view class='title'>
         <view>{{name|| '未知'}}</view>
       </view>  
-      <image catchtap='preview' class='rightImg' src='{{img?img:"/images/cmpany.png"}}'></image>
+      <image class='rightImg' src='{{img?img:"/images/cmpany.png"}}'></image>
     </view>
   </view>
   <view class='card items'>

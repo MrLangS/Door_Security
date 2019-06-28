@@ -20,7 +20,7 @@
             <view wx:else>请先升级微信版本</view>
           </view>
         
-        <text class="copyright">FaceOS</text>
+        <!-- <text class="copyright">FaceOS</text> -->
       </view>
     </view>
   </block>
