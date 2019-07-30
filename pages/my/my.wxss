@@ -9,6 +9,17 @@ page{
   flex-direction: column;
   align-items: stretch;
 }
+.top-image{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 30rpx;
+  width: 100%;
+  height: 400rpx;
+  background: #fff;
+}
 
 .more-icon{
   width: 20rpx !important;
@@ -39,7 +50,7 @@ page{
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #3281ff;
+  background: #F4F6F9;
   align-items: stretch;
   padding: 0;
   height: 100%;
@@ -84,16 +95,18 @@ page{
   100% {opacity: 1;transform: translate3d(0,450rpx,0);}
 }
 .title{
-  position: absolute;
-  top: 30rpx;
-  left: 50%;
-  width: 600rpx;
-  height: 200rpx;
-  margin-left: -300rpx;
+  width: 250rpx;
+  height: 250rpx;
+  /* margin-left: -300rpx; */
+  border-radius: 50%;
   opacity: 0;
   animation: show 2.5s cubic-bezier(0.19, 1, 0.22, 1) .5s forwards;
 }
-
+.desc{
+  color: #3281ff;
+  opacity: 0;
+  animation: show 2.5s cubic-bezier(0.19, 1, 0.22, 1) .5s forwards;
+}
 .smalltitle{
   position: absolute;
   top: 50rpx;
@@ -175,6 +188,10 @@ page{
 @keyframes bd-rise{
   from {opacity: 0; transform: translate3d(0,60rpx,0); }
   to {opacity: 1; transform: translate3d(0,0,0); }
+}
+.box-sha{
+  background: #fff; 
+  margin-bottom: 10rpx;
 }
 
 .confirm-btn {

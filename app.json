@@ -1,21 +1,23 @@
 {
   "pages":[
-    "pages/perRegister/regForm/regForm",
     "pages/init/init",
-    "pages/contentCMP/contentCMP",
-    "pages/addCMP/addCMP",
+    "pages/result/result",
+    "pages/role/role",
+    "pages/register/register",
     "pages/company/company",
+    "pages/authorize/authorize",
+    "pages/login/login",
     "pages/perRegister/result/result",
     "pages/setPassword/setPassword",
+    "pages/perRegister/regForm/regForm",
+    "pages/contentCMP/contentCMP",
+    "pages/my/my",
+    "pages/addCMP/addCMP",
     "pages/contentDEV/contentDEV",
-    "pages/login/login",
     "pages/index/index",
     "pages/supplement/supplement",
-    "pages/register/register",
-    "pages/my/my",
     "pages/test/test",
     "pages/contentPEO/contentPEO",
-    "pages/role/role",
     "pages/subAdmin/subAdmin",
     "pages/setting/setting",
     "pages/account/account",
@@ -24,12 +26,10 @@
     "pages/devForm/devForm",
     "pages/device/device",
     "pages/perRegister/perList/perList",
-    "pages/authorize/authorize",
     "pages/addPEO/addPEO",
     "pages/company/attendRule/attendRule",
     "pages/searchRes/searchSta/searchSta",
     "pages/record/record",
-    "pages/result/result",
     "pages/searchRes/searchRes",
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/modify/modify"
@@ -82,5 +82,8 @@
         "selectedIconPath": "images/my_blue.png"
       }
     ]
-  }
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wx823d48bf0deffed9"
+  ]
 }

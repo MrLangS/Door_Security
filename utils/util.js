@@ -91,7 +91,7 @@ function getPickerList(tag) {
   }
 }
 function checkPhone(that) {
-  var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+  var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$$/;
   if (that.data.phoneNumber == "") {
     wx.showToast({
       title: '手机号不能为空',
@@ -147,7 +147,7 @@ function checkCompname(that) {
   }
 }
 function checkPhone01(phone) {
-  var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+  var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$$/;
   if (phone == "") {
     wx.showToast({
       title: '手机号不能为空',
@@ -239,7 +239,6 @@ function checkForm(that,tag) {
       break;
     case 2:
       checked = checkImage(that) && checkPhone(that) && checkCode(that) && checkUsername(that) && checkCompname(that);
-      checked =checkUsername(that);
       break;
     case 3:
       checked = checkImage(that) && checkUsername(that) && checkCompname(that) && checkPhone(that) && checkCode(that);
@@ -399,7 +398,7 @@ function redotListener(){
       
       if(res.data.totalCount){
         wx.showTabBarRedDot({
-          index: 3,
+          index: 0,
         })
       }
     }
@@ -529,12 +528,25 @@ function registerWxUser(userId,type){
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
+              console.log(res)
               if (res.data.msg == 'ok') {
                 app.globalData.sysWXUser = res.data.sysWXUser
                 wx.switchTab({
                   url: '../company/company',
                 })
+                wx.showToast({
+                  title: '请您在“我的”中完善头像！',
+                  icon: 'none',
+                  duration: 2000
+                })
               } else {
+                wx.showToast({
+                  title: '登录失败',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+              if(!res.data.msg){
                 wx.showToast({
                   title: '登录失败',
                   icon: 'none',

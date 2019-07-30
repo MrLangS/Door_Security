@@ -1,11 +1,16 @@
 <view class='content'>
-  <image  mode='aspectFit' class='animal' src='{{"/images/animal.png" }}' />
-  <image  mode='aspectFit' class='session' src='{{"/images/session.png" }}' />
+  <!-- <image  mode='aspectFit' class='animal' src='{{"/images/animal.png" }}' />
+  <image  mode='aspectFit' class='session' src='{{"/images/session.png" }}' /> -->
   <view class='register_bg'>
-    <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}' bindtap='chooseImg' />
+    <!-- <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}' bindtap='chooseImg' /> -->
   </view>
-  <view class='login_content'>
+  <view class='log_content'>
     <view class='input_view'>
+      <view class='label_input'>
+        <image mode='aspectFit' class='avatar' src='{{avatar?avatar:"/images/default_avatar.png"}}'></image>
+        <button class='head-btn' bindtap='chooseImg'>选择头像</button>
+      </view>
+
       <view class='label_input'>
         <label class='headlabel'>手机号：</label>
         <input class='input_bar' type='number' name='phoneNumber' 

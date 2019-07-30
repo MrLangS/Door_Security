@@ -4,16 +4,21 @@
     <image class="remind-img" src="/images/more/loading.gif"></image>
   </view>
   <block wx:else>
-    <image class="title" src="/images/more/title8.png"></image>
+    <view class='top-image'>
+      <image class="title" src="/images/more/logo.png"></image>
+      <view class='desc'>门禁管理系统</view>
+    </view>
+      
+    <!-- <view class='top'>
+    </view> -->
+
     <view class="content">
       <view class="hd" style="transform:rotateZ({{angle}}deg);">
-        <image class="logo" src="{{userInfo.avatarUrl}}"></image>
-        <image class="wave" src="/images/more/wave.png" mode="aspectFill"></image>
-        <image class="wave wave-bg" src="/images/more/wave.png" mode="aspectFill"></image>
+        
       </view>
-      <view class="bd">
+      <view class="bd" >
          <!-- <image class="smalltitle" src="/images/more/confirm-word1.png"></image> -->
-          <view class="confirm-btn">
+          <view class="confirm-btn" style='background:#3281ff'>
             
             <!-- <text >授权登录</text> -->
             <button wx:if="{{canIUse}}" class='authorize-btn' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">同意授权</button>

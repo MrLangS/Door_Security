@@ -9,7 +9,7 @@
   </view>
 </view> -->
 
-<!-- <view class='box-shadow items' bindtap='jump2visit'>
+<view class='box-shadow items' bindtap='jump2visit'>
   <view class='item' hover-class='hover-class'>
     <view class='left-row'>
       <view>跳转到访客小程序</view>
@@ -17,7 +17,7 @@
     <view style='width:20rpx'><image  mode='aspectFit' class='more-icon' src='{{"/images/profile_arrow.png" }}' /></view>
     
   </view>
-</view> -->
+</view>
 
 <view class='box-shadow items'>
   <block wx:if='{{!isAdmin}}'>

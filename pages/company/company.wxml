@@ -46,6 +46,13 @@
             </view>
             <image mode='aspectFit' class='mo-icon' src='{{"/images/profile_arrow.png" }}' />
           </view>
+          <view class='card-item' hover-class='hover-class' catchtap='navigate2perList'>
+            <view class='left-row'>
+              <image  mode='aspectFit' src='{{"/images/audit.png" }}' />
+              <view>待审核</view>
+            </view>
+            <view class='count {{sum==0 ? "" : "reddot"}}'>{{sum}}人</view>
+          </view>
         </view>
       </view>
     <!-- </block> -->
@@ -108,21 +115,17 @@
         </view>
     </view>
 </view>
-<!-- margin-left:100rpx; -->
-<!-- 日期弹窗 -->
-  <!-- <modal hidden="{{hiddenmodal}}" title="选择相应日期" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
-    <picker-view indicator-style="height: 50px;" class='modalpicker' value="{{value}}" bindchange="bindChange">
-      <picker-view-column>
-        <view wx:for="{{years}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}年</view>
-      </picker-view-column>
-      <picker-view-column>
-        <view wx:for="{{months}}" wx:key style="line-height: 50px;margin-left:100rpx; ">{{item}}月</view>
-      </picker-view-column>
-    </picker-view>
-  </modal> -->
+
 <!-- 日期弹窗 -->
 <modal hidden="{{hiddenmodal}}" title="月份选择" confirm-text="确定" cancel-text="取消" catchcancel="cancel" catchconfirm="confirm">
   <view wx:for="{{months}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='userCheck'>{{item.val}}</view>
+</modal>
+
+<!-- 单位弹窗 -->
+<modal hidden="{{hiddenCMPmodal}}" title="单位或部门选择" confirm-text="确定" cancel-text="取消" catchcancel="cancelCMP" catchconfirm="confirmCMP">
+  <scroll-view scroll-y class='modal-box'>
+  <view wx:for="{{companys}}" wx:key data-id="{{index}}" class="checkbox {{item.checked?'checkedActive':''}}" catchtap='cmpCheck'>{{item.name}}</view>
+  </scroll-view>
 </modal>
 
 

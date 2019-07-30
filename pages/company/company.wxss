@@ -2,12 +2,27 @@
 .wrapper {
   padding-top: 110rpx !important;
 }
+.modal-box{
+  height: 400rpx;
+}
 .nomodal{
   z-index: 1;
 }
 .header{
   width: 100%;
   height: 200rpx;
+}
+.count {
+  font-size: 24rpx;
+  color: #abb4bf;
+}
+.reddot {
+  height: 30rpx;
+  line-height: 30rpx;
+  border-radius: 15rpx;
+  padding: 0 7px;
+  background: #ff5959;
+  color: #fff;
 }
 .card-item{
   display: flex;
@@ -345,7 +360,7 @@ button:hover, button:active, button:focus{
 .dialog-wrapper{
     background: #fff;
     width: 100%;
-    height: 275px;
+    height: 100%;
     overflow: hidden;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -408,6 +423,7 @@ button:hover, button:active, button:focus{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-bottom: 80rpx;
 }
 /* ---------------------动画关键帧 -------------------*/
 

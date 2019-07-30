@@ -11,7 +11,6 @@ Page({
     startY: 0,
     remind: '加载中',
     angle: 0,
-    sum: 0,
     avatar: '',
     quality: 1,
     picId: 0,
@@ -184,9 +183,15 @@ Page({
   onShow: function () {
     var that = this
 
-    wx.hideTabBarRedDot({
-      index: 3,
-    })
+    if (!app.globalData.sysWXUser.photoURL) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '点击默认头像上传人脸照片',
+        showCancel: false
+      })
+    }
+    
+    util.redotListener()
     
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!getById.do?id=' + app.globalData.admin.clientId,
@@ -198,21 +203,6 @@ Page({
       }
     })
 
-    wx.request({
-      url: app.globalData.server + '/TransitPerson/getUnauditedPersons.do',
-      data: {
-        clientId: app.globalData.admin.clientId,
-        pageIndex: 0
-      },
-      method: 'post',
-      success: function (res) {
-        console.log('审核列表信息:')
-        console.log(res)
-        that.setData({
-          sum: res.data.totalCount
-        })
-      }
-    })
   },
 
   onReady: function(){

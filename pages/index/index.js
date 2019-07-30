@@ -226,7 +226,7 @@ Page({
 
   peoAttendance: function () {
     wx.navigateTo({
-      url: '/pages/peoAttendance/peoAttendance?isAdmin=staff',
+      url: '/pages/peoAttendance/peoAttendance?isAdmin=staff&data='+JSON.stringify(this.data.user)+'&photo='+this.data.photoUrl,
     })
   },
   peoRecord: function(){

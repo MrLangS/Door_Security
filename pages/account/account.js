@@ -67,9 +67,23 @@ Page({
   },
 
   onLoad: function (options) {
-    this.setData({
-      staffs: app.globalData.userSet
-    })
+    var staffs = app.globalData.userSet
+    
+    for(let i=0; i<staffs.length; i++) {
+      //获取人员头像
+      wx.request({
+        url: app.globalData.server + '/CompareListAction!getById.do?id=' + staffs[i].picId,
+        method: 'post',
+        success: res => {
+          staffs[i].photoURL = res.data.photoURL
+          this.setData({
+            staffs: staffs
+          })
+        }
+      })
+    }
+    
+    
   },
 
   onShow: function () {

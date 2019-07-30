@@ -4,17 +4,22 @@
     <image class="remind-img" src="/images/more/loading.gif"></image>
   </view>
   <block wx:else>
-    <image class="title" src="/images/more/title8.png"></image>
+    <!-- <image class="title" src="/images/more/title8.png"></image> -->
+    <view class='top-image'>
+      <image class="title" src="/images/more/logo.png"></image>
+      <view class='desc'>门禁管理系统</view>
+    </view>
     <view class="content">
-      <view class="hd" style="transform:rotateZ({{angle}}deg);">
+    
+      <!-- <view class="hd" style="transform:rotateZ({{angle}}deg);">
         <image class="logo" src='{{company.clientLogoURL?company.clientLogoURL:"/images/cmpany.png"}}'></image>
         <image class="wave" src="/images/more/wave.png" mode="aspectFill"></image>
         <image class="wave wave-bg" src="/images/more/wave.png" mode="aspectFill"></image>
-      </view>
+      </view> -->
       <view class="bd">
          <!-- 信息部分 -->
         <view class='wrapper'>
-          <view class='box-shadow pro'>
+          <view class='box-sha pro'>
             <view class='list'>
                 <view class='info'>
                     <view class='infotitle'>{{company.name || '未知单位'}}</view>
@@ -34,7 +39,7 @@
             </view>
           </view>
 
-          <view class='box-shadow items'>
+          <view class='box-sha items'>
             <view class='item'>
               <view class='infotitle'>
                 <view>用户身份</view>
@@ -49,7 +54,7 @@
             </view>
           </view>
 
-          <view class='items' style='background: #fff;'>
+          <!-- <view class='items' style='background: #fff;'>
             <view class='item' bindtap='navigate2perList' hover-class='hover-class'>
               <view class='left-row'>
                 <view>
@@ -57,11 +62,11 @@
                 </view>
                 <view>待审核</view>
               </view>
-              <view class='count {{sum==0 ? "" : "reddot"}}'>{{sum}}人</view>
+              <view class='count reddot {{sum==0 ? "" : "reddot"}}'>{{sum}}人</view>
             </view>
-          </view>
+          </view> -->
 
-          <view class='box-shadow items'>
+          <view class='box-sha items'>
             <!-- bindtap='jump2visit' -->
             <view class='item' bindtap='gotoSet' hover-class='hover-class'>
               <view class='left-row'>

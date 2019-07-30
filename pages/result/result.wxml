@@ -4,7 +4,7 @@
     <view class="text">注册成功</view>
     <label class='lab'>欢迎使用门禁管理</label> 
     <label class='lab'>web端用户名为{{username||'*********'}}</label>
-    <label class='lab'>初始密码为123456</label>
+    <label class='lab'>初始密码为qs2099</label>
   </view>
   <button type='primary' bindtap='intoIndex' class='btn' size='default'>开始使用</button>
   <!-- <button bindtap='intoInfo' class='btn' size='default'>添加公司logo</button> -->

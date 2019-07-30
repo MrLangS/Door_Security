@@ -9,12 +9,22 @@ Page({
     startY: 0,
     isMajorUser: true,
     hiddenmodal: true,
+    hiddenCMPmodal: true,
     show: false,
     months: [],
+    sum: 0,
+    flag: false,
+    monthflag: false,
     init: true,
     month: '',
     modIndex: 0,
     id4excel: 0
+  },
+
+  navigate2perList: function () {
+    wx.navigateTo({
+      url: '../perRegister/perList/perList',
+    })
   },
 
   gotoDevice:function() {
@@ -175,11 +185,29 @@ Page({
   //弹出框
   choose: function (e) {
     var that = this
-    var id = this.data.company.id
     this.setData({
-      hiddenmodal: false,
-      id4excel: id
+      hiddenCMPmodal: false,
     })
+  },
+  cancelCMP: function () {
+    this.setData({
+      hiddenCMPmodal: true,
+    });
+  },
+  confirmCMP: function () {
+    if(this.data.flag){
+      this.setData({
+        hiddenCMPmodal: true,
+        hiddenmodal: false,
+      });
+    }else{
+      wx.showToast({
+        title: '请选择单位',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    
   },
   cancel: function () {
     this.setData({
@@ -188,35 +216,63 @@ Page({
   },
   //确认生成表格
   confirm: function () {
-    this.setData({
-      hiddenmodal: true
-    })
+    if (this.data.monthflag){
+      this.setData({
+        hiddenmodal: true
+      })
 
-    wx.request({
-      url: app.globalData.server + '/ClockingIn/exportReport.do?unitId=' + this.data.id4excel + '&&searchMonth=' + this.data.month,
-      method: 'get',
-      success: res => {
-        wx.downloadFile({
-          url: res.data,
-          success(res){
-            wx.openDocument({
-              filePath: res.tempFilePath,
-              success(res){
-                console.log('打开文档成功')
-                wx.showToast({
-                  title: '正在加载...',
-                  icon: 'loading',
-                  duration: 1000
-                })
-              },
-              fail(res){
-                console.log(res)
-              }
-            })
-          }
-        })
+      wx.request({
+        url: app.globalData.server + '/ClockingIn/exportReport.do?unitId=' + this.data.id4excel + '&&searchMonth=' + this.data.month,
+        method: 'get',
+        success: res => {
+          wx.downloadFile({
+            url: res.data,
+            success(res) {
+              wx.openDocument({
+                filePath: res.tempFilePath,
+                success(res) {
+                  console.log('打开文档成功')
+                  wx.showToast({
+                    title: '正在加载...',
+                    icon: 'loading',
+                    duration: 1000
+                  })
+                },
+                fail(res) {
+                  console.log(res)
+                }
+              })
+            }
+          })
+        }
+      })
+    }else{
+      wx.showToast({
+        title: '请选择月份',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    
+    
+  },
+
+  //多选
+  cmpCheck: function(e) {
+    let index = e.currentTarget.dataset.id;//获取用户当前选中的索引值
+    let checkBox = this.data.companys;
+
+    if (!checkBox[index].checked) {
+      for (var one of checkBox) {
+        one.checked = false
       }
-    })
+      checkBox[index].checked = true;
+      this.setData({
+        flag: true,
+        companys: checkBox,
+        id4excel: checkBox[index].id
+      })
+    }
     
   },
 
@@ -231,10 +287,12 @@ Page({
       }
       checkBox[index].checked = true;
       this.setData({
+        monthflag: true,
         months: checkBox,
         month: checkBox[index].val
       })
     }
+
   },
 
   bindChange: function(e){
@@ -318,22 +376,55 @@ Page({
     });
   },
 
+  getCompanySet: function (companys,companySet){
+    var that = this
+    companys.push(companySet.client)
+    var children = companySet.children
+    if (children == null || children.length == 0) {
+      return
+    }
+    for (let j = 0; j < children.length; j++) {
+      that.getCompanySet(companys, children[j])
+    }
+  },
+
   onShow: function () {
     var that=this
     var arr = []
+    wx.hideTabBarRedDot({
+      index: 0,
+    })
     wx.request({
       url: app.globalData.server + '/ClientInfoAction!getAllSubordinateClient.do?id=' + app.globalData.admin.clientId,
       data: { id: app.globalData.admin.clientId},
       method: 'post',
       success: function(res){
+        
+        app.globalData.companySet = res.data
+        let companys=[]
+        that.getCompanySet(companys,res.data)
         that.setData({
           company: res.data.client,
+          companys: companys,
+          flag: false
         })
-        app.globalData.companySet = res.data
       }
     })
 
-    util.redotListener()
+    wx.request({
+      url: app.globalData.server + '/TransitPerson/getUnauditedPersons.do',
+      data: {
+        clientId: app.globalData.admin.clientId,
+        pageIndex: 0
+      },
+      method: 'post',
+      success: function (res) {
+        that.setData({
+          sum: res.data.totalCount
+        })
+      }
+    })
+
     
   },
 

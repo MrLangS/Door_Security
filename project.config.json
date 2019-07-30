@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -13,8 +13,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.3.0",
-	"appid": "wx2384e7788dc43bb5",
-	"projectname": "qs-Door",
+	"appid": "wx218bf8cb1afb43a2",
+	"projectname": "newDoor",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

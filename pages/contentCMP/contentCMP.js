@@ -472,7 +472,8 @@ Page({
       url: getApp().globalData.server + '/TransitPerson/getPersonsFromWx.do',
       data: {
         pageIndex: that.data.pageNum - 1,
-        clientId: this.data.company.id
+        clientId: this.data.company.id,
+        searchType: 2
       },
       method: 'post',
       success: (res) => {
@@ -514,7 +515,6 @@ Page({
   },
 
   updateAdminList: function(){
-    
     wx.request({
       url: getApp().globalData.server + '/UserAction!getClientUsers.do',
       data: {
@@ -666,7 +666,7 @@ Page({
     return {
       title: '自助注册',
       path: 'pages/perRegister/regForm/regForm?clientId=' + that.data.company.id + '&companyName=' + that.data.company.name,
-      imageUrl: '/images/flower.jpg',
+      imageUrl: '/images/share.jpg',
       success: function (res) {
         var shareTickets = res.shareTickets;
       },

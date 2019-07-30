@@ -189,7 +189,8 @@ Page({
         data: {
           personName: value,
           pageIndex: this.data.pageNum - 1,
-          clientId: parseInt(this.data.id)
+          clientId: app.globalData.admin.clientId,
+          searchType: 1
         },
         method: 'post',
         success: (res) => {

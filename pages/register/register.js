@@ -56,7 +56,7 @@ Page({
   },
 
   bindPhoneChange(num) {
-    var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$$/;
+    var myreg = /^(14[0-9]|13[0-9]|15[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$$/;
     if (num == "") {
       return false;
     } else if (!myreg.test(num)) {

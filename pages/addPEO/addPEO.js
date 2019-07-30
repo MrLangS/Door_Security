@@ -331,7 +331,7 @@ Page({
     return {
       title: '子管理员',
       path: '/pages/subAdmin/subAdmin?subAdmin=' + JSON.stringify(subAdmin),
-      imageUrl: '/images/admin.jpg',
+      imageUrl: '/images/share.jpg',
       success: function (res) {
         console.log("转发成功:" + JSON.stringify(res));
         var shareTickets = res.shareTickets;

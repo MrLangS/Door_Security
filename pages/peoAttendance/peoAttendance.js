@@ -86,7 +86,9 @@ Page({
     }
 
     if (options.isAdmin == 'staff'){
-      var arr = [app.globalData.sysWXUser.photoURL, app.globalData.staff.personName, app.globalData.staff.id]
+      var json = JSON.parse(options.data)
+      console.log(options.data)
+      var arr = [options.photo, json.personName, json.id]
       this.setData({
         dataArr: arr,
       })

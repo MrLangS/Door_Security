@@ -4,9 +4,22 @@
   border: none;
   color: #bbb;
   padding: 0;
-  margin-top: 10rpx;
+  /* margin-top: 10rpx; */
   border-radius: 20rpx;
   z-index:2;
+  font-size: 25rpx;
+  height: 70rpx;
+  width: 170rpx;
+  line-height: 70rpx;
+}
+.head-btn{
+  position: absolute;
+  left: 175rpx;
+  border: none;
+  color: #fff;
+  background: #eb4613;
+  padding: 0;
+  border-radius: 20rpx;
   font-size: 25rpx;
   height: 70rpx;
   width: 170rpx;
@@ -17,6 +30,16 @@
   width: 170rpx;
   height: 70rpx;
   right: -20rpx;
+}
+.log_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  margin-top: -300rpx;
 }
 .register_bg{
   display: flex;
@@ -31,12 +54,12 @@
   right: 16%;
   color: red;
   font-size: 20rpx;
-  margin-top: 65rpx;
+  margin-top: 40rpx;
 }
 .phone_check{
   position: absolute;
   right: 16%;
-  margin-top: 35rpx;
+  /* margin-top: 25rpx; */
 }
 .click-class{
   background: white !important;
@@ -50,11 +73,9 @@
   color: white;
 }
 .avatar {
-  width: 200rpx;
-  height: 200rpx;
-  margin-top: 90rpx;
-  margin-bottom: 10rpx;
-  border-radius: 50%;
+  width: 120rpx;
+  height: 120rpx;
+  /* border-radius: 50%; */
 }
 .animal{
   position: fixed;

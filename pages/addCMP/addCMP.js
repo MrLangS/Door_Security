@@ -198,6 +198,12 @@ Page({
             isNew: true
           })
           wx.navigateBack({})
+        } else if (res.data == "isExist") {
+          wx.showToast({
+            title: '该单位名称已存在，请修改!',
+            icon: 'none',
+            duration: 1500
+          })
         }else{
           wx.showToast({
             title: '添加失败，请重试',

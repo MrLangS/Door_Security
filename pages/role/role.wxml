@@ -1,14 +1,14 @@
 <view class='content'>
-  <view class='logo_bg'>
+  <!-- <view class='logo_bg'>
     <image mode='aspectFit' class='logo' src='/images/bird.png' />
-  </view>
+  </view> -->
   <view class='admin-box' bindtap='goToAdminLogin'>
     <image mode='aspectFit' class='logo' src='/images/tie.png' />
-    <view class='box-title'>我是管理员</view>
+    <view class='box-title'>管理员登录</view>
   </view>
   
   <view class='staff-box' bindtap='goToStaffLogin'>
     <image mode='aspectFit' class='logo' src='/images/user.png' />
-    <view class='box-title'>我是普通员工</view>
+    <view class='box-title'>普通员工登录</view>
   </view>
 </view>
