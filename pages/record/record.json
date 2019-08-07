@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "记录",
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "recordItem": "/components/recordItem/recordItem",
     "strangeItem": "/components/strangeItem/strangeItem"

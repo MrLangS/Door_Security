@@ -1,6 +1,8 @@
 {
   "pages":[
     "pages/init/init",
+    "pages/searchRes/searchSta/searchSta",
+    "pages/searchRes/searchRes",
     "pages/result/result",
     "pages/role/role",
     "pages/register/register",
@@ -28,9 +30,7 @@
     "pages/perRegister/perList/perList",
     "pages/addPEO/addPEO",
     "pages/company/attendRule/attendRule",
-    "pages/searchRes/searchSta/searchSta",
     "pages/record/record",
-    "pages/searchRes/searchRes",
     "pages/modifyCompDevs/modifyCompDevs",
     "pages/modify/modify"
   ],
@@ -43,7 +43,7 @@
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#3281ff",
     "navigationBarTitleText": "门禁",
-    "navigationBarTextStyle": "light"
+    "navigationBarTextStyle": "white"
   },
   "plugins": {
     "calendar": {

@@ -131,7 +131,7 @@ Page({
             })
             // if (this.data.recordList.length == 0) {
             wx.showToast({
-              title: '无匹配结果!',
+              title: '该日无记录!',
               icon: 'none',
               duration: 1500,
             })

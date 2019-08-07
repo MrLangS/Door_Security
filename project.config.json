@@ -14,11 +14,13 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.3.0",
 	"appid": "wx218bf8cb1afb43a2",
-	"projectname": "newDoor",
+	"projectname": "Door",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

@@ -61,19 +61,19 @@ Page({
   },
 
   onLoad: function (options) {
-    var that=this
-    wx.getSystemInfo({
-      success(res) {
-        that.setData({
-          rpx2px: res.windowWidth/750,
-          height: res.windowHeight,
-          sysHeight: res.windowHeight
-          //height: 700
-        })
-      }
-    })
+    // var that=this
+    // wx.getSystemInfo({
+    //   success(res) {
+    //     that.setData({
+    //       rpx2px: res.windowWidth/750,
+    //       height: res.windowHeight,
+    //       sysHeight: res.windowHeight
+    //       //height: 700
+    //     })
+    //   }
+    // })
 
-    this.init(true)
+    // this.init(true)
   },
 
   onShow: function(){
@@ -93,35 +93,35 @@ Page({
   },
   //页面滚动监听
   onPageScroll: function (e) {
-    if (typeof (timeoutID)!="undefined"){
-      clearTimeout(timeoutID)
-    }
-    var that=this
-    // console.log(e);
-    that.setData({
-      hideSearch: true
-    })
-    timeoutID=setTimeout(function(){
-      that.setData({
-        hideSearch: false
-      })
-    },2000)
+    // if (typeof (timeoutID)!="undefined"){
+    //   clearTimeout(timeoutID)
+    // }
+    // var that=this
+    // // console.log(e);
+    // that.setData({
+    //   hideSearch: true
+    // })
+    // timeoutID=setTimeout(function(){
+    //   that.setData({
+    //     hideSearch: false
+    //   })
+    // },2000)
   },
 
   onPullDownRefresh: function () {
-    this.reload(true)
+    // this.reload(true)
   },
 
   //下拉刷新触发
   reload(reload) {
-    this.setData({
-      noResult: false,
-      pageNum: 1,
-      stgNoResult: false,
-      stgPageNum: 1,
-    })
+    // this.setData({
+    //   noResult: false,
+    //   pageNum: 1,
+    //   stgNoResult: false,
+    //   stgPageNum: 1,
+    // })
     
-    this.init(reload)
+    // this.init(reload)
   },
   init(reload) {
     this.getList(reload)

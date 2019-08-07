@@ -1,9 +1,49 @@
+@import "../role/role.wxss";
 .no-box {
   position: relative;
   /* top: 20rpx; */
   padding-top: 0rpx;
   background: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.logos{
+  width: 150rpx;
+  height: 150rpx;
+}
+.admin-box-r{
+  width: 85%;
+  height: 300rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  /* margin-top: 100rpx; */
+  background: #3281ff;
+  color: white;
+}
+.staff-box-r{
+  width: 85%;
+  height: 300rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  margin-top: 50rpx;
+  background: #7f7f7f;
+  color: white;
+}
+
+.box-title-r {
+  position: fixed;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin-top: 100rpx;
+  right: 85rpx;
+  /* top: 100rpx; */
 }
 .no-record{
   height: 400rpx;

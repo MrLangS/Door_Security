@@ -12,7 +12,7 @@
     </view>
     <view class='headitem'>日期·</view>
     <view class='twoitem'>
-      <input class='inp' name='username' placeholder='点击选择' disabled='true' bindtap='chooseDay' value='{{dateTag==1?year+"-"+month+"-"+day:""}}'></input>
+      <input class='inp' name='username' placeholder='点击选择' disabled='true' bindtap='chooseDay' value='{{year+"-"+month+"-"+day}}'></input>
     </view>
   </view>
   <view class='below'>

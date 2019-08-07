@@ -25,7 +25,8 @@ Page({
     month: month,
     days: util.getPickerList('days'),
     day: day,
-    value: util.getPicker('arr'),
+    // value: util.getPicker('arr'),
+    value: [year-2017,month-1,day-1],
     noResult: false,
     pageNum: 1,
     tag: 0,
@@ -121,13 +122,12 @@ Page({
     if(this.data.tag==1){
       requestUrl = getApp().globalData.server + '/AccessRecords/getAccessRecordsFromWx.do'
       var searchDay=''
-      if(this.data.dateTag!=0){
-        searchDay = util.formatDay(this)
-      }
-      
+      // if(this.data.dateTag!=0){
+      //   searchDay = util.formatDay(this)
+      // }
+      searchDay = util.formatDay(this)
+      console.log(searchDay)
       var personName=this.data.searchVal
-      console.log(personName)
-
       wx.request({
         url: requestUrl,
         data: {
@@ -143,7 +143,7 @@ Page({
           let data = res.data
           console.log(data)
           let list = data.recordList
-          if (!util.isEmptyObject(list)) {
+          if (list != null && list.length != 0) {
             let pageNum = this.data.pageNum + 1
             this.setData({
               pageNum,
@@ -164,7 +164,7 @@ Page({
               })
               // if (this.data.recordList.length == 0) {
                 wx.showToast({
-                  title: '无匹配结果!',
+                  title: '该日无记录!',
                   icon: 'none',
                   duration: 1500,
                 })
@@ -256,11 +256,15 @@ Page({
         id: options.id
       })
     }
+    console.log(this.data.value)
   },
 
   onShow: function(){
     if (this.data.searchVal!=""){
       this.getList(true, this.data.searchVal)
+    }
+    if(this.data.tag == 1) {
+      this.getList(true)
     }
   },
 
